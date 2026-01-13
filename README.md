@@ -3,9 +3,19 @@
 Personal budgeting application based on the envelope budgeting method.
 
 ## Tech Stack
-- React + Vite
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+
+### Backend
+
 - Node.js
-- PostgreSQL
+- TypeScript
+- Express
 - Prisma
+- PostgreSQL
 
 See `SPECIFICATIONS.md` for functional details.
