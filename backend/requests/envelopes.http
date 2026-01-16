@@ -1,0 +1,25 @@
+###
+@token = ""
+    
+GET http://localhost:4000/api/envelopes
+Authorization: Bearer {{token}}
+
+###
+POST http://localhost:4000/api/envelopes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Courses",
+  "budget": 300
+}
+
+###
+PATCH http://localhost:4000/api/envelopes/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Groceries",
+  "budget": 350
+}

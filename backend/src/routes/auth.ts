@@ -1,0 +1,73 @@
+import { Router, Response } from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { prisma } from "../lib/prisma";
+
+const router = Router();
+const JWT_SECRET = process.env.JWT_SECRET ?? "changeme";
+
+// REGISTER
+router.post("/register", async (req, res: Response) => {
+  const { email, password } = req.body as {
+    email: string;
+    password: string;
+  };
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Missing email or password" });
+  }
+
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (existingUser) {
+    return res.status(409).json({ error: "User already exists" });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await prisma.user.create({
+    data: {
+      email,
+      password: hashedPassword,
+    },
+  });
+
+  res.status(201).json({
+    id: user.id,
+    email: user.email,
+  });
+});
+
+// LOGIN
+router.post("/login", async (req, res: Response) => {
+  const { email, password } = req.body as {
+    email: string;
+    password: string;
+  };
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Missing email or password" });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const isValid = await bcrypt.compare(password, user.password);
+
+  if (!isValid) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
+
+  res.json({ token });
+});
+
+export default router;
