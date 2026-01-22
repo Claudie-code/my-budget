@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "../ui/card";
 import { loginSchema } from "@/schemas/auth.schema";
-import { ZodError } from "zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface LoginFormState {
   email: string;
@@ -20,12 +20,12 @@ interface LoginFormState {
 }
 
 export default function LoginForm() {
+  const queryClient = useQueryClient();
   const [form, setForm] = useState<LoginFormState>({
     email: "",
     password: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errors, setErrors] = useState<
     Partial<Record<keyof LoginFormState, string>>
   >({});
@@ -39,36 +39,41 @@ export default function LoginForm() {
     }));
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const payload: LoginFormState = {
-        email: form.email,
-        password: form.password,
-      };
-      loginSchema.parse(form);
-      setErrors({});
-
-      console.log(payload);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        const fieldErrors: Partial<Record<keyof LoginFormState, string>> = {};
-
-        error.issues.forEach((e) => {
-          const field = e.path[0] as keyof LoginFormState;
-          fieldErrors[field] = e.message;
-        });
-
-        setErrors(fieldErrors);
-        console.log("Validation errors:", fieldErrors);
+  const loginMutation = useMutation({
+    mutationFn: async (data: LoginFormState) => {
+      const res = await fetch("http://localhost:4000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Login failed");
       }
-    } finally {
-      setIsSubmitting(false);
+      return res.json() as Promise<{ token: string }>;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrors({});
+
+    const parseResult = loginSchema.safeParse(form);
+    if (!parseResult.success) {
+      const fieldErrors: Partial<LoginFormState> = {};
+      parseResult.error.issues.forEach((issue) => {
+        if (issue.path[0])
+          fieldErrors[issue.path[0] as keyof LoginFormState] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
     }
+
+    loginMutation.mutate(parseResult.data);
   };
 
   return (
@@ -92,10 +97,15 @@ export default function LoginForm() {
                     value={form.email}
                     onChange={handleChange}
                     required
+                    className={
+                      errors.email
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }
                   />
-                  {errors.email && (
-                    <p className="text-sm text-red-500">{errors.email}</p>
-                  )}
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.email}
+                  </p>
                 </Field>
 
                 <Field>
@@ -107,14 +117,18 @@ export default function LoginForm() {
                     value={form.password}
                     onChange={handleChange}
                     required
-                    minLength={8}
+                    className={
+                      errors.password
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }
                   />
                   <FieldDescription>
                     Must be at least 8 characters
                   </FieldDescription>
-                  {errors.password && (
-                    <p className="text-sm text-red-500">{errors.password}</p>
-                  )}
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.password}
+                  </p>
                 </Field>
               </FieldGroup>
             </FieldSet>
@@ -125,11 +139,16 @@ export default function LoginForm() {
               <Button
                 type="submit"
                 className="bg-orange-500 hover:bg-orange-400 text-white w-full"
-                disabled={isSubmitting}
+                disabled={loginMutation.isPending}
               >
-                {isSubmitting ? "Signing in..." : "Submit"}
+                {loginMutation.isPending ? "Signing in..." : "Submit"}
               </Button>
             </Field>
+            <p className="text-sm text-red-500 mt-2">
+              {loginMutation.isError &&
+                loginMutation.error instanceof Error &&
+                loginMutation.error.message}
+            </p>
           </FieldGroup>
         </form>
       </CardContent>
