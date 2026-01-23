@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Field,
   FieldDescription,
@@ -7,9 +7,9 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "../ui/card";
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '../ui/card';
 
 export default function RegisterForm() {
   return (
@@ -19,39 +19,22 @@ export default function RegisterForm() {
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Account Information</FieldLegend>
-              <FieldDescription>
-                Enter your credentials to register
-              </FieldDescription>
+              <FieldDescription>Enter your credentials to register</FieldDescription>
               <FieldGroup>
                 <Field>
                   <FieldLabel htmlFor="email">Email</FieldLabel>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    required
-                  />
+                  <Input id="email" type="email" placeholder="you@example.com" required />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="********"
-                    required
-                  />
-                  <FieldDescription>
-                    Must be at least 8 characters
-                  </FieldDescription>
+                  <Input id="password" type="password" placeholder="********" required />
+                  <FieldDescription>Must be at least 8 characters</FieldDescription>
                 </Field>
               </FieldGroup>
             </FieldSet>
             <FieldSeparator />
             <Field orientation="horizontal">
-              <Button
-                className="bg-orange-500 hover:bg-orange-400 text-white w-full"
-                type="submit"
-              >
+              <Button className="bg-orange-500 hover:bg-orange-400 text-white w-full" type="submit">
                 Submit
               </Button>
             </Field>

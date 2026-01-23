@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Field,
   FieldDescription,
@@ -8,11 +8,11 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "../ui/card";
-import { loginSchema } from "@/schemas/auth.schema";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '../ui/card';
+import { loginSchema } from '@/schemas/auth.schema';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface LoginFormState {
   email: string;
@@ -22,13 +22,11 @@ interface LoginFormState {
 export default function LoginForm() {
   const queryClient = useQueryClient();
   const [form, setForm] = useState<LoginFormState>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof LoginFormState, string>>
-  >({});
+  const [errors, setErrors] = useState<Partial<Record<keyof LoginFormState, string>>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { id, value } = e.target;
@@ -41,20 +39,20 @@ export default function LoginForm() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormState) => {
-      const res = await fetch("http://localhost:4000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('http://localhost:4000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || "Login failed");
+        throw new Error(err.error || 'Login failed');
       }
       return res.json() as Promise<{ token: string }>;
     },
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+      localStorage.setItem('token', data.token);
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
     },
   });
 
@@ -66,8 +64,7 @@ export default function LoginForm() {
     if (!parseResult.success) {
       const fieldErrors: Partial<LoginFormState> = {};
       parseResult.error.issues.forEach((issue) => {
-        if (issue.path[0])
-          fieldErrors[issue.path[0] as keyof LoginFormState] = issue.message;
+        if (issue.path[0]) fieldErrors[issue.path[0] as keyof LoginFormState] = issue.message;
       });
       setErrors(fieldErrors);
       return;
@@ -83,9 +80,7 @@ export default function LoginForm() {
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Account Information</FieldLegend>
-              <FieldDescription>
-                Enter your credentials to log in
-              </FieldDescription>
+              <FieldDescription>Enter your credentials to log in</FieldDescription>
 
               <FieldGroup>
                 <Field>
@@ -97,15 +92,9 @@ export default function LoginForm() {
                     value={form.email}
                     onChange={handleChange}
                     required
-                    className={
-                      errors.email
-                        ? "border-red-500 focus-visible:ring-red-500"
-                        : ""
-                    }
+                    className={errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}
                   />
-                  <p className="text-sm text-destructive mt-1">
-                    {errors.email}
-                  </p>
+                  <p className="text-sm text-destructive mt-1">{errors.email}</p>
                 </Field>
 
                 <Field>
@@ -117,18 +106,10 @@ export default function LoginForm() {
                     value={form.password}
                     onChange={handleChange}
                     required
-                    className={
-                      errors.password
-                        ? "border-red-500 focus-visible:ring-red-500"
-                        : ""
-                    }
+                    className={errors.password ? 'border-red-500 focus-visible:ring-red-500' : ''}
                   />
-                  <FieldDescription>
-                    Must be at least 8 characters
-                  </FieldDescription>
-                  <p className="text-sm text-destructive mt-1">
-                    {errors.password}
-                  </p>
+                  <FieldDescription>Must be at least 8 characters</FieldDescription>
+                  <p className="text-sm text-destructive mt-1">{errors.password}</p>
                 </Field>
               </FieldGroup>
             </FieldSet>
@@ -141,7 +122,7 @@ export default function LoginForm() {
                 className="bg-orange-500 hover:bg-orange-400 text-white w-full"
                 disabled={loginMutation.isPending}
               >
-                {loginMutation.isPending ? "Signing in..." : "Submit"}
+                {loginMutation.isPending ? 'Signing in...' : 'Submit'}
               </Button>
             </Field>
             <p className="text-sm text-red-500 mt-2">
