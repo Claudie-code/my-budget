@@ -3,11 +3,16 @@ import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RegisterForm from '../RegisterForm';
 import { vi } from 'vitest';
+import { MemoryRouter } from 'react-router';
 
 const queryClient = new QueryClient();
 
 function renderWithQueryClient(ui: React.ReactElement) {
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </QueryClientProvider>,
+  );
 }
 
 const fetchMock = vi.fn();
