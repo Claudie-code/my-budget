@@ -1,22 +1,21 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import AuthPage from './pages/Auth';
 import Dashboard from './pages/Dashboard';
-import { useState } from 'react';
+import { PrivateRoute } from './components/auth/PrivateRoute';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <AuthPage />}
-        />
+        <Route path="/" element={<AuthPage />} />
 
         <Route
           path="/dashboard"
-          element={isAuthenticated ? <Dashboard /> : <Navigate to="/" replace />}
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
         />
 
         <Route path="*" element={<Navigate to="/" replace />} />
