@@ -7,7 +7,7 @@ export const useCurrentUser = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Not authenticated');
 
-      const res = await fetch('/api/auth/me', {
+      const res = await fetch('/api/user/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
