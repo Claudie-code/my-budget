@@ -1,3 +1,4 @@
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { Navigate } from 'react-router';
 
 interface PrivateRouteProps {
@@ -5,9 +6,12 @@ interface PrivateRouteProps {
 }
 
 export function PrivateRoute({ children }: PrivateRouteProps) {
-  const token = localStorage.getItem('token');
+  const { data: user, isLoading, isError } = useCurrentUser();
 
-  if (!token) {
+  if (isLoading) return <div>Loading...</div>;
+  if (isError || !user) return <Navigate to="/" replace />;
+
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
