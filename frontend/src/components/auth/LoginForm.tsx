@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '../ui/card';
 import { loginSchema } from '@/schemas/auth.schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 interface LoginFormState {
   email: string;
@@ -20,6 +21,8 @@ interface LoginFormState {
 }
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+
   const queryClient = useQueryClient();
   const [form, setForm] = useState<LoginFormState>({
     email: '',
@@ -53,6 +56,7 @@ export default function LoginForm() {
     onSuccess: (data) => {
       localStorage.setItem('token', data.token);
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      navigate('/dashboard');
     },
   });
 
