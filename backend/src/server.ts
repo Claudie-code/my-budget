@@ -5,7 +5,7 @@ import authRoutes from "./routes/auth";
 import envelopeRoutes from "./routes/envelopes";
 import userRoutes from "./routes/user";
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
