@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import authRoutes from "./routes/auth";
 import envelopeRoutes from "./routes/envelopes";
+import expenseRoutes from "./routes/expenses";
 import userRoutes from "./routes/user";
 
 export const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/envelopes", envelopeRoutes);
+app.use("/api/expenses", expenseRoutes);
 app.use("/api/user", userRoutes);
 
 app.listen(PORT, () => {
