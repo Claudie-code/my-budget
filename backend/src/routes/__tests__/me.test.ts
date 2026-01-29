@@ -1,7 +1,7 @@
 import request from "supertest";
 import { prisma } from "../../lib/prisma";
 import jwt from "jsonwebtoken";
-import { app } from "../../server";
+import { app } from "../../app";
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "changeme";
 

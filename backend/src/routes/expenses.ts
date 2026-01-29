@@ -24,6 +24,17 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
     envelopeId: number;
   };
 
+  const envelope = await prisma.envelope.findFirst({
+    where: {
+      id: envelopeId,
+      userId: req.userId,
+    },
+  });
+
+  if (!envelope) {
+    return res.status(404).json({ error: "Envelope not found" });
+  }
+
   const expense = await prisma.expense.create({
     data: {
       description,
@@ -44,11 +55,24 @@ router.put("/:id", authMiddleware, async (req: AuthRequest, res: Response) => {
   };
 
   try {
-    const expense = await prisma.expense.update({
-      where: { id: Number(id) },
-      data: { description, amount },
+    const result = await prisma.expense.updateMany({
+      where: {
+        id: Number(req.params.id),
+        envelope: {
+          userId: req.userId,
+        },
+      },
+      data: {
+        description,
+        amount,
+      },
     });
-    res.json(expense);
+
+    if (result.count === 0) {
+      return res.status(404).json({ error: "Expense not found" });
+    }
+
+    res.json({ description, amount });
   } catch {
     res.status(404).json({ error: "Expense not found" });
   }
@@ -62,9 +86,19 @@ router.delete(
     const { id } = req.params;
 
     try {
-      await prisma.expense.delete({
-        where: { id: Number(id) },
+      const result = await prisma.expense.deleteMany({
+        where: {
+          id: Number(id),
+          envelope: {
+            userId: req.userId,
+          },
+        },
       });
+
+      if (result.count === 0) {
+        return res.status(404).json({ error: "Expense not found" });
+      }
+
       res.status(204).send();
     } catch {
       res.status(404).json({ error: "Expense not found" });
