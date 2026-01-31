@@ -30,5 +30,5 @@ model Expense {
   amount     Float
   date       DateTime @default(now())
   envelopeId Int
-  envelope   Envelope @relation(fields: [envelopeId], references: [id])
+  envelope    Envelope @relation(fields: [envelopeId], references: [id], onDelete: Cascade)
 }
