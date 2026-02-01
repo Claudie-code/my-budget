@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import type { Envelope } from '@/pages/Dashboard';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Props {
@@ -57,12 +58,13 @@ export function DeleteEnvelopeButton({ envelopeId }: Props) {
 
   return (
     <Button
-      size="sm"
-      variant="destructive"
+      size="icon"
+      variant="ghost"
       onClick={() => mutation.mutate()}
       disabled={mutation.isPending}
+      className="text-red-500 hover:text-red-600 hover:bg-red-50"
     >
-      Delete Envelope
+      <Trash2 className="h-4 w-4" />
     </Button>
   );
 }

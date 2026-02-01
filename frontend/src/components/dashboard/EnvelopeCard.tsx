@@ -23,9 +23,14 @@ export default function EnvelopeCard({ selectedEnvelope }: Props) {
   return (
     <div className="flex-1 overflow-y-auto">
       <Card className="p-6 w-full">
-        <CardHeader className="flex justify-between items-center mb-4">
-          <CardTitle className="text-xl font-semibold">{selectedEnvelope.name}</CardTitle>
-          <span className="text-orange-500 font-bold text-lg">${remainingBudget.toFixed(2)}</span>
+        <CardHeader className="p-0">
+          <div className="flex justify-end">
+            <DeleteEnvelopeButton envelopeId={selectedEnvelope.id} />
+          </div>
+          <div className="flex justify-between items-center mb-4 mt-2">
+            <CardTitle className="text-xl font-semibold">{selectedEnvelope.name}</CardTitle>
+            <span className="text-orange-500 font-bold text-lg">${remainingBudget.toFixed(2)}</span>
+          </div>
         </CardHeader>
 
         {/* Progress Bar */}
@@ -56,12 +61,11 @@ export default function EnvelopeCard({ selectedEnvelope }: Props) {
         {/* Expenses actions */}
         <div className="flex gap-2 mt-2">
           <AddExpenseDialog envelopeId={selectedEnvelope.id} />
-          <DeleteEnvelopeButton envelopeId={selectedEnvelope.id} />
         </div>
 
         {/* Optional: show individual expenses */}
         {selectedEnvelope.expenses.length > 0 && (
-          <div className="mt-6 border-t border-gray-200 pt-4">
+          <div className="mt-2 border-t border-gray-200 pt-4">
             <h3 className="text-sm font-semibold text-gray-700 mb-2">Expenses</h3>
             <ul className="space-y-2">
               {selectedEnvelope.expenses.map((exp) => (
