@@ -7,10 +7,9 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  useSidebar,
 } from '@/components/ui/sidebar';
 
-import { Settings, LayoutDashboard, DollarSign, PiggyBank, Wallet } from 'lucide-react';
+import { Settings, LayoutDashboard, Wallet } from 'lucide-react';
 import { NavLink } from 'react-router';
 
 export function AppSidebar() {
