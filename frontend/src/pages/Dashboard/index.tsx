@@ -41,8 +41,8 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="flex h-full gap-4 p-4">
-        <div className="border-r overflow-y-auto">
+      <div className="flex h-full gap-4">
+        <div className="w-1/3 border-r overflow-y-auto py-4 px-6">
           <CreateEnvelopeForm />
           <EnvelopeList
             envelopes={data}

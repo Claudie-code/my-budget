@@ -3,16 +3,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { CirclePlus } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-interface CreateEnvelopeFormProps {
-  // Callback when an envelope is created
-  onCreated?: () => void;
-}
-
-export default function CreateEnvelopeForm({ onCreated }: CreateEnvelopeFormProps) {
+export default function CreateEnvelopeForm() {
   const queryClient = useQueryClient();
   const [name, setName] = useState('');
   const [budget, setBudget] = useState<number>(0);
+  const [open, setOpen] = useState(false);
 
   const createEnvelopeMutation = useMutation({
     mutationFn: async () => {
@@ -35,7 +33,7 @@ export default function CreateEnvelopeForm({ onCreated }: CreateEnvelopeFormProp
       toast.success('Envelope created!');
       setName('');
       setBudget(0);
-      if (onCreated) onCreated();
+      setOpen(false);
     },
     onError: () => toast.error('Failed to create envelope'),
   });
@@ -47,24 +45,43 @@ export default function CreateEnvelopeForm({ onCreated }: CreateEnvelopeFormProp
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
-      <Input
-        placeholder="Envelope name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <Input
-        type="number"
-        placeholder="Budget"
-        value={budget}
-        onChange={(e) => setBudget(Number(e.target.value))}
-        required
-        min={0}
-      />
-      <Button type="submit" disabled={createEnvelopeMutation.isPending}>
-        {createEnvelopeMutation.isPending ? 'Creating...' : 'Add Envelope'}
-      </Button>
-    </form>
+    <>
+      <div className="flex items-center mb-3">
+        <h2 className="text-lg font-semibold mr-1">Envelopes</h2>
+
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted transition"
+            >
+              <CirclePlus className="h-4 w-4 text-orange-500" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 p-4 space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <Input
+                placeholder="Envelope name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+
+              <Input
+                type="number"
+                placeholder="Monthly budget"
+                value={budget}
+                onChange={(e) => setBudget(Number(e.target.value))}
+                required
+              />
+
+              <Button type="submit" className="w-full" disabled={createEnvelopeMutation.isPending}>
+                {createEnvelopeMutation.isPending ? 'Creating...' : 'Add envelope'}
+              </Button>
+            </form>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </>
   );
 }
