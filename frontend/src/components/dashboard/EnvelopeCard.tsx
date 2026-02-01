@@ -5,9 +5,10 @@ import { DeleteEnvelopeButton } from './DeleteEnvelopeButton';
 
 interface Props {
   selectedEnvelope: Envelope | null;
+  setSelectedEnvelope: (envelope: Envelope | null) => void;
 }
 
-export default function EnvelopeCard({ selectedEnvelope }: Props) {
+export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelope }: Props) {
   if (!selectedEnvelope) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -25,7 +26,10 @@ export default function EnvelopeCard({ selectedEnvelope }: Props) {
       <Card className="p-6 w-full">
         <CardHeader className="p-0">
           <div className="flex justify-end">
-            <DeleteEnvelopeButton envelopeId={selectedEnvelope.id} />
+            <DeleteEnvelopeButton
+              envelopeId={selectedEnvelope.id}
+              setSelectedEnvelope={setSelectedEnvelope}
+            />
           </div>
           <div className="flex justify-between items-center mb-4 mt-2">
             <CardTitle className="text-xl font-semibold">{selectedEnvelope.name}</CardTitle>

@@ -50,7 +50,10 @@ export default function Dashboard() {
             onSelect={setSelectedEnvelope}
           />
         </div>
-        <EnvelopeCard selectedEnvelope={selectedEnvelope} />
+        <EnvelopeCard
+          selectedEnvelope={selectedEnvelope}
+          setSelectedEnvelope={setSelectedEnvelope}
+        />
       </div>
     </DashboardLayout>
   );

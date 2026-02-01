@@ -6,9 +6,10 @@ import { toast } from 'sonner';
 
 interface Props {
   envelopeId: number;
+  setSelectedEnvelope: (envelope: Envelope | null) => void;
 }
 
-export function DeleteEnvelopeButton({ envelopeId }: Props) {
+export function DeleteEnvelopeButton({ envelopeId, setSelectedEnvelope }: Props) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -47,6 +48,9 @@ export function DeleteEnvelopeButton({ envelopeId }: Props) {
 
     // ✅ Feedback user
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['envelopes'] });
+      setSelectedEnvelope(null);
+
       toast.success('Envelope deleted');
     },
 
