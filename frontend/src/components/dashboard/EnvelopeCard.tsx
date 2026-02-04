@@ -1,14 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Envelope } from '@/pages/Dashboard';
-import { AddExpenseDialog } from './AddExpenseDialog';
+import { AddExpenseDialog } from './CreateExpenseForm';
 import { DeleteEnvelopeButton } from './DeleteEnvelopeButton';
+import { ExpenseList } from './ExpenseList';
 
 interface Props {
   selectedEnvelope: Envelope | null;
-  setSelectedEnvelope: (envelope: Envelope | null) => void;
+  setSelectedEnvelopeId: (envelopeId: number | null) => void;
 }
 
-export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelope }: Props) {
+export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelopeId }: Props) {
   if (!selectedEnvelope) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -28,7 +29,7 @@ export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelope }: 
           <div className="flex justify-end">
             <DeleteEnvelopeButton
               envelopeId={selectedEnvelope.id}
-              setSelectedEnvelope={setSelectedEnvelope}
+              setSelectedEnvelopeId={setSelectedEnvelopeId}
             />
           </div>
           <div className="flex justify-between items-center mb-4 mt-2">
@@ -63,24 +64,11 @@ export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelope }: 
         </div>
 
         {/* Expenses actions */}
-        <div className="flex gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-2 border-t border-gray-200 pt-4">
           <AddExpenseDialog envelopeId={selectedEnvelope.id} />
-        </div>
 
-        {/* Optional: show individual expenses */}
-        {selectedEnvelope.expenses.length > 0 && (
-          <div className="mt-2 border-t border-gray-200 pt-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">Expenses</h3>
-            <ul className="space-y-2">
-              {selectedEnvelope.expenses.map((exp) => (
-                <li key={exp.id} className="flex justify-between text-sm text-gray-600">
-                  <span>{exp.description}</span>
-                  <span className="font-medium">${exp.amount.toFixed(2)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+          <ExpenseList expenses={selectedEnvelope.expenses} envelopeId={selectedEnvelope.id} />
+        </div>
       </Card>
     </div>
   );

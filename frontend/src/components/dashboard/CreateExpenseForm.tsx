@@ -56,7 +56,7 @@ export function AddExpenseDialog({ envelopeId }: Props) {
   return (
     <>
       <div className="flex items-center mb-3">
-        <h2 className="text-lg font-semibold mr-1">Expenses</h2>
+        <h2 className="text-lg mr-1 font-semibold text-gray-700">Expenses</h2>
 
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>

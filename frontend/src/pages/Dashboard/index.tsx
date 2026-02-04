@@ -33,11 +33,21 @@ const fetchEnvelopes = async (): Promise<Envelope[]> => {
 };
 
 export default function Dashboard() {
-  const [selectedEnvelope, setSelectedEnvelope] = useState<Envelope | null>(null);
-  const { data, isLoading, isError } = useQuery<Envelope[]>({
+  const [selectedEnvelopeId, setSelectedEnvelopeId] = useState<number | null>(null);
+
+  const {
+    data: envelopes,
+    isLoading,
+    isError,
+  } = useQuery<Envelope[]>({
     queryKey: ['envelopes'],
     queryFn: fetchEnvelopes,
   });
+
+  const selectedEnvelope = envelopes?.find((e) => e.id === selectedEnvelopeId) || null;
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading envelopes</p>;
 
   return (
     <DashboardLayout>
@@ -45,14 +55,14 @@ export default function Dashboard() {
         <div className="w-1/3 border-r overflow-y-auto py-4 px-6">
           <CreateEnvelopeForm />
           <EnvelopeList
-            envelopes={data}
-            selectedEnvelope={selectedEnvelope?.id}
-            onSelect={setSelectedEnvelope}
+            envelopes={envelopes || []}
+            selectedEnvelopeId={selectedEnvelope?.id}
+            setSelectedEnvelopeId={setSelectedEnvelopeId}
           />
         </div>
         <EnvelopeCard
           selectedEnvelope={selectedEnvelope}
-          setSelectedEnvelope={setSelectedEnvelope}
+          setSelectedEnvelopeId={setSelectedEnvelopeId}
         />
       </div>
     </DashboardLayout>

@@ -6,13 +6,13 @@ import { toast } from 'sonner';
 
 interface Props {
   envelopeId: number;
-  setSelectedEnvelope: (envelope: Envelope | null) => void;
+  setSelectedEnvelopeId: (envelopeId: number | null) => void;
 }
 
-export function DeleteEnvelopeButton({ envelopeId, setSelectedEnvelope }: Props) {
+export function DeleteEnvelopeButton({ envelopeId, setSelectedEnvelopeId }: Props) {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  const deleteEnvelopeMutation = useMutation({
     mutationFn: async () => {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/envelopes/${envelopeId}`, {
         method: 'DELETE',
@@ -20,52 +20,22 @@ export function DeleteEnvelopeButton({ envelopeId, setSelectedEnvelope }: Props)
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
-      if (!res.ok) {
-        throw new Error('Failed to delete envelope');
-      }
+      if (!res.ok) throw new Error('Failed to delete envelope');
     },
-    // 🔮 Optimistic update
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['envelopes'] });
-
-      const previous = queryClient.getQueryData<Envelope[]>(['envelopes']);
-
-      queryClient.setQueryData<Envelope[]>(['envelopes'], (old) =>
-        old ? old.filter((e) => e.id !== envelopeId) : [],
-      );
-
-      return { previous };
-    },
-
-    // 🔄 Rollback on error
-    onError: (_err, _envelopeId, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(['envelopes'], context.previous);
-      }
-      toast.error('Delete failed');
-    },
-
-    // ✅ Feedback user
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['envelopes'] });
-      setSelectedEnvelope(null);
-
+      setSelectedEnvelopeId(null); // juste pour vider la sélection
       toast.success('Envelope deleted');
     },
-
-    // 🔄 Refetch
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['envelopes'] });
-    },
+    onError: () => toast.error('Delete failed'),
   });
 
   return (
     <Button
       size="icon"
       variant="ghost"
-      onClick={() => mutation.mutate()}
-      disabled={mutation.isPending}
+      onClick={() => deleteEnvelopeMutation.mutate()}
+      disabled={deleteEnvelopeMutation.isPending}
       className="text-red-500 hover:text-red-600 hover:bg-red-50"
     >
       <Trash2 className="h-4 w-4" />
