@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, Trash, Trash2 } from 'lucide-react';
 import type { Expense } from '@/pages/Dashboard';
 
 interface Props {
@@ -101,7 +101,7 @@ export function ExpenseList({ expenses, envelopeId }: Props) {
                     <Edit className="h-4 w-4 text-orange-500" />
                   </Button>
                   <Button size="icon" variant="ghost" onClick={() => deleteMutation.mutate(exp.id)}>
-                    <Trash className="h-4 w-4 text-orange-500" />
+                    <Trash2 className="h-4 w-4 text-orange-500" />
                   </Button>
                 </div>
               </>

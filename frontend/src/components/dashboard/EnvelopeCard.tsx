@@ -1,9 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Envelope } from '@/pages/Dashboard';
 import { AddExpenseDialog } from './CreateExpenseForm';
 import { DeleteEnvelopeButton } from './DeleteEnvelopeButton';
 import { ExpenseList } from './ExpenseList';
-import { Edit } from 'lucide-react';
 import { EditEnvelopeButton } from './EditEnvelopeButton';
 
 interface Props {
@@ -20,28 +19,27 @@ export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelopeId }
     );
   }
 
-  const totalAssigned = selectedEnvelope.expenses.reduce((acc, e) => acc + e.amount, 0);
-  const remainingBudget = selectedEnvelope.budget - totalAssigned;
-  const percentUsed = (totalAssigned / selectedEnvelope.budget) * 100;
+  const totalSpent = selectedEnvelope.expenses.reduce((acc, e) => acc + e.amount, 0);
+  const remainingBudget = selectedEnvelope.budget - totalSpent;
+  const percentUsed = (totalSpent / selectedEnvelope.budget) * 100;
 
   return (
     <div className="flex-1 overflow-y-auto p-4">
       <Card className="p-6 w-full">
         <CardHeader className="p-0">
-          <div className="flex justify-end">
-            <EditEnvelopeButton
-              envelopeId={selectedEnvelope.id}
-              name={selectedEnvelope.name}
-              budget={selectedEnvelope.budget}
-            />
-            <DeleteEnvelopeButton
-              envelopeId={selectedEnvelope.id}
-              setSelectedEnvelopeId={setSelectedEnvelopeId}
-            />
-          </div>
           <div className="flex justify-between items-center mb-4 mt-2">
             <CardTitle className="text-xl font-semibold">{selectedEnvelope.name}</CardTitle>
-            <span className="text-orange-500 font-bold text-lg">${remainingBudget.toFixed(2)}</span>
+            <div className="">
+              <EditEnvelopeButton
+                envelopeId={selectedEnvelope.id}
+                name={selectedEnvelope.name}
+                budget={selectedEnvelope.budget}
+              />
+              <DeleteEnvelopeButton
+                envelopeId={selectedEnvelope.id}
+                setSelectedEnvelopeId={setSelectedEnvelopeId}
+              />
+            </div>
           </div>
         </CardHeader>
 
@@ -54,19 +52,28 @@ export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelopeId }
             />
           </div>
           <p className="text-sm text-gray-600 mt-1">
-            {percentUsed.toFixed(1)}% of ${selectedEnvelope.budget.toFixed(2)} budget used
+            {remainingBudget < 0
+              ? `You have exceeded your budget by $${Math.abs(remainingBudget).toFixed(2)}`
+              : `You have $${remainingBudget.toFixed(2)} remaining of your budget`}
           </p>
         </div>
 
         {/* Budget summary */}
-        <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-          <div className="flex flex-col">
-            <span className="text-gray-500">Assigned So Far</span>
-            <span className="font-semibold">${totalAssigned.toFixed(2)}</span>
+        <div className="mt-4 space-y-1">
+          <div className="flex justify-between text-sm">
+            <span>Budget</span>
+            <span className="font-medium">${selectedEnvelope.budget.toFixed(2)}</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-gray-500">To Go</span>
-            <span className="font-semibold">${remainingBudget.toFixed(2)}</span>
+          <div className="flex justify-between text-sm">
+            <span>Total spent</span>
+            <span>${totalSpent.toFixed(2)}</span>
+          </div>
+
+          <div className="flex justify-between text-sm font-semibold">
+            <span>Remaining</span>
+            <span className={remainingBudget < 0 ? 'text-red-500' : 'text-green-600'}>
+              ${remainingBudget.toFixed(2)}
+            </span>
           </div>
         </div>
 

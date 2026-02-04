@@ -43,6 +43,7 @@ export function AddExpenseDialog({ envelopeId }: Props) {
       toast.success('Expense added');
       setDescription('');
       setAmount(0);
+      setOpen(false);
     },
     onError: () => toast.error('Failed to add expense'),
   });
