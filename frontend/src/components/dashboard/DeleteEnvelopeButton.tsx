@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import type { Envelope } from '@/pages/Dashboard';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -24,7 +23,7 @@ export function DeleteEnvelopeButton({ envelopeId, setSelectedEnvelopeId }: Prop
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['envelopes'] });
-      setSelectedEnvelopeId(null); // juste pour vider la sélection
+      setSelectedEnvelopeId(null);
       toast.success('Envelope deleted');
     },
     onError: () => toast.error('Delete failed'),

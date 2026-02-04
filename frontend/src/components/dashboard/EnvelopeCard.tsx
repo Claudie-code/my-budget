@@ -3,6 +3,8 @@ import type { Envelope } from '@/pages/Dashboard';
 import { AddExpenseDialog } from './CreateExpenseForm';
 import { DeleteEnvelopeButton } from './DeleteEnvelopeButton';
 import { ExpenseList } from './ExpenseList';
+import { Edit } from 'lucide-react';
+import { EditEnvelopeButton } from './EditEnvelopeButton';
 
 interface Props {
   selectedEnvelope: Envelope | null;
@@ -27,6 +29,11 @@ export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelopeId }
       <Card className="p-6 w-full">
         <CardHeader className="p-0">
           <div className="flex justify-end">
+            <EditEnvelopeButton
+              envelopeId={selectedEnvelope.id}
+              name={selectedEnvelope.name}
+              budget={selectedEnvelope.budget}
+            />
             <DeleteEnvelopeButton
               envelopeId={selectedEnvelope.id}
               setSelectedEnvelopeId={setSelectedEnvelopeId}
