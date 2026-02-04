@@ -59,6 +59,9 @@ export function ExpenseList({ expenses, envelopeId }: Props) {
   return (
     <div className="">
       <ul className="space-y-2">
+        {expenses.length === 0 && (
+          <div className="text-sm text-muted-foreground">No expenses yet. Add your first one</div>
+        )}
         {expenses.map((exp) => (
           <li key={exp.id} className="flex justify-between items-center text-sm text-gray-600">
             {editingExpenseId === exp.id ? (

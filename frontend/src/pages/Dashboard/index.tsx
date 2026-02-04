@@ -4,6 +4,7 @@ import CreateEnvelopeForm from '@/components/dashboard/CreateEnvelopeForm';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import EnvelopeList from '@/components/dashboard/EnvelopeList';
 import { useState } from 'react';
+import { Spinner } from '@/components/ui/spinner';
 
 export interface Expense {
   id: number;
@@ -46,8 +47,23 @@ export default function Dashboard() {
 
   const selectedEnvelope = envelopes?.find((e) => e.id === selectedEnvelopeId) || null;
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error loading envelopes</p>;
+  if (isError) {
+    return (
+      <DashboardLayout>
+        <div className="text-sm text-red-500 py-4 px-6">Failed to load envelopes</div>
+      </DashboardLayout>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <div className="p-6 py-4 px-6">
+          <Spinner className="size-6" />
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
