@@ -1,15 +1,10 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { CirclePlus } from 'lucide-react';
 
 interface Props {
   envelopeId: number;
@@ -19,6 +14,7 @@ export function AddExpenseDialog({ envelopeId }: Props) {
   const queryClient = useQueryClient();
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(0);
+  const [open, setOpen] = useState(false);
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -51,34 +47,51 @@ export function AddExpenseDialog({ envelopeId }: Props) {
     onError: () => toast.error('Failed to add expense'),
   });
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!description || amount <= 0) return;
+    mutation.mutate();
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size="sm">Add Expense</Button>
-      </DialogTrigger>
+    <>
+      <div className="flex items-center mb-3">
+        <h2 className="text-lg font-semibold mr-1">Expenses</h2>
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Expense</DialogTitle>
-        </DialogHeader>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted transition"
+            >
+              <CirclePlus className="h-4 w-4 text-orange-500" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 p-4 space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <Input
+                placeholder="Expense description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                min={0}
+                required
+              />
 
-        <div className="flex flex-col gap-2">
-          <Input
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <Input
-            type="number"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
-          />
-          <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
-            Add
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+              <Input
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                required
+              />
+
+              <Button type="submit" className="w-full" disabled={mutation.isPending}>
+                {mutation.isPending ? 'Adding...' : 'Add expense'}
+              </Button>
+            </form>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </>
   );
 }
