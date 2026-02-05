@@ -12,7 +12,17 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+    incomes   Income[]
   envelopes Envelope[]
+}
+
+model Income {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  source    String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Envelope {
@@ -26,7 +36,7 @@ model Envelope {
 
 model Expense {
   id         Int      @id @default(autoincrement())
-  description String
+  description String  @default("")
   amount     Float
   date       DateTime @default(now())
   envelopeId Int
