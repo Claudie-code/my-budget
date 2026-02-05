@@ -7,10 +7,10 @@ import { EditEnvelopeButton } from './EditEnvelopeButton';
 
 interface Props {
   selectedEnvelope: Envelope | null;
-  setSelectedEnvelopeId: (envelopeId: number | null) => void;
+  onCloseEnvelope: () => void;
 }
 
-export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelopeId }: Props) {
+export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Props) {
   if (!selectedEnvelope) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -37,7 +37,7 @@ export default function EnvelopeCard({ selectedEnvelope, setSelectedEnvelopeId }
               />
               <DeleteEnvelopeButton
                 envelopeId={selectedEnvelope.id}
-                setSelectedEnvelopeId={setSelectedEnvelopeId}
+                onCloseEnvelope={onCloseEnvelope}
               />
             </div>
           </div>

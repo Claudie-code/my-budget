@@ -1,4 +1,4 @@
-import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { Navigate } from 'react-router';
 
 interface PrivateRouteProps {

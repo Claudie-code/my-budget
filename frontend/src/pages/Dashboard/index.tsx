@@ -5,6 +5,8 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import EnvelopeList from '@/components/dashboard/EnvelopeList';
 import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import EnvelopeDrawer from '@/components/dashboard/EnvelopeDrawer';
 
 export interface Expense {
   id: number;
@@ -34,6 +36,7 @@ const fetchEnvelopes = async (): Promise<Envelope[]> => {
 };
 
 export default function Dashboard() {
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const [selectedEnvelopeId, setSelectedEnvelopeId] = useState<number | null>(null);
 
   const {
@@ -44,6 +47,12 @@ export default function Dashboard() {
     queryKey: ['envelopes'],
     queryFn: fetchEnvelopes,
   });
+
+  const onCloseEnvelope = () => setSelectedEnvelopeId(null);
+
+  const handleSelectEnvelope = (id: number) => {
+    setSelectedEnvelopeId(id);
+  };
 
   const selectedEnvelope = envelopes?.find((e) => e.id === selectedEnvelopeId) || null;
 
@@ -68,18 +77,20 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <div className="flex h-full gap-4">
-        <div className="w-1/3 border-r overflow-y-auto py-4 px-6">
+        <div className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
           <CreateEnvelopeForm />
           <EnvelopeList
             envelopes={envelopes || []}
             selectedEnvelopeId={selectedEnvelope?.id}
-            setSelectedEnvelopeId={setSelectedEnvelopeId}
+            handleSelectEnvelope={handleSelectEnvelope}
           />
         </div>
-        <EnvelopeCard
-          selectedEnvelope={selectedEnvelope}
-          setSelectedEnvelopeId={setSelectedEnvelopeId}
-        />
+        {!isMobile && (
+          <EnvelopeCard selectedEnvelope={selectedEnvelope} onCloseEnvelope={onCloseEnvelope} />
+        )}
+        {isMobile && selectedEnvelope && (
+          <EnvelopeDrawer envelope={selectedEnvelope} onClose={onCloseEnvelope} />
+        )}
       </div>
     </DashboardLayout>
   );

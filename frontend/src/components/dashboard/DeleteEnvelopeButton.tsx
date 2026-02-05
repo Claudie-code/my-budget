@@ -5,10 +5,10 @@ import { toast } from 'sonner';
 
 interface Props {
   envelopeId: number;
-  setSelectedEnvelopeId: (envelopeId: number | null) => void;
+  onCloseEnvelope: () => void;
 }
 
-export function DeleteEnvelopeButton({ envelopeId, setSelectedEnvelopeId }: Props) {
+export function DeleteEnvelopeButton({ envelopeId, onCloseEnvelope }: Props) {
   const queryClient = useQueryClient();
 
   const deleteEnvelopeMutation = useMutation({
@@ -23,7 +23,7 @@ export function DeleteEnvelopeButton({ envelopeId, setSelectedEnvelopeId }: Prop
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['envelopes'] });
-      setSelectedEnvelopeId(null);
+      onCloseEnvelope();
       toast.success('Envelope deleted');
     },
     onError: () => toast.error('Delete failed'),

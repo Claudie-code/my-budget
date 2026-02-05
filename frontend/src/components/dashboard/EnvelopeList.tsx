@@ -2,14 +2,14 @@ import type { Envelope } from '@/pages/Dashboard';
 
 interface EnvelopeListProps {
   envelopes?: Envelope[];
-  setSelectedEnvelopeId: (envelopeId: number | null) => void;
   selectedEnvelopeId?: number;
+  handleSelectEnvelope: (id: number) => void;
 }
 
 export default function EnvelopeList({
   envelopes,
-  setSelectedEnvelopeId,
   selectedEnvelopeId,
+  handleSelectEnvelope,
 }: EnvelopeListProps) {
   if (!envelopes || !envelopes.length)
     return <p className="text-muted text-center mt-4">No envelopes yet</p>;
@@ -26,7 +26,7 @@ export default function EnvelopeList({
             className={`flex justify-between items-center p-2 cursor-pointer rounded-md transition ${
               isSelected ? 'bg-orange-50 font-semibold' : 'hover:bg-muted/30'
             }`}
-            onClick={() => setSelectedEnvelopeId(envelope.id)}
+            onClick={() => handleSelectEnvelope(envelope.id)}
           >
             <span>{envelope.name}</span>
             <span className="text-orange-500">${(envelope.budget - totalAssigned).toFixed(2)}</span>
