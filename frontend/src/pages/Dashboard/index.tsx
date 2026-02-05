@@ -76,7 +76,7 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="flex h-full gap-4">
+      <div className="flex flex-1 min-h-0 overflow-hidden">
         <div className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
           <CreateEnvelopeForm />
           <EnvelopeList
@@ -85,12 +85,14 @@ export default function Dashboard() {
             handleSelectEnvelope={handleSelectEnvelope}
           />
         </div>
-        {!isMobile && (
-          <EnvelopeCard selectedEnvelope={selectedEnvelope} onCloseEnvelope={onCloseEnvelope} />
-        )}
-        {isMobile && selectedEnvelope && (
-          <EnvelopeDrawer envelope={selectedEnvelope} onClose={onCloseEnvelope} />
-        )}
+        <div className="flex-1 overflow-y-auto py-4 px-6">
+          {!isMobile && (
+            <EnvelopeCard selectedEnvelope={selectedEnvelope} onCloseEnvelope={onCloseEnvelope} />
+          )}
+          {isMobile && selectedEnvelope && (
+            <EnvelopeDrawer envelope={selectedEnvelope} onClose={onCloseEnvelope} />
+          )}
+        </div>
       </div>
     </DashboardLayout>
   );

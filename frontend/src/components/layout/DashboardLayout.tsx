@@ -6,10 +6,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full">
+      <main className="flex h-screen w-full flex-col overflow-hidden">
         <SidebarTrigger />
         <PageHeader />
-        {children}
+        <div className="flex flex-1 min-h-0">{children}</div>
       </main>
     </SidebarProvider>
   );
