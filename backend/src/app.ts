@@ -4,6 +4,7 @@ import "dotenv/config";
 import authRoutes from "./routes/auth";
 import envelopeRoutes from "./routes/envelopes";
 import expenseRoutes from "./routes/expenses";
+import incomeRoutes from "./routes/incomes";
 import userRoutes from "./routes/user";
 
 export const app = express();
@@ -15,4 +16,5 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/envelopes", envelopeRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/incomes", incomeRoutes);
 app.use("/api/user", userRoutes);

@@ -11,18 +11,20 @@ model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
-  createdAt DateTime @default(now())
-    incomes   Income[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  incomes   Income[]
   envelopes Envelope[]
 }
 
 model Income {
   id        Int      @id @default(autoincrement())
   amount    Float
-  source    String
+  description String
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now())  
+  updatedAt DateTime @updatedAt
 }
 
 model Envelope {
@@ -32,6 +34,8 @@ model Envelope {
   userId  Int
   user    User     @relation(fields: [userId], references: [id])
   expenses Expense[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Expense {
@@ -41,4 +45,6 @@ model Expense {
   date       DateTime @default(now())
   envelopeId Int
   envelope    Envelope @relation(fields: [envelopeId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

@@ -44,6 +44,8 @@ export type ExpenseMinAggregateOutputType = {
   amount: number | null
   date: Date | null
   envelopeId: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ExpenseMaxAggregateOutputType = {
@@ -52,6 +54,8 @@ export type ExpenseMaxAggregateOutputType = {
   amount: number | null
   date: Date | null
   envelopeId: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ExpenseCountAggregateOutputType = {
@@ -60,6 +64,8 @@ export type ExpenseCountAggregateOutputType = {
   amount: number
   date: number
   envelopeId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -82,6 +88,8 @@ export type ExpenseMinAggregateInputType = {
   amount?: true
   date?: true
   envelopeId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ExpenseMaxAggregateInputType = {
@@ -90,6 +98,8 @@ export type ExpenseMaxAggregateInputType = {
   amount?: true
   date?: true
   envelopeId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ExpenseCountAggregateInputType = {
@@ -98,6 +108,8 @@ export type ExpenseCountAggregateInputType = {
   amount?: true
   date?: true
   envelopeId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -193,6 +205,8 @@ export type ExpenseGroupByOutputType = {
   amount: number
   date: Date
   envelopeId: number
+  createdAt: Date
+  updatedAt: Date
   _count: ExpenseCountAggregateOutputType | null
   _avg: ExpenseAvgAggregateOutputType | null
   _sum: ExpenseSumAggregateOutputType | null
@@ -224,6 +238,8 @@ export type ExpenseWhereInput = {
   amount?: Prisma.FloatFilter<"Expense"> | number
   date?: Prisma.DateTimeFilter<"Expense"> | Date | string
   envelopeId?: Prisma.IntFilter<"Expense"> | number
+  createdAt?: Prisma.DateTimeFilter<"Expense"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Expense"> | Date | string
   envelope?: Prisma.XOR<Prisma.EnvelopeScalarRelationFilter, Prisma.EnvelopeWhereInput>
 }
 
@@ -233,6 +249,8 @@ export type ExpenseOrderByWithRelationInput = {
   amount?: Prisma.SortOrder
   date?: Prisma.SortOrder
   envelopeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   envelope?: Prisma.EnvelopeOrderByWithRelationInput
 }
 
@@ -245,6 +263,8 @@ export type ExpenseWhereUniqueInput = Prisma.AtLeast<{
   amount?: Prisma.FloatFilter<"Expense"> | number
   date?: Prisma.DateTimeFilter<"Expense"> | Date | string
   envelopeId?: Prisma.IntFilter<"Expense"> | number
+  createdAt?: Prisma.DateTimeFilter<"Expense"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Expense"> | Date | string
   envelope?: Prisma.XOR<Prisma.EnvelopeScalarRelationFilter, Prisma.EnvelopeWhereInput>
 }, "id">
 
@@ -254,6 +274,8 @@ export type ExpenseOrderByWithAggregationInput = {
   amount?: Prisma.SortOrder
   date?: Prisma.SortOrder
   envelopeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.ExpenseCountOrderByAggregateInput
   _avg?: Prisma.ExpenseAvgOrderByAggregateInput
   _max?: Prisma.ExpenseMaxOrderByAggregateInput
@@ -270,27 +292,35 @@ export type ExpenseScalarWhereWithAggregatesInput = {
   amount?: Prisma.FloatWithAggregatesFilter<"Expense"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"Expense"> | Date | string
   envelopeId?: Prisma.IntWithAggregatesFilter<"Expense"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Expense"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Expense"> | Date | string
 }
 
 export type ExpenseCreateInput = {
-  description: string
+  description?: string
   amount: number
   date?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   envelope: Prisma.EnvelopeCreateNestedOneWithoutExpensesInput
 }
 
 export type ExpenseUncheckedCreateInput = {
   id?: number
-  description: string
+  description?: string
   amount: number
   date?: Date | string
   envelopeId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExpenseUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   envelope?: Prisma.EnvelopeUpdateOneRequiredWithoutExpensesNestedInput
 }
 
@@ -300,20 +330,26 @@ export type ExpenseUncheckedUpdateInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   envelopeId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExpenseCreateManyInput = {
   id?: number
-  description: string
+  description?: string
   amount: number
   date?: Date | string
   envelopeId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExpenseUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExpenseUncheckedUpdateManyInput = {
@@ -322,6 +358,8 @@ export type ExpenseUncheckedUpdateManyInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   envelopeId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExpenseListRelationFilter = {
@@ -340,6 +378,8 @@ export type ExpenseCountOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   date?: Prisma.SortOrder
   envelopeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ExpenseAvgOrderByAggregateInput = {
@@ -354,6 +394,8 @@ export type ExpenseMaxOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   date?: Prisma.SortOrder
   envelopeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ExpenseMinOrderByAggregateInput = {
@@ -362,6 +404,8 @@ export type ExpenseMinOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   date?: Prisma.SortOrder
   envelopeId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ExpenseSumOrderByAggregateInput = {
@@ -413,16 +457,20 @@ export type ExpenseUncheckedUpdateManyWithoutEnvelopeNestedInput = {
 }
 
 export type ExpenseCreateWithoutEnvelopeInput = {
-  description: string
+  description?: string
   amount: number
   date?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExpenseUncheckedCreateWithoutEnvelopeInput = {
   id?: number
-  description: string
+  description?: string
   amount: number
   date?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExpenseCreateOrConnectWithoutEnvelopeInput = {
@@ -460,19 +508,25 @@ export type ExpenseScalarWhereInput = {
   amount?: Prisma.FloatFilter<"Expense"> | number
   date?: Prisma.DateTimeFilter<"Expense"> | Date | string
   envelopeId?: Prisma.IntFilter<"Expense"> | number
+  createdAt?: Prisma.DateTimeFilter<"Expense"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Expense"> | Date | string
 }
 
 export type ExpenseCreateManyEnvelopeInput = {
   id?: number
-  description: string
+  description?: string
   amount: number
   date?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExpenseUpdateWithoutEnvelopeInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExpenseUncheckedUpdateWithoutEnvelopeInput = {
@@ -480,6 +534,8 @@ export type ExpenseUncheckedUpdateWithoutEnvelopeInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExpenseUncheckedUpdateManyWithoutEnvelopeInput = {
@@ -487,6 +543,8 @@ export type ExpenseUncheckedUpdateManyWithoutEnvelopeInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -497,6 +555,8 @@ export type ExpenseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   amount?: boolean
   date?: boolean
   envelopeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   envelope?: boolean | Prisma.EnvelopeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["expense"]>
 
@@ -506,6 +566,8 @@ export type ExpenseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   amount?: boolean
   date?: boolean
   envelopeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   envelope?: boolean | Prisma.EnvelopeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["expense"]>
 
@@ -515,6 +577,8 @@ export type ExpenseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   amount?: boolean
   date?: boolean
   envelopeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   envelope?: boolean | Prisma.EnvelopeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["expense"]>
 
@@ -524,9 +588,11 @@ export type ExpenseSelectScalar = {
   amount?: boolean
   date?: boolean
   envelopeId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "description" | "amount" | "date" | "envelopeId", ExtArgs["result"]["expense"]>
+export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "description" | "amount" | "date" | "envelopeId" | "createdAt" | "updatedAt", ExtArgs["result"]["expense"]>
 export type ExpenseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   envelope?: boolean | Prisma.EnvelopeDefaultArgs<ExtArgs>
 }
@@ -548,6 +614,8 @@ export type $ExpensePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     amount: number
     date: Date
     envelopeId: number
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["expense"]>
   composites: {}
 }
@@ -977,6 +1045,8 @@ export interface ExpenseFieldRefs {
   readonly amount: Prisma.FieldRef<"Expense", 'Float'>
   readonly date: Prisma.FieldRef<"Expense", 'DateTime'>
   readonly envelopeId: Prisma.FieldRef<"Expense", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Expense", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Expense", 'DateTime'>
 }
     
 

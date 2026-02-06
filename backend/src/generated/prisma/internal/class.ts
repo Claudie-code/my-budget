@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id        Int        @id @default(autoincrement())\n  email     String     @unique\n  password  String\n  createdAt DateTime   @default(now())\n  envelopes Envelope[]\n}\n\nmodel Envelope {\n  id       Int       @id @default(autoincrement())\n  name     String\n  budget   Float\n  userId   Int\n  user     User      @relation(fields: [userId], references: [id])\n  expenses Expense[]\n}\n\nmodel Expense {\n  id          Int      @id @default(autoincrement())\n  description String\n  amount      Float\n  date        DateTime @default(now())\n  envelopeId  Int\n  envelope    Envelope @relation(fields: [envelopeId], references: [id])\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id        Int        @id @default(autoincrement())\n  email     String     @unique\n  password  String\n  createdAt DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n  incomes   Income[]\n  envelopes Envelope[]\n}\n\nmodel Income {\n  id          Int      @id @default(autoincrement())\n  amount      Float\n  description String\n  userId      Int\n  user        User     @relation(fields: [userId], references: [id])\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n\nmodel Envelope {\n  id        Int       @id @default(autoincrement())\n  name      String\n  budget    Float\n  userId    Int\n  user      User      @relation(fields: [userId], references: [id])\n  expenses  Expense[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel Expense {\n  id          Int      @id @default(autoincrement())\n  description String   @default(\"\")\n  amount      Float\n  date        DateTime @default(now())\n  envelopeId  Int\n  envelope    Envelope @relation(fields: [envelopeId], references: [id], onDelete: Cascade)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"envelopes\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToUser\"}],\"dbName\":null},\"Envelope\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EnvelopeToUser\"},{\"name\":\"expenses\",\"kind\":\"object\",\"type\":\"Expense\",\"relationName\":\"EnvelopeToExpense\"}],\"dbName\":null},\"Expense\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"envelopeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"envelope\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToExpense\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"incomes\",\"kind\":\"object\",\"type\":\"Income\",\"relationName\":\"IncomeToUser\"},{\"name\":\"envelopes\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToUser\"}],\"dbName\":null},\"Income\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"IncomeToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Envelope\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EnvelopeToUser\"},{\"name\":\"expenses\",\"kind\":\"object\",\"type\":\"Expense\",\"relationName\":\"EnvelopeToExpense\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Expense\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"envelopeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"envelope\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToExpense\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -183,6 +183,16 @@ export interface PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.income`: Exposes CRUD operations for the **Income** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Incomes
+    * const incomes = await prisma.income.findMany()
+    * ```
+    */
+  get income(): Prisma.IncomeDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.envelope`: Exposes CRUD operations for the **Envelope** model.

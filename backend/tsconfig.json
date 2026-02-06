@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@utils/*": ["utils/*"],
+      "@types/*": ["types/*"],
+      "@lib/*": ["libs/*"]
+    },
     "types": ["jest", "node"],
     "module": "CommonJS",
     "moduleResolution": "node",

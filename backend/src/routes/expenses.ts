@@ -1,15 +1,15 @@
-import { Router, Response } from "express";
-import { prisma } from "../lib/prisma";
-import { authMiddleware, AuthRequest } from "../middleware/auth";
+import { Router, Response, Request } from "express";
+import { prisma } from "../libs/prisma";
+import { authMiddleware } from "../middlewares/auth";
 
 const router = Router();
 
 // Get all expenses for user's envelopes
-router.get("/", authMiddleware, async (req: AuthRequest, res: Response) => {
+router.get("/", authMiddleware, async (req: Request, res: Response) => {
   const expenses = await prisma.expense.findMany({
     where: {
       envelope: {
-        userId: req.userId,
+        userId: req.user!.userId,
       },
     },
   });
@@ -17,7 +17,7 @@ router.get("/", authMiddleware, async (req: AuthRequest, res: Response) => {
 });
 
 // Create a new expense
-router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
+router.post("/", authMiddleware, async (req: Request, res: Response) => {
   const { description, amount, envelopeId } = req.body as {
     description: string;
     amount: number;
@@ -27,7 +27,7 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
   const envelope = await prisma.envelope.findFirst({
     where: {
       id: envelopeId,
-      userId: req.userId,
+      userId: req.user!.userId,
     },
   });
 
@@ -47,7 +47,7 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
 });
 
 // Update an expense
-router.put("/:id", authMiddleware, async (req: AuthRequest, res: Response) => {
+router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
   const { id } = req.params;
   const { description, amount } = req.body as {
     description?: string;
@@ -59,7 +59,7 @@ router.put("/:id", authMiddleware, async (req: AuthRequest, res: Response) => {
       where: {
         id: Number(req.params.id),
         envelope: {
-          userId: req.userId,
+          userId: req.user!.userId,
         },
       },
       data: {
@@ -79,31 +79,27 @@ router.put("/:id", authMiddleware, async (req: AuthRequest, res: Response) => {
 });
 
 // Delete an expense
-router.delete(
-  "/:id",
-  authMiddleware,
-  async (req: AuthRequest, res: Response) => {
-    const { id } = req.params;
+router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-    try {
-      const result = await prisma.expense.deleteMany({
-        where: {
-          id: Number(id),
-          envelope: {
-            userId: req.userId,
-          },
+  try {
+    const result = await prisma.expense.deleteMany({
+      where: {
+        id: Number(id),
+        envelope: {
+          userId: req.user!.userId,
         },
-      });
+      },
+    });
 
-      if (result.count === 0) {
-        return res.status(404).json({ error: "Expense not found" });
-      }
-
-      res.status(204).send();
-    } catch {
-      res.status(404).json({ error: "Expense not found" });
+    if (result.count === 0) {
+      return res.status(404).json({ error: "Expense not found" });
     }
-  },
-);
+
+    res.status(204).send();
+  } catch {
+    res.status(404).json({ error: "Expense not found" });
+  }
+});
 
 export default router;

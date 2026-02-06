@@ -43,6 +43,8 @@ export type EnvelopeMinAggregateOutputType = {
   name: string | null
   budget: number | null
   userId: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type EnvelopeMaxAggregateOutputType = {
@@ -50,6 +52,8 @@ export type EnvelopeMaxAggregateOutputType = {
   name: string | null
   budget: number | null
   userId: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type EnvelopeCountAggregateOutputType = {
@@ -57,6 +61,8 @@ export type EnvelopeCountAggregateOutputType = {
   name: number
   budget: number
   userId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -78,6 +84,8 @@ export type EnvelopeMinAggregateInputType = {
   name?: true
   budget?: true
   userId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type EnvelopeMaxAggregateInputType = {
@@ -85,6 +93,8 @@ export type EnvelopeMaxAggregateInputType = {
   name?: true
   budget?: true
   userId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type EnvelopeCountAggregateInputType = {
@@ -92,6 +102,8 @@ export type EnvelopeCountAggregateInputType = {
   name?: true
   budget?: true
   userId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -186,6 +198,8 @@ export type EnvelopeGroupByOutputType = {
   name: string
   budget: number
   userId: number
+  createdAt: Date
+  updatedAt: Date
   _count: EnvelopeCountAggregateOutputType | null
   _avg: EnvelopeAvgAggregateOutputType | null
   _sum: EnvelopeSumAggregateOutputType | null
@@ -216,6 +230,8 @@ export type EnvelopeWhereInput = {
   name?: Prisma.StringFilter<"Envelope"> | string
   budget?: Prisma.FloatFilter<"Envelope"> | number
   userId?: Prisma.IntFilter<"Envelope"> | number
+  createdAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   expenses?: Prisma.ExpenseListRelationFilter
 }
@@ -225,6 +241,8 @@ export type EnvelopeOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
 }
@@ -237,6 +255,8 @@ export type EnvelopeWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Envelope"> | string
   budget?: Prisma.FloatFilter<"Envelope"> | number
   userId?: Prisma.IntFilter<"Envelope"> | number
+  createdAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   expenses?: Prisma.ExpenseListRelationFilter
 }, "id">
@@ -246,6 +266,8 @@ export type EnvelopeOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.EnvelopeCountOrderByAggregateInput
   _avg?: Prisma.EnvelopeAvgOrderByAggregateInput
   _max?: Prisma.EnvelopeMaxOrderByAggregateInput
@@ -261,11 +283,15 @@ export type EnvelopeScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Envelope"> | string
   budget?: Prisma.FloatWithAggregatesFilter<"Envelope"> | number
   userId?: Prisma.IntWithAggregatesFilter<"Envelope"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Envelope"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Envelope"> | Date | string
 }
 
 export type EnvelopeCreateInput = {
   name: string
   budget: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEnvelopesInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutEnvelopeInput
 }
@@ -275,12 +301,16 @@ export type EnvelopeUncheckedCreateInput = {
   name: string
   budget: number
   userId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutEnvelopeInput
 }
 
 export type EnvelopeUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEnvelopesNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutEnvelopeNestedInput
 }
@@ -290,6 +320,8 @@ export type EnvelopeUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutEnvelopeNestedInput
 }
 
@@ -298,11 +330,15 @@ export type EnvelopeCreateManyInput = {
   name: string
   budget: number
   userId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EnvelopeUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EnvelopeUncheckedUpdateManyInput = {
@@ -310,6 +346,8 @@ export type EnvelopeUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EnvelopeListRelationFilter = {
@@ -327,6 +365,8 @@ export type EnvelopeCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EnvelopeAvgOrderByAggregateInput = {
@@ -340,6 +380,8 @@ export type EnvelopeMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EnvelopeMinOrderByAggregateInput = {
@@ -347,6 +389,8 @@ export type EnvelopeMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EnvelopeSumOrderByAggregateInput = {
@@ -402,14 +446,6 @@ export type EnvelopeUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.EnvelopeScalarWhereInput | Prisma.EnvelopeScalarWhereInput[]
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnvelopeCreateNestedOneWithoutExpensesInput = {
   create?: Prisma.XOR<Prisma.EnvelopeCreateWithoutExpensesInput, Prisma.EnvelopeUncheckedCreateWithoutExpensesInput>
   connectOrCreate?: Prisma.EnvelopeCreateOrConnectWithoutExpensesInput
@@ -427,6 +463,8 @@ export type EnvelopeUpdateOneRequiredWithoutExpensesNestedInput = {
 export type EnvelopeCreateWithoutUserInput = {
   name: string
   budget: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   expenses?: Prisma.ExpenseCreateNestedManyWithoutEnvelopeInput
 }
 
@@ -434,6 +472,8 @@ export type EnvelopeUncheckedCreateWithoutUserInput = {
   id?: number
   name: string
   budget: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutEnvelopeInput
 }
 
@@ -471,11 +511,15 @@ export type EnvelopeScalarWhereInput = {
   name?: Prisma.StringFilter<"Envelope"> | string
   budget?: Prisma.FloatFilter<"Envelope"> | number
   userId?: Prisma.IntFilter<"Envelope"> | number
+  createdAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
 }
 
 export type EnvelopeCreateWithoutExpensesInput = {
   name: string
   budget: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEnvelopesInput
 }
 
@@ -484,6 +528,8 @@ export type EnvelopeUncheckedCreateWithoutExpensesInput = {
   name: string
   budget: number
   userId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EnvelopeCreateOrConnectWithoutExpensesInput = {
@@ -505,6 +551,8 @@ export type EnvelopeUpdateToOneWithWhereWithoutExpensesInput = {
 export type EnvelopeUpdateWithoutExpensesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEnvelopesNestedInput
 }
 
@@ -513,17 +561,23 @@ export type EnvelopeUncheckedUpdateWithoutExpensesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EnvelopeCreateManyUserInput = {
   id?: number
   name: string
   budget: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EnvelopeUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUpdateManyWithoutEnvelopeNestedInput
 }
 
@@ -531,6 +585,8 @@ export type EnvelopeUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutEnvelopeNestedInput
 }
 
@@ -538,6 +594,8 @@ export type EnvelopeUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -576,6 +634,8 @@ export type EnvelopeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name?: boolean
   budget?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   expenses?: boolean | Prisma.Envelope$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.EnvelopeCountOutputTypeDefaultArgs<ExtArgs>
@@ -586,6 +646,8 @@ export type EnvelopeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   budget?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["envelope"]>
 
@@ -594,6 +656,8 @@ export type EnvelopeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   budget?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["envelope"]>
 
@@ -602,9 +666,11 @@ export type EnvelopeSelectScalar = {
   name?: boolean
   budget?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type EnvelopeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "budget" | "userId", ExtArgs["result"]["envelope"]>
+export type EnvelopeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "budget" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["envelope"]>
 export type EnvelopeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   expenses?: boolean | Prisma.Envelope$expensesArgs<ExtArgs>
@@ -628,6 +694,8 @@ export type $EnvelopePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     name: string
     budget: number
     userId: number
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["envelope"]>
   composites: {}
 }
@@ -1057,6 +1125,8 @@ export interface EnvelopeFieldRefs {
   readonly name: Prisma.FieldRef<"Envelope", 'String'>
   readonly budget: Prisma.FieldRef<"Envelope", 'Float'>
   readonly userId: Prisma.FieldRef<"Envelope", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Envelope", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Envelope", 'DateTime'>
 }
     
 

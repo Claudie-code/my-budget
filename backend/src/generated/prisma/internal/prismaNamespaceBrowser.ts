@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Income: 'Income',
   Envelope: 'Envelope',
   Expense: 'Expense'
 } as const
@@ -76,17 +77,32 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const IncomeScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  description: 'description',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
 
 
 export const EnvelopeScalarFieldEnum = {
   id: 'id',
   name: 'name',
   budget: 'budget',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type EnvelopeScalarFieldEnum = (typeof EnvelopeScalarFieldEnum)[keyof typeof EnvelopeScalarFieldEnum]
@@ -97,7 +113,9 @@ export const ExpenseScalarFieldEnum = {
   description: 'description',
   amount: 'amount',
   date: 'date',
-  envelopeId: 'envelopeId'
+  envelopeId: 'envelopeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]

@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  Income: 'Income',
   Envelope: 'Envelope',
   Expense: 'Expense'
 } as const
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "envelope" | "expense"
+    modelProps: "user" | "income" | "envelope" | "expense"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -477,6 +478,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    Income: {
+      payload: Prisma.$IncomePayload<ExtArgs>
+      fields: Prisma.IncomeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.IncomeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.IncomeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>
+        }
+        findFirst: {
+          args: Prisma.IncomeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.IncomeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>
+        }
+        findMany: {
+          args: Prisma.IncomeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>[]
+        }
+        create: {
+          args: Prisma.IncomeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>
+        }
+        createMany: {
+          args: Prisma.IncomeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.IncomeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>[]
+        }
+        delete: {
+          args: Prisma.IncomeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>
+        }
+        update: {
+          args: Prisma.IncomeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>
+        }
+        deleteMany: {
+          args: Prisma.IncomeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.IncomeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.IncomeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>[]
+        }
+        upsert: {
+          args: Prisma.IncomeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IncomePayload>
+        }
+        aggregate: {
+          args: Prisma.IncomeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateIncome>
+        }
+        groupBy: {
+          args: Prisma.IncomeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IncomeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.IncomeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IncomeCountAggregateOutputType> | number
         }
       }
     }
@@ -671,17 +746,32 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const IncomeScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  description: 'description',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
 
 
 export const EnvelopeScalarFieldEnum = {
   id: 'id',
   name: 'name',
   budget: 'budget',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type EnvelopeScalarFieldEnum = (typeof EnvelopeScalarFieldEnum)[keyof typeof EnvelopeScalarFieldEnum]
@@ -692,7 +782,9 @@ export const ExpenseScalarFieldEnum = {
   description: 'description',
   amount: 'amount',
   date: 'date',
-  envelopeId: 'envelopeId'
+  envelopeId: 'envelopeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
@@ -871,6 +963,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  income?: Prisma.IncomeOmit
   envelope?: Prisma.EnvelopeOmit
   expense?: Prisma.ExpenseOmit
 }
