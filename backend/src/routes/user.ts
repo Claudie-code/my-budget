@@ -5,12 +5,8 @@ import { authMiddleware } from "../middlewares/auth";
 const router = Router();
 
 router.get("/me", authMiddleware, async (req: Request, res: Response) => {
-  if (!req.user?.userId) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
   const user = await prisma.user.findUnique({
-    where: { id: req.user.userId },
+    where: { id: req.user!.userId },
     select: {
       id: true,
       email: true,

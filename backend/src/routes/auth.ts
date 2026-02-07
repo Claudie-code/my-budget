@@ -2,9 +2,9 @@ import { Router, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "../libs/prisma";
+import { generateToken } from "@utils/jwt";
 
 const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET ?? "changeme";
 
 // REGISTER
 router.post("/register", async (req, res: Response) => {
@@ -22,10 +22,10 @@ router.post("/register", async (req, res: Response) => {
     return res.status(400).json({ error: "Invalid email format" });
   }
 
-  if (password.length < 6) {
+  if (password.length < 8) {
     return res
       .status(400)
-      .json({ error: "Password must be at least 6 characters" });
+      .json({ error: "Password must be at least 8 characters" });
   }
 
   const existingUser = await prisma.user.findUnique({
@@ -45,10 +45,9 @@ router.post("/register", async (req, res: Response) => {
     },
   });
 
-  res.status(201).json({
-    id: user.id,
-    email: user.email,
-  });
+  const token = generateToken({ userId: user.id });
+
+  res.status(201).json({ token });
 });
 
 // LOGIN
@@ -76,7 +75,7 @@ router.post("/login", async (req, res: Response) => {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
-  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
+  const token = generateToken({ userId: user.id });
 
   res.json({ token });
 });

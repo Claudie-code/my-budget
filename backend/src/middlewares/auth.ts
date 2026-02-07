@@ -1,4 +1,4 @@
-import Logger from "@lib/logger";
+import Logger from "@libs/logger";
 import { verifyToken } from "@utils/jwt";
 import { Request, Response, NextFunction } from "express";
 

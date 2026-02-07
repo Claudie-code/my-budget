@@ -1,9 +1,8 @@
 import request from "supertest";
 import { prisma } from "../../libs/prisma";
-import jwt from "jsonwebtoken";
 import { app } from "../../app";
-
-const JWT_SECRET = process.env.JWT_SECRET ?? "changeme";
+import { generateToken } from "@utils/jwt";
+import { resetDb } from "@utils/resetDb";
 
 describe("GET /api/user/me", () => {
   let userId: number;
@@ -11,6 +10,7 @@ describe("GET /api/user/me", () => {
 
   // Create user
   beforeAll(async () => {
+    await resetDb(); // Clear database before tests
     const user = await prisma.user.create({
       data: {
         email: "testuser@example.com",
@@ -20,7 +20,7 @@ describe("GET /api/user/me", () => {
     userId = user.id;
 
     // Generate token
-    token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
+    token = generateToken({ userId });
 
     // Create envelope and expense
     await prisma.envelope.create({
@@ -36,10 +36,6 @@ describe("GET /api/user/me", () => {
   });
 
   afterAll(async () => {
-    // Clean up
-    await prisma.expense.deleteMany();
-    await prisma.envelope.deleteMany();
-    await prisma.user.deleteMany();
     await prisma.$disconnect();
   });
 

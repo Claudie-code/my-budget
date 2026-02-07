@@ -48,10 +48,9 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
 
 // Update an expense
 router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
-  const { id } = req.params;
   const { description, amount } = req.body as {
-    description?: string;
-    amount?: number;
+    description: string;
+    amount: number;
   };
 
   try {

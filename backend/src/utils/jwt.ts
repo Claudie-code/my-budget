@@ -1,7 +1,8 @@
-import Logger from "@lib/logger";
+import "dotenv/config";
+import Logger from "@libs/logger";
 import jwt from "jsonwebtoken";
 
-const SECRET_KEY = process.env.JWT_SECRET || "";
+const SECRET_KEY = process.env.JWT_SECRET!;
 
 export interface UserPayload {
   userId: number;

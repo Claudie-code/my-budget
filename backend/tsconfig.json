@@ -4,7 +4,7 @@
     "paths": {
       "@utils/*": ["utils/*"],
       "@types/*": ["types/*"],
-      "@lib/*": ["libs/*"]
+      "@libs/*": ["libs/*"]
     },
     "types": ["jest", "node"],
     "module": "CommonJS",

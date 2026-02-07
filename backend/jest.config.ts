@@ -9,6 +9,9 @@ const config: Config = {
   moduleFileExtensions: ["js", "ts"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "^@utils/(.*)$": "<rootDir>/src/utils/$1",
+    "^@libs/(.*)$": "<rootDir>/src/libs/$1",
+    "^@types/(.*)$": "<rootDir>/src/types/$1",
   },
   extensionsToTreatAsEsm: [".ts"],
   transform: {

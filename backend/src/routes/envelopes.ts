@@ -35,7 +35,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
 // Update envelope
 router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, budget } = req.body as { name?: string; budget?: number };
+  const { name, budget } = req.body as { name: string; budget: number };
 
   try {
     const updated = await prisma.envelope.updateMany({

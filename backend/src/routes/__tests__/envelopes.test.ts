@@ -1,9 +1,8 @@
 import request from "supertest";
 import { prisma } from "../../libs/prisma";
-import jwt from "jsonwebtoken";
 import { app } from "../../app";
-
-const JWT_SECRET = process.env.JWT_SECRET ?? "changeme";
+import { generateToken } from "@utils/jwt";
+import { resetDb } from "@utils/resetDb";
 
 describe("Envelopes API", () => {
   let userId: number;
@@ -11,6 +10,7 @@ describe("Envelopes API", () => {
   let envelopeId: number;
 
   beforeAll(async () => {
+    await resetDb();
     const user = await prisma.user.create({
       data: {
         email: "envelopeuser@example.com",
@@ -19,13 +19,10 @@ describe("Envelopes API", () => {
     });
     userId = user.id;
 
-    token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
+    token = generateToken({ userId });
   });
 
   afterAll(async () => {
-    await prisma.expense.deleteMany({ where: { envelope: { userId } } });
-    await prisma.envelope.deleteMany({ where: { userId } });
-    await prisma.user.deleteMany({ where: { id: userId } });
     await prisma.$disconnect();
   });
 
