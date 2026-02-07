@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import EnvelopeDrawer from '@/features/envelopes/EnvelopeDrawer';
+import { IncomeList } from '@/features/incomes/IncomeList';
+import { IncomeForm } from '@/features/incomes/IncomeForm';
 
 export interface Expense {
   id: number;
@@ -76,23 +78,28 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
+      <section>
+        <h2 className="font-semibold mb-2">Incomes</h2>
+        <IncomeForm />
+        <IncomeList />
+      </section>
       <div className="flex flex-1 min-h-0 overflow-hidden">
-        <div className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
+        <section className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
           <CreateEnvelopeForm />
           <EnvelopeList
             envelopes={envelopes || []}
             selectedEnvelopeId={selectedEnvelope?.id}
             handleSelectEnvelope={handleSelectEnvelope}
           />
-        </div>
-        <div className="flex-1 overflow-y-auto py-4 px-6">
+        </section>
+        <section className="flex-1 overflow-y-auto py-4 px-6">
           {!isMobile && (
             <EnvelopeCard selectedEnvelope={selectedEnvelope} onCloseEnvelope={onCloseEnvelope} />
           )}
           {isMobile && selectedEnvelope && (
             <EnvelopeDrawer envelope={selectedEnvelope} onClose={onCloseEnvelope} />
           )}
-        </div>
+        </section>
       </div>
     </DashboardLayout>
   );
