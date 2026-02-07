@@ -47,16 +47,15 @@ export function AppSidebar() {
             {menuItems.map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton tooltip={item.name} asChild>
-                  <NavLink
-                    to={item.to}
-                    className={({ isActive }) =>
-                      `flex items-center gap-2 p-2 rounded-md hover:bg-accent/10 ${
-                        isActive ? 'bg-accent/20 font-semibold' : ''
-                      }`
-                    }
-                  >
-                    {item.icon}
-                    {item.name}
+                  <NavLink to={item.to}>
+                    {({ isActive }) => (
+                      <span
+                        className={`flex items-center gap-2 p-2 rounded-md hover:bg-accent/10 ${isActive ? ' bg-accent/20 font-semibold' : ''}`}
+                      >
+                        {item.icon}
+                        {item.name}
+                      </span>
+                    )}
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
