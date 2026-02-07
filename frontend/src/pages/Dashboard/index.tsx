@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import EnvelopeCard from '@/components/dashboard/EnvelopeCard';
-import CreateEnvelopeForm from '@/components/dashboard/CreateEnvelopeForm';
+import EnvelopeCard from '@/features/envelopes/EnvelopeCard';
+import CreateEnvelopeForm from '@/features/envelopes/CreateEnvelopeForm';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import EnvelopeList from '@/components/dashboard/EnvelopeList';
+import EnvelopeList from '@/features/envelopes/EnvelopeList';
 import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import EnvelopeDrawer from '@/components/dashboard/EnvelopeDrawer';
+import EnvelopeDrawer from '@/features/envelopes/EnvelopeDrawer';
 
 export interface Expense {
   id: number;

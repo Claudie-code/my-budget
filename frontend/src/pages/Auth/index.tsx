@@ -1,5 +1,5 @@
-import AuthForm from '@/components/auth/AuthForm';
-import AuthLeftPanel from '@/components/auth/AuthLeftPanel';
+import AuthForm from '@/features/auth/AuthForm';
+import AuthLeftPanel from '@/features/auth/AuthLeftPanel';
 
 export default function AuthPage() {
   return (

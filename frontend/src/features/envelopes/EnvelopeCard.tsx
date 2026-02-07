@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Envelope } from '@/pages/Dashboard';
-import { AddExpenseDialog } from './CreateExpenseForm';
+import { AddExpenseDialog } from '../expenses/CreateExpenseForm';
 import { DeleteEnvelopeButton } from './DeleteEnvelopeButton';
-import { ExpenseList } from './ExpenseList';
+import { ExpenseList } from '../expenses/ExpenseList';
 import { EditEnvelopeButton } from './EditEnvelopeButton';
 
 interface Props {

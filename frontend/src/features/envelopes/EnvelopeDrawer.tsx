@@ -1,5 +1,5 @@
 import type { Envelope } from '@/pages/Dashboard';
-import { Drawer, DrawerContent } from '../ui/drawer';
+import { Drawer, DrawerContent } from '../../components/ui/drawer';
 import EnvelopeCard from './EnvelopeCard';
 
 type EnvelopeDrawerProps = {

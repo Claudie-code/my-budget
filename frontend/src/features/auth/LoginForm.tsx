@@ -10,7 +10,7 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '../ui/card';
+import { Card, CardContent } from '../../components/ui/card';
 import { loginSchema } from '@/schemas/auth.schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
