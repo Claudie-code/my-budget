@@ -10,6 +10,7 @@ import { IncomeSummary } from '@/components/incomes/IncomeSummary';
 import { useDashboard } from '@/hooks/use-dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
 import dayjs from 'dayjs';
+import { MonthSelector } from '@/components/dashboard/MonthSelector';
 
 export default function Dashboard() {
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -22,6 +23,11 @@ export default function Dashboard() {
 
   const handleSelectEnvelope = (id: number) => {
     setSelectedEnvelopeId(id);
+  };
+
+  const handleChangeMonth = (newMonth: string) => {
+    setMonth(newMonth);
+    setSelectedEnvelopeId(null);
   };
 
   if (isError) {
@@ -51,8 +57,8 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <section className="flex items-center w-full py-4 px-6 border-b">
-        <div>Feb 2026</div>
-        <IncomeSummary total={1500} />
+        <MonthSelector month={month} onChange={handleChangeMonth} />
+        <IncomeSummary total={totalIncome} />
       </section>
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <section className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
