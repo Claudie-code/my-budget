@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
 import { toast } from 'sonner';
-import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/popover';
-import { Input } from '../../components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Input } from '../ui/input';
 import { useState } from 'react';
 import { set } from 'zod';
 

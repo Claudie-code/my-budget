@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { incomesApi } from '@/features/incomes/incomes.api';
+import { incomesApi } from '@/api/incomes.api';
 
 export function useIncomes() {
   const queryClient = useQueryClient();

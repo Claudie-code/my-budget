@@ -1,4 +1,4 @@
-import type { Envelope } from '@/pages/Dashboard';
+import type { Envelope } from '@/types/dashboard';
 
 interface EnvelopeListProps {
   envelopes?: Envelope[];
@@ -12,7 +12,7 @@ export default function EnvelopeList({
   handleSelectEnvelope,
 }: EnvelopeListProps) {
   if (!envelopes || !envelopes.length)
-    return <p className="text-muted text-center mt-4">No envelopes yet</p>;
+    return <p className="text-gray-500 text-center mt-4">No envelopes yet</p>;
 
   return (
     <div className="overflow-y-auto">

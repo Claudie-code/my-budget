@@ -1,61 +1,28 @@
-import { useQuery } from '@tanstack/react-query';
-import EnvelopeCard from '@/features/envelopes/EnvelopeCard';
-import CreateEnvelopeForm from '@/features/envelopes/CreateEnvelopeForm';
+import EnvelopeCard from '@/components/envelopes/EnvelopeCard';
+import CreateEnvelopeForm from '@/components/envelopes/CreateEnvelopeForm';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import EnvelopeList from '@/features/envelopes/EnvelopeList';
+import EnvelopeList from '@/components/envelopes/EnvelopeList';
 import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import EnvelopeDrawer from '@/features/envelopes/EnvelopeDrawer';
-import { IncomeSummary } from '@/features/incomes/IncomeSummary';
-
-export interface Expense {
-  id: number;
-  description: string;
-  amount: number;
-  envelopeId: number;
-}
-
-export interface Envelope {
-  id: number;
-  name: string;
-  budget: number;
-  expenses: Expense[];
-}
-
-const fetchEnvelopes = async (): Promise<Envelope[]> => {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/envelopes`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error || 'Failed to fetch envelopes');
-  }
-  return res.json();
-};
+import EnvelopeDrawer from '@/components/envelopes/EnvelopeDrawer';
+import { IncomeSummary } from '@/components/incomes/IncomeSummary';
+import { useDashboard } from '@/hooks/use-dashboard';
+import { Skeleton } from '@/components/ui/skeleton';
+import dayjs from 'dayjs';
 
 export default function Dashboard() {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [selectedEnvelopeId, setSelectedEnvelopeId] = useState<number | null>(null);
+  const [month, setMonth] = useState(dayjs().format('YYYY-MM'));
 
-  const {
-    data: envelopes,
-    isLoading,
-    isError,
-  } = useQuery<Envelope[]>({
-    queryKey: ['envelopes'],
-    queryFn: fetchEnvelopes,
-  });
+  const { data, isLoading, isError } = useDashboard(month);
 
   const onCloseEnvelope = () => setSelectedEnvelopeId(null);
 
   const handleSelectEnvelope = (id: number) => {
     setSelectedEnvelopeId(id);
   };
-
-  const selectedEnvelope = envelopes?.find((e) => e.id === selectedEnvelopeId) || null;
 
   if (isError) {
     return (
@@ -75,6 +42,12 @@ export default function Dashboard() {
     );
   }
 
+  if (!data) return <Skeleton />;
+
+  const selectedEnvelope = data.envelopes?.find((e) => e.id === selectedEnvelopeId) || null;
+
+  const totalIncome = data.incomes.reduce((sum, income) => sum + income.amount, 0);
+
   return (
     <DashboardLayout>
       <section className="flex items-center w-full py-4 px-6 border-b">
@@ -85,7 +58,7 @@ export default function Dashboard() {
         <section className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
           <CreateEnvelopeForm />
           <EnvelopeList
-            envelopes={envelopes || []}
+            envelopes={data.envelopes || []}
             selectedEnvelopeId={selectedEnvelope?.id}
             handleSelectEnvelope={handleSelectEnvelope}
           />

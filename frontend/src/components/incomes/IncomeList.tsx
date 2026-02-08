@@ -1,5 +1,5 @@
 import { IncomeCard } from './IncomeCard';
-import { useIncomes } from './use-incomes';
+import { useIncomes } from '../../hooks/use-incomes';
 
 export function IncomeList() {
   const { incomesQuery, deleteIncome } = useIncomes();

@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import AuthPage from './pages/Auth';
 import Dashboard from './pages/Dashboard';
-import { PrivateRoute } from './features/auth/PrivateRoute';
 import { Toaster } from 'sonner';
+import { PrivateRoute } from './components/auth/PrivateRoute';
 
 function App() {
   return (
