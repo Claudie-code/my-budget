@@ -7,8 +7,7 @@ import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import EnvelopeDrawer from '@/features/envelopes/EnvelopeDrawer';
-import { IncomeList } from '@/features/incomes/IncomeList';
-import { IncomeForm } from '@/features/incomes/IncomeForm';
+import { IncomeSummary } from '@/features/incomes/IncomeSummary';
 
 export interface Expense {
   id: number;
@@ -78,10 +77,9 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <section>
-        <h2 className="font-semibold mb-2">Incomes</h2>
-        <IncomeForm />
-        <IncomeList />
+      <section className="flex items-center w-full py-4 px-6 border-b">
+        <div>Feb 2026</div>
+        <IncomeSummary total={1500} />
       </section>
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <section className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>

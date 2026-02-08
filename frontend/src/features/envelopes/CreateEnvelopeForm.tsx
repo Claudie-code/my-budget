@@ -64,7 +64,6 @@ export default function CreateEnvelopeForm() {
                 placeholder="Envelope name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                min={0}
                 required
               />
 
@@ -73,6 +72,7 @@ export default function CreateEnvelopeForm() {
                 placeholder="Monthly budget"
                 value={budget}
                 onChange={(e) => setBudget(Number(e.target.value))}
+                min={0}
                 required
               />
 
