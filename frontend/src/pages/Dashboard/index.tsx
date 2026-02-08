@@ -38,16 +38,6 @@ export default function Dashboard() {
     );
   }
 
-  if (isLoading) {
-    return (
-      <DashboardLayout>
-        <div className="p-6 py-4 px-6">
-          <Spinner className="size-6" />
-        </div>
-      </DashboardLayout>
-    );
-  }
-
   if (!data) return <Skeleton />;
 
   const selectedEnvelope = data.envelopes?.find((e) => e.id === selectedEnvelopeId) || null;
@@ -57,17 +47,33 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <section className="flex items-center w-full py-4 px-6 border-b">
-        <MonthSelector month={month} onChange={handleChangeMonth} />
-        <IncomeSummary total={totalIncome} />
+        {isLoading ? (
+          <Skeleton className="h-10 w-32 mb-0" />
+        ) : (
+          <>
+            <MonthSelector month={month} onChange={handleChangeMonth} />
+            <IncomeSummary total={totalIncome} />{' '}
+          </>
+        )}
       </section>
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <section className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
-          <CreateEnvelopeForm />
-          <EnvelopeList
-            envelopes={data.envelopes || []}
-            selectedEnvelopeId={selectedEnvelope?.id}
-            handleSelectEnvelope={handleSelectEnvelope}
-          />
+          {isLoading ? (
+            <div className="flex flex-col gap-4">
+              {[...Array(5)].map((_, i) => (
+                <Skeleton key={i} className="h-12 w-full" />
+              ))}
+            </div>
+          ) : (
+            <>
+              <CreateEnvelopeForm />
+              <EnvelopeList
+                envelopes={data.envelopes || []}
+                selectedEnvelopeId={selectedEnvelope?.id}
+                handleSelectEnvelope={handleSelectEnvelope}
+              />
+            </>
+          )}
         </section>
         <section className="flex-1 overflow-y-auto py-4 px-6">
           {!isMobile && (
