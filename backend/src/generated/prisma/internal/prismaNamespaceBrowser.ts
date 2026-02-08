@@ -88,6 +88,7 @@ export const IncomeScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
   description: 'description',
+  date: 'date',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -101,6 +102,7 @@ export const EnvelopeScalarFieldEnum = {
   name: 'name',
   budget: 'budget',
   userId: 'userId',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -135,4 +137,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

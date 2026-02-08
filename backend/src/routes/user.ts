@@ -1,4 +1,4 @@
-import { Router, Response, Request } from "express";
+import { Router, Request, Response } from "express";
 import { prisma } from "../libs/prisma";
 import { authMiddleware } from "../middlewares/auth";
 
@@ -11,21 +11,6 @@ router.get("/me", authMiddleware, async (req: Request, res: Response) => {
       id: true,
       email: true,
       createdAt: true,
-      envelopes: {
-        select: {
-          id: true,
-          name: true,
-          budget: true,
-          expenses: {
-            select: {
-              id: true,
-              description: true,
-              amount: true,
-              date: true,
-            },
-          },
-        },
-      },
     },
   });
 
