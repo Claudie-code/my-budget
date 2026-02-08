@@ -21,18 +21,6 @@ describe("GET /api/user/me", () => {
 
     // Generate token
     token = generateToken({ userId });
-
-    // Create envelope and expense
-    await prisma.envelope.create({
-      data: {
-        name: "Test Envelope",
-        budget: 100,
-        userId,
-        expenses: {
-          create: [{ description: "Test Expense", amount: 20 }],
-        },
-      },
-    });
   });
 
   afterAll(async () => {
@@ -47,12 +35,6 @@ describe("GET /api/user/me", () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("id", userId);
     expect(res.body).toHaveProperty("email", "testuser@example.com");
-    expect(res.body.envelopes).toHaveLength(1);
-    expect(res.body.envelopes[0]).toHaveProperty("expenses");
-    expect(res.body.envelopes[0].expenses[0]).toHaveProperty(
-      "description",
-      "Test Expense",
-    );
   });
 
   it("should return 401 if no token is provided", async () => {

@@ -6,6 +6,7 @@ import envelopeRoutes from "./routes/envelopes";
 import expenseRoutes from "./routes/expenses";
 import incomeRoutes from "./routes/incomes";
 import userRoutes from "./routes/user";
+import dashboardRoutes from "./routes/dashboard";
 
 export const app = express();
 
@@ -18,3 +19,4 @@ app.use("/api/envelopes", envelopeRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/incomes", incomeRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/dashboard", dashboardRoutes);
