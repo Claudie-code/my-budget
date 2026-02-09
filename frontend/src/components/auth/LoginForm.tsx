@@ -14,6 +14,7 @@ import { Card, CardContent } from '../ui/card';
 import { loginSchema } from '@/schemas/auth.schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
+import { useLogin } from '@/hooks/use-login';
 
 interface LoginFormState {
   email: string;
@@ -23,7 +24,6 @@ interface LoginFormState {
 export default function LoginForm() {
   const navigate = useNavigate();
 
-  const queryClient = useQueryClient();
   const [form, setForm] = useState<LoginFormState>({
     email: '',
     password: '',
@@ -40,25 +40,7 @@ export default function LoginForm() {
     }));
   };
 
-  const loginMutation = useMutation({
-    mutationFn: async (data: LoginFormState) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Login failed');
-      }
-      return res.json() as Promise<{ token: string }>;
-    },
-    onSuccess: (data) => {
-      localStorage.setItem('token', data.token);
-      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-      navigate('/dashboard');
-    },
-  });
+  const { mutate, isPending, isError, error } = useLogin();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -74,7 +56,14 @@ export default function LoginForm() {
       return;
     }
 
-    loginMutation.mutate(parseResult.data);
+    mutate(form, {
+      onSuccess: () => {
+        navigate('/dashboard');
+      },
+      onError: () => {
+        setErrors({ password: 'Invalid email or password' });
+      },
+    });
   };
 
   return (
@@ -124,15 +113,13 @@ export default function LoginForm() {
               <Button
                 type="submit"
                 className="bg-orange-500 hover:bg-orange-400 text-white w-full"
-                disabled={loginMutation.isPending}
+                disabled={isPending}
               >
-                {loginMutation.isPending ? 'Signing in...' : 'Submit'}
+                {isPending ? 'Signing in...' : 'Submit'}
               </Button>
             </Field>
             <p className="text-sm text-red-500 mt-2">
-              {loginMutation.isError &&
-                loginMutation.error instanceof Error &&
-                loginMutation.error.message}
+              {isError && error instanceof Error && error.message}
             </p>
           </FieldGroup>
         </form>

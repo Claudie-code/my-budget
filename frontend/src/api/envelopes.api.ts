@@ -16,7 +16,7 @@ export interface UpdateEnvelopePayload {
  * CREATE
  */
 export const createEnvelope = async (payload: CreateEnvelopePayload): Promise<Envelope> => {
-  const { data } = await api.post('/envelopes', payload);
+  const { data } = await api.post('/api/envelopes', payload);
   return data;
 };
 
@@ -25,7 +25,7 @@ export const createEnvelope = async (payload: CreateEnvelopePayload): Promise<En
  */
 export const updateEnvelope = async (payload: UpdateEnvelopePayload): Promise<Envelope> => {
   const { id, ...body } = payload;
-  const { data } = await api.put(`/envelopes/${id}`, body);
+  const { data } = await api.put(`/api/envelopes/${id}`, body);
   return data;
 };
 
@@ -33,5 +33,5 @@ export const updateEnvelope = async (payload: UpdateEnvelopePayload): Promise<En
  * DELETE (soft delete)
  */
 export const deleteEnvelope = async (id: number): Promise<void> => {
-  await api.delete(`/envelopes/${id}`);
+  await api.delete(`/api/envelopes/${id}`);
 };

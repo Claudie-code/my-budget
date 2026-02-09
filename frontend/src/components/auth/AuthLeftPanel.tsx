@@ -2,7 +2,7 @@ import { Check } from 'lucide-react';
 
 export default function AuthLeftPanel() {
   return (
-    <div className="hidden md:flex w-1/2 bg-gradient-to-br from-orange-500 via-orange-400 to-yellow-400 text-white p-12 flex-col justify-center rounded-l-lg shadow-lg">
+    <div className="hidden md:flex w-1/2 bg-linear-to-br from-orange-500 via-orange-400 to-yellow-400 text-white p-12 flex-col justify-center rounded-l-lg shadow-lg">
       <h1 className="text-4xl font-extrabold mb-4 tracking-wide">MyBudget</h1>
       <p className="text-lg mb-6">
         Take control of your finances effortlessly. Track, plan, and optimize your budget with ease.
