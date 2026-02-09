@@ -12,14 +12,14 @@ export function useIncomes() {
   const createIncome = useMutation({
     mutationFn: incomesApi.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['incomes'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });
 
   const deleteIncome = useMutation({
     mutationFn: incomesApi.delete,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['incomes'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });
 

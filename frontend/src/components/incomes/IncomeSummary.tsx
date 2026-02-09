@@ -1,9 +1,10 @@
-import { Wallet, Pencil } from 'lucide-react';
+import { Wallet } from 'lucide-react';
 import { IncomeDrawer } from './IncomeDrawer';
+import type { Income } from '@/types/dashboard';
 
-export const IncomeSummary = ({ total }: { total: number }) => {
+export const IncomeSummary = ({ total, incomes }: { total: number; incomes: Income[] }) => {
   return (
-    <div className="mx-auto mt-6 w-full max-w-xl rounded-xl border bg-background p-6 shadow-sm">
+    <div className="mx-auto w-full max-w-xl rounded-xl border bg-background p-6 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -16,14 +17,7 @@ export const IncomeSummary = ({ total }: { total: number }) => {
           </div>
         </div>
 
-        <IncomeDrawer
-          trigger={
-            <button className="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm hover:bg-muted">
-              <Pencil className="h-4 w-4" />
-              Edit
-            </button>
-          }
-        />
+        <IncomeDrawer incomes={incomes} />
       </div>
     </div>
   );

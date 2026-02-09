@@ -12,7 +12,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { registerSchema } from '@/schemas/auth.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { useRegister } from '@/hooks/use-register';
 
@@ -24,7 +23,6 @@ interface RegisterFormState {
 
 export default function RegisterForm() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [form, setForm] = useState<RegisterFormState>({
     email: '',
     password: '',

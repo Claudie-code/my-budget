@@ -48,13 +48,13 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <section className="flex items-center w-full py-4 px-6 border-b">
+      <section className="flex flex-col lg:flex-row gap-4 items-center w-full py-4 px-6 border-b">
         {isLoading ? (
           <Skeleton className="h-10 w-32 mb-0" />
         ) : (
           <>
             <MonthSelector month={month} onChange={handleChangeMonth} />
-            <IncomeSummary total={totalIncome} />
+            <IncomeSummary total={totalIncome} incomes={incomes} />
           </>
         )}
       </section>
