@@ -14,6 +14,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { registerSchema } from '@/schemas/auth.schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
+import { useRegister } from '@/hooks/use-register';
 
 interface RegisterFormState {
   email: string;
@@ -32,30 +33,32 @@ export default function RegisterForm() {
 
   const [errors, setErrors] = useState<Partial<Record<keyof RegisterFormState, string>>>({});
 
+  const { mutate, isPending, isError, error } = useRegister();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setForm((prev) => ({ ...prev, [id]: value }));
   };
 
-  const registerMutation = useMutation({
-    mutationFn: async (data: RegisterFormState) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Registration failed');
-      }
-      return res.json() as Promise<{ token: string }>;
-    },
-    onSuccess: (data) => {
-      localStorage.setItem('token', data.token);
-      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-      navigate('/dashboard');
-    },
-  });
+  // const registerMutation = useMutation({
+  //   mutationFn: async (data: RegisterFormState) => {
+  //     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(data),
+  //     });
+  //     if (!res.ok) {
+  //       const err = await res.json();
+  //       throw new Error(err.error || 'Registration failed');
+  //     }
+  //     return res.json() as Promise<{ token: string }>;
+  //   },
+  //   onSuccess: (data) => {
+  //     localStorage.setItem('token', data.token);
+  //     queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+  //     navigate('/dashboard');
+  //   },
+  // });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,7 +74,14 @@ export default function RegisterForm() {
       return;
     }
 
-    registerMutation.mutate(parseResult.data);
+    mutate(parseResult.data, {
+      onSuccess: () => {
+        navigate('/dashboard');
+      },
+      onError: () => {
+        setErrors({ password: 'Registration failed. Please try again.' });
+      },
+    });
   };
 
   return (
@@ -137,15 +147,13 @@ export default function RegisterForm() {
               <Button
                 type="submit"
                 className="bg-orange-500 hover:bg-orange-400 text-white w-full"
-                disabled={registerMutation.isPending}
+                disabled={isPending}
               >
-                {registerMutation.isPending ? 'Registering...' : 'Register'}
+                {isPending ? 'Registering...' : 'Register'}
               </Button>
             </Field>
             <p className="text-sm text-red-500 mt-2">
-              {registerMutation.isError &&
-                registerMutation.error instanceof Error &&
-                registerMutation.error.message}
+              {isError && error instanceof Error && error.message}
             </p>
           </FieldGroup>
         </form>

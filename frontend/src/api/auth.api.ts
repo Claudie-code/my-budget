@@ -6,12 +6,16 @@ export interface LoginPayload {
 }
 
 export interface RegisterPayload {
-  name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 export interface LoginResponse {
+  token: string;
+}
+
+export interface RegisterResponse {
   token: string;
 }
 
@@ -26,6 +30,7 @@ export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
 /**
  * REGISTER
  */
-export const register = async (payload: RegisterPayload): Promise<void> => {
-  await api.post('/api/auth/register', payload);
+export const register = async (payload: RegisterPayload): Promise<RegisterResponse> => {
+  const res = await api.post('/api/auth/register', payload);
+  return res.data;
 };

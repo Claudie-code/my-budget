@@ -56,7 +56,7 @@ export default function LoginForm() {
       return;
     }
 
-    mutate(form, {
+    mutate(parseResult.data, {
       onSuccess: () => {
         navigate('/dashboard');
       },
