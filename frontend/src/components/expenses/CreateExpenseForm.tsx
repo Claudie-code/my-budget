@@ -1,57 +1,36 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { CirclePlus } from 'lucide-react';
+import { useCreateExpense } from '@/hooks/use-expenses';
 
 interface Props {
   envelopeId: number;
 }
 
 export function AddExpenseDialog({ envelopeId }: Props) {
-  const queryClient = useQueryClient();
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(0);
   const [open, setOpen] = useState(false);
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/expenses`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({
-          description,
-          amount,
-          envelopeId,
-        }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Failed to add expense');
-      }
-
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['envelopes'] });
-      toast.success('Expense added');
-      setDescription('');
-      setAmount(0);
-      setOpen(false);
-    },
-    onError: () => toast.error('Failed to add expense'),
-  });
+  const { mutate, isPending } = useCreateExpense();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!description || amount <= 0) return;
-    mutation.mutate();
+    mutate(
+      { description, amount, envelopeId },
+      {
+        onSuccess: () => {
+          setDescription('');
+          setAmount(0);
+          setOpen(false);
+        },
+        onError: () => toast.error('Failed to add expense'),
+      },
+    );
   };
 
   return (
@@ -86,8 +65,8 @@ export function AddExpenseDialog({ envelopeId }: Props) {
                 required
               />
 
-              <Button type="submit" className="w-full" disabled={mutation.isPending}>
-                {mutation.isPending ? 'Adding...' : 'Add expense'}
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? 'Adding...' : 'Add expense'}
               </Button>
             </form>
           </PopoverContent>

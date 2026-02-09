@@ -4,14 +4,14 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { CirclePlus } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useCreateEnvelope } from '@/hooks/use-create-envelope';
+import { useCreateEnvelope } from '@/hooks/use-envelopes';
 
 export default function CreateEnvelopeForm() {
   const [name, setName] = useState('');
   const [budget, setBudget] = useState<number>(0);
   const [open, setOpen] = useState(false);
 
-  const { mutate, isPending, isError } = useCreateEnvelope();
+  const { mutate, isPending } = useCreateEnvelope();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,8 +26,7 @@ export default function CreateEnvelopeForm() {
           setBudget(0);
           setOpen(false);
         },
-        onError: (error) => {
-          console.error('Error creating envelope:', error);
+        onError: () => {
           toast.error('Failed to create envelope');
         },
       },
