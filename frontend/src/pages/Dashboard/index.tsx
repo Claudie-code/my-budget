@@ -3,7 +3,6 @@ import CreateEnvelopeForm from '@/components/envelopes/CreateEnvelopeForm';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import EnvelopeList from '@/components/envelopes/EnvelopeList';
 import { useState } from 'react';
-import { Spinner } from '@/components/ui/spinner';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import EnvelopeDrawer from '@/components/envelopes/EnvelopeDrawer';
 import { IncomeSummary } from '@/components/incomes/IncomeSummary';
@@ -44,6 +43,9 @@ export default function Dashboard() {
 
   const totalIncome = data.incomes.reduce((sum, income) => sum + income.amount, 0);
 
+  const envelopes = data?.envelopes ?? [];
+  const incomes = data?.incomes ?? [];
+
   return (
     <DashboardLayout>
       <section className="flex items-center w-full py-4 px-6 border-b">
@@ -52,12 +54,12 @@ export default function Dashboard() {
         ) : (
           <>
             <MonthSelector month={month} onChange={handleChangeMonth} />
-            <IncomeSummary total={totalIncome} />{' '}
+            <IncomeSummary total={totalIncome} />
           </>
         )}
       </section>
       <div className="flex flex-1 min-h-0 overflow-hidden">
-        <section className={`${isMobile ? 'w-full' : 'w-1/3'} border-r overflow-y-auto py-4 px-6`}>
+        <section className={`${isMobile ? 'w-full' : 'w-2/4 border-r'} overflow-y-auto py-4 px-6`}>
           {isLoading ? (
             <div className="flex flex-col gap-4">
               {[...Array(5)].map((_, i) => (
@@ -68,14 +70,14 @@ export default function Dashboard() {
             <>
               <CreateEnvelopeForm />
               <EnvelopeList
-                envelopes={data.envelopes || []}
+                envelopes={envelopes}
                 selectedEnvelopeId={selectedEnvelope?.id}
                 handleSelectEnvelope={handleSelectEnvelope}
               />
             </>
           )}
         </section>
-        <section className="flex-1 overflow-y-auto py-4 px-6">
+        <section className="flex-1 overflow-y-auto py-4 px-6 bg-gray-50">
           {!isMobile && (
             <EnvelopeCard selectedEnvelope={selectedEnvelope} onCloseEnvelope={onCloseEnvelope} />
           )}

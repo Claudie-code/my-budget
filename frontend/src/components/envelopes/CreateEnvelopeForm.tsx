@@ -1,47 +1,37 @@
 import { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { CirclePlus } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useCreateEnvelope } from '@/hooks/use-create-envelope';
 
 export default function CreateEnvelopeForm() {
-  const queryClient = useQueryClient();
   const [name, setName] = useState('');
   const [budget, setBudget] = useState<number>(0);
   const [open, setOpen] = useState(false);
 
-  const createEnvelopeMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/envelopes`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({ name, budget }),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Failed to create envelope');
-      }
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['envelopes'] });
-      toast.success('Envelope created!');
-      setName('');
-      setBudget(0);
-      setOpen(false);
-    },
-    onError: () => toast.error('Failed to create envelope'),
-  });
+  const { mutate, isPending, isError } = useCreateEnvelope();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || budget <= 0) return;
-    createEnvelopeMutation.mutate();
+    if (!name || budget <= 0) return toast.error('Please enter a valid name and budget');
+
+    mutate(
+      { name, budget },
+      {
+        onSuccess: () => {
+          toast.success('Envelope created!');
+          setName('');
+          setBudget(0);
+          setOpen(false);
+        },
+        onError: (error) => {
+          console.error('Error creating envelope:', error);
+          toast.error('Failed to create envelope');
+        },
+      },
+    );
   };
 
   return (
@@ -76,8 +66,8 @@ export default function CreateEnvelopeForm() {
                 required
               />
 
-              <Button type="submit" className="w-full" disabled={createEnvelopeMutation.isPending}>
-                {createEnvelopeMutation.isPending ? 'Creating...' : 'Add envelope'}
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? 'Creating...' : 'Add envelope'}
               </Button>
             </form>
           </PopoverContent>

@@ -20,7 +20,7 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
   const percentUsed = (totalSpent / selectedEnvelope.budget) * 100;
 
   return (
-    <Card className="p-6 w-full">
+    <Card className="p-6 w-full shadow-none border-0">
       <CardHeader className="p-0">
         <div className="flex justify-between items-center mb-4 mt-2">
           <CardTitle className="text-xl font-semibold">{selectedEnvelope.name}</CardTitle>

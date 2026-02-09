@@ -1,5 +1,4 @@
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { Pencil } from 'lucide-react';
 import { IncomeList } from './IncomeList';
 import { IncomeForm } from './IncomeForm';
 
