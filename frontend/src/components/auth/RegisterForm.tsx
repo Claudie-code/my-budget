@@ -40,26 +40,6 @@ export default function RegisterForm() {
     setForm((prev) => ({ ...prev, [id]: value }));
   };
 
-  // const registerMutation = useMutation({
-  //   mutationFn: async (data: RegisterFormState) => {
-  //     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(data),
-  //     });
-  //     if (!res.ok) {
-  //       const err = await res.json();
-  //       throw new Error(err.error || 'Registration failed');
-  //     }
-  //     return res.json() as Promise<{ token: string }>;
-  //   },
-  //   onSuccess: (data) => {
-  //     localStorage.setItem('token', data.token);
-  //     queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-  //     navigate('/dashboard');
-  //   },
-  // });
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
