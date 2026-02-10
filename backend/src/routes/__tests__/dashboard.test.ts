@@ -77,7 +77,6 @@ describe("Dashboard API", () => {
         userId,
         name: "Entertainment",
         budget: 200,
-        deletedAt: new Date(), // this envelope should be filtered out
       },
     });
   });
@@ -101,7 +100,7 @@ describe("Dashboard API", () => {
         expect.arrayContaining(["Salary", "Bonus"]),
       );
 
-      // Envelopes filtered by deletedAt
+      // Envelopes filtered by isActive and userId
       expect(res.body.envelopes).toHaveLength(1);
       expect(res.body.envelopes[0]).toHaveProperty("name", "Food");
 

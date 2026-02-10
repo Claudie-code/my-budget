@@ -35,7 +35,7 @@ model Envelope {
   userId  Int
   user    User     @relation(fields: [userId], references: [id])
   expenses Expense[]
-  deletedAt DateTime? 
+  isActive Boolean  @default(true) 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }

@@ -60,25 +60,41 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-// Delete envelope
+// DELETE /envelopes/:id
 router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
   const { id } = req.params;
+  const userId = req.user!.userId;
 
   try {
-    const deleted = await prisma.envelope.deleteMany({
-      where: {
-        id: Number(id),
-        userId: req.user!.userId,
-      },
+    const envelope = await prisma.envelope.findUnique({
+      where: { id: Number(id) },
+      include: { expenses: true },
     });
 
-    if (deleted.count === 0) {
+    if (!envelope || envelope.userId !== userId) {
       return res.status(404).json({ error: "Envelope not found" });
     }
 
-    res.status(204).send();
+    if (envelope.expenses.length > 0) {
+      // Has expenses → soft deactivate
+      await prisma.envelope.update({
+        where: { id: Number(id) },
+        data: { isActive: false },
+      });
+
+      return res
+        .status(200)
+        .json({
+          message: "Envelope has expenses and has been deactivated instead",
+        });
+    }
+
+    // No expenses → hard delete
+    await prisma.envelope.delete({ where: { id: Number(id) } });
+    return res.status(204).send();
   } catch (err) {
-    res.status(404).json({ error: "Envelope not found" });
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
 });
 

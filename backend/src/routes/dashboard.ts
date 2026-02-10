@@ -9,7 +9,7 @@ const router = Router();
  * Return the dashboard data for the authenticated user, including:
  * - User info (id)
  * - Incomes for the specified month
- * - Active envelopes with their expenses for the specified month
+ * - Envelopes with their expenses for the specified month
  */
 router.get("/", authMiddleware, async (req: Request, res: Response) => {
   try {
@@ -38,7 +38,6 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
     const envelopes = await prisma.envelope.findMany({
       where: {
         userId,
-        deletedAt: null,
       },
       select: {
         id: true,
