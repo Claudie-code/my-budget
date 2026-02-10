@@ -82,11 +82,9 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
         data: { isActive: false },
       });
 
-      return res
-        .status(200)
-        .json({
-          message: "Envelope has expenses and has been deactivated instead",
-        });
+      return res.status(200).json({
+        message: "Envelope has expenses and has been deactivated instead",
+      });
     }
 
     // No expenses → hard delete
@@ -97,5 +95,35 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Server error" });
   }
 });
+
+// PATCH /envelopes/:id/activate
+router.patch(
+  "/:id/activate",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const userId = req.user!.userId;
+
+    try {
+      const envelope = await prisma.envelope.findUnique({
+        where: { id: Number(id) },
+      });
+
+      if (!envelope || envelope.userId !== userId) {
+        return res.status(404).json({ error: "Envelope not found" });
+      }
+
+      const updated = await prisma.envelope.update({
+        where: { id: Number(id) },
+        data: { isActive: true },
+      });
+
+      return res.status(200).json(updated);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Server error" });
+    }
+  },
+);
 
 export default router;
