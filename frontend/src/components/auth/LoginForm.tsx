@@ -12,7 +12,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '../ui/card';
 import { loginSchema } from '@/schemas/auth.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { useLogin } from '@/hooks/use-login';
 

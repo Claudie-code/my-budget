@@ -17,6 +17,7 @@ export interface Envelope {
   name: string;
   budget: number;
   expenses: Expense[];
+  isActive: boolean;
 }
 
 export interface DashboardData {

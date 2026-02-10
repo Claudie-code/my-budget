@@ -32,6 +32,14 @@ export const updateEnvelope = async (payload: UpdateEnvelopePayload): Promise<En
 /**
  * DELETE (soft delete)
  */
-export const deleteEnvelope = async (id: number): Promise<void> => {
-  await api.delete(`/api/envelopes/${id}`);
+export const deleteEnvelope = async (id: number): Promise<{ action?: string }> => {
+  const response = await api.delete(`/api/envelopes/${id}`);
+  return { action: response.data?.action };
+};
+
+/**
+ * ACTIVATE (reactivate)
+ */
+export const activateEnvelope = async (id: number): Promise<void> => {
+  await api.patch(`/api/envelopes/${id}/activate`);
 };

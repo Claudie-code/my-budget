@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useDeleteEnvelope } from '@/hooks/use-envelopes';
 import { Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
 
 interface Props {
   envelopeId: number;
@@ -9,32 +8,22 @@ interface Props {
 }
 
 export function DeleteEnvelopeButton({ envelopeId, onCloseEnvelope }: Props) {
-  const queryClient = useQueryClient();
+  const { mutate, isPending } = useDeleteEnvelope();
 
-  const deleteEnvelopeMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/envelopes/${envelopeId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      if (!res.ok) throw new Error('Failed to delete envelope');
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['envelopes'] });
-      onCloseEnvelope();
-      toast.success('Envelope deleted');
-    },
-    onError: () => toast.error('Delete failed'),
-  });
+  const handleSubmit = () => {
+    mutate(envelopeId, {
+      onSuccess: () => {
+        onCloseEnvelope();
+      },
+    });
+  };
 
   return (
     <Button
       size="icon"
       variant="ghost"
-      onClick={() => deleteEnvelopeMutation.mutate()}
-      disabled={deleteEnvelopeMutation.isPending}
+      onClick={handleSubmit}
+      disabled={isPending}
       className="text-red-500 hover:text-red-600 hover:bg-red-50"
     >
       <Trash2 className="h-4 w-4" />

@@ -1,13 +1,14 @@
 import { Wallet } from 'lucide-react';
 import { IncomeDrawer } from '@/components/incomes/IncomeDrawer';
 import { MonthSelector } from '@/components/dashboard/MonthSelector';
+import type { Income } from '@/types/dashboard';
 
 interface TopBarProps {
   month: string;
   onChangeMonth: (newMonth: string) => void;
   totalIncome: number;
   totalBudget: number;
-  incomes: any[];
+  incomes: Income[];
 }
 
 export const DashboardTopBar = ({

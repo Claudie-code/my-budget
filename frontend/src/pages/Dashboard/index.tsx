@@ -83,14 +83,14 @@ export default function Dashboard() {
             </>
           )}
         </section>
-        <section className="flex-1 overflow-y-auto py-4 px-6 bg-gray-50">
-          {!isMobile && (
+        {!isMobile && (
+          <section className="flex-1 overflow-y-auto py-4 px-6 bg-gray-50">
             <EnvelopeCard selectedEnvelope={selectedEnvelope} onCloseEnvelope={onCloseEnvelope} />
-          )}
-          {isMobile && selectedEnvelope && (
-            <EnvelopeDrawer envelope={selectedEnvelope} onClose={onCloseEnvelope} />
-          )}
-        </section>
+          </section>
+        )}
+        {isMobile && selectedEnvelope && (
+          <EnvelopeDrawer envelope={selectedEnvelope} onClose={onCloseEnvelope} />
+        )}
       </div>
     </DashboardLayout>
   );
