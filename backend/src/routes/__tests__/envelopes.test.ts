@@ -17,6 +17,7 @@ describe("Envelopes API", () => {
         password: "hashedpassword",
       },
     });
+
     userId = user.id;
 
     token = generateToken({ userId });
@@ -80,8 +81,47 @@ describe("Envelopes API", () => {
     });
   });
 
+  describe("DEACTIVE (no hard delete) if expense added", () => {
+    it("should soft deactivate the envelope when an expense is added", async () => {
+      // Add an expense to the envelope
+      await prisma.expense.create({
+        data: {
+          envelopeId,
+          description: "Test Expense",
+          amount: 100,
+          date: new Date(),
+        },
+      });
+      // Attempt to delete the envelope (should soft deactivate)
+      await request(app)
+        .delete(`/api/envelopes/${envelopeId}`)
+        .set("Authorization", `Bearer ${token}`);
+
+      // Fetch the envelope to check if it's deactivated
+      const resAfterExpense = await request(app)
+        .get(`/api/envelopes`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(resAfterExpense.status).toBe(200);
+      expect(resAfterExpense.body[0]).toHaveProperty("isActive", false);
+    });
+  });
+
+  describe("ACTIVE /api/envelopes/:id/activate", () => {
+    it("should reactivate a soft-deactivated envelope", async () => {
+      const res = await request(app)
+        .patch(`/api/envelopes/${envelopeId}/activate`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).toBe(200);
+    });
+  });
+
   describe("DELETE /api/envelopes/:id", () => {
     it("should delete the envelope", async () => {
+      // First delete the expense to allow hard deletion
+      await prisma.expense.deleteMany({ where: { envelopeId } });
+
       const res = await request(app)
         .delete(`/api/envelopes/${envelopeId}`)
         .set("Authorization", `Bearer ${token}`);

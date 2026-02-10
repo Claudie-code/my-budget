@@ -101,8 +101,9 @@ describe("Dashboard API", () => {
       );
 
       // Envelopes filtered by isActive and userId
-      expect(res.body.envelopes).toHaveLength(1);
+      expect(res.body.envelopes).toHaveLength(2);
       expect(res.body.envelopes[0]).toHaveProperty("name", "Food");
+      expect(res.body.envelopes[1]).toHaveProperty("name", "Entertainment");
 
       // Expenses filtered by date
       expect(res.body.envelopes[0].expenses).toHaveLength(2);
@@ -117,8 +118,9 @@ describe("Dashboard API", () => {
         .set("Authorization", `Bearer ${token}`);
       expect(res.status).toBe(200);
       expect(res.body.incomes).toHaveLength(0);
-      expect(res.body.envelopes).toHaveLength(1); // envelope "Food" exists but expenses none
+      expect(res.body.envelopes).toHaveLength(2); // both envelopes exist but no expenses in the filtered month
       expect(res.body.envelopes[0].expenses).toHaveLength(0);
+      expect(res.body.envelopes[1].expenses).toHaveLength(0);
     });
   });
 
