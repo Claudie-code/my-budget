@@ -5,11 +5,10 @@ import EnvelopeList from '@/components/envelopes/EnvelopeList';
 import { useState } from 'react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import EnvelopeDrawer from '@/components/envelopes/EnvelopeDrawer';
-import { IncomeSummary } from '@/components/incomes/IncomeSummary';
 import { useDashboard } from '@/hooks/use-dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
 import dayjs from 'dayjs';
-import { MonthSelector } from '@/components/dashboard/MonthSelector';
+import { DashboardTopBar } from '@/components/dashboard/DashboardTopBar';
 
 export default function Dashboard() {
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -46,7 +45,6 @@ export default function Dashboard() {
 
   const envelopes = data?.envelopes ?? [];
   const incomes = data?.incomes ?? [];
-  const unallocatedCash = totalIncome - envelopes.reduce((sum, e) => sum + e.budget, 0);
 
   return (
     <DashboardLayout>
@@ -54,10 +52,13 @@ export default function Dashboard() {
         {isLoading ? (
           <Skeleton className="h-10 w-32 mb-0" />
         ) : (
-          <>
-            <MonthSelector month={month} onChange={handleChangeMonth} />
-            <IncomeSummary incomes={incomes} unallocatedCash={unallocatedCash} />
-          </>
+          <DashboardTopBar
+            month={month}
+            onChangeMonth={handleChangeMonth}
+            totalIncome={totalIncome}
+            totalBudget={totalBudget}
+            incomes={incomes}
+          />
         )}
       </section>
       <div className="flex flex-1 min-h-0 overflow-hidden">
