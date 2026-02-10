@@ -42,24 +42,26 @@ export default function Dashboard() {
   const selectedEnvelope = data.envelopes?.find((e) => e.id === selectedEnvelopeId) || null;
 
   const totalIncome = data.incomes.reduce((sum, income) => sum + income.amount, 0);
+  const totalBudget = data.envelopes.reduce((sum, e) => sum + e.budget, 0);
 
   const envelopes = data?.envelopes ?? [];
   const incomes = data?.incomes ?? [];
+  const unallocatedCash = totalIncome - envelopes.reduce((sum, e) => sum + e.budget, 0);
 
   return (
     <DashboardLayout>
-      <section className="flex flex-col lg:flex-row gap-4 items-center w-full py-4 px-6 border-b">
+      <section className="flex flex-col lg:flex-row items-center w-full py-4 px-6 border-b">
         {isLoading ? (
           <Skeleton className="h-10 w-32 mb-0" />
         ) : (
           <>
             <MonthSelector month={month} onChange={handleChangeMonth} />
-            <IncomeSummary total={totalIncome} incomes={incomes} />
+            <IncomeSummary incomes={incomes} unallocatedCash={unallocatedCash} />
           </>
         )}
       </section>
       <div className="flex flex-1 min-h-0 overflow-hidden">
-        <section className={`${isMobile ? 'w-full' : 'w-2/4 border-r'} overflow-y-auto py-4 px-6`}>
+        <section className={`${isMobile ? 'w-full' : 'w-2/4 border-r'} overflow-y-auto`}>
           {isLoading ? (
             <div className="flex flex-col gap-4">
               {[...Array(5)].map((_, i) => (
@@ -68,7 +70,10 @@ export default function Dashboard() {
             </div>
           ) : (
             <>
-              <CreateEnvelopeForm />
+              <div className="flex items-center justify-between py-4 px-6">
+                <CreateEnvelopeForm />
+                <div className="text-sm font-medium ">Total: {totalBudget.toFixed(2)} $</div>
+              </div>
               <EnvelopeList
                 envelopes={envelopes}
                 selectedEnvelopeId={selectedEnvelope?.id}

@@ -4,6 +4,7 @@ import { DeleteEnvelopeButton } from './DeleteEnvelopeButton';
 import { ExpenseList } from '../expenses/ExpenseList';
 import { EditEnvelopeButton } from './EditEnvelopeButton';
 import type { Envelope } from '@/types/dashboard';
+import { Progress } from '@/components/ui/progress';
 
 interface Props {
   selectedEnvelope: Envelope | null;
@@ -16,15 +17,16 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
   }
 
   const totalSpent = selectedEnvelope.expenses.reduce((acc, e) => acc + e.amount, 0);
-  const remainingBudget = selectedEnvelope.budget - totalSpent;
-  const percentUsed = (totalSpent / selectedEnvelope.budget) * 100;
+  const remaining = selectedEnvelope.budget - totalSpent;
+  const percentUsed =
+    selectedEnvelope.budget > 0 ? (totalSpent / selectedEnvelope.budget) * 100 : 0;
 
   return (
     <Card className="p-6 w-full shadow-none border-0">
-      <CardHeader className="p-0">
-        <div className="flex justify-between items-center mb-4 mt-2">
+      <CardHeader className="p-0 mb-4">
+        <div className="flex justify-between items-center">
           <CardTitle className="text-xl font-semibold">{selectedEnvelope.name}</CardTitle>
-          <div className="">
+          <div className="flex gap-2">
             <EditEnvelopeButton
               envelopeId={selectedEnvelope.id}
               name={selectedEnvelope.name}
@@ -38,44 +40,37 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
         </div>
       </CardHeader>
 
-      {/* Progress Bar */}
+      {/* Progress bar */}
       <div className="mb-4">
-        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-          <div
-            className="bg-orange-500 h-3 rounded-full transition-all duration-300"
-            style={{ width: `${percentUsed}%` }}
-          />
-        </div>
+        <Progress value={percentUsed} className={`h-2 rounded-full`} />
         <p className="text-sm text-gray-600 mt-1">
-          {remainingBudget < 0
-            ? `You have exceeded your budget by $${Math.abs(remainingBudget).toFixed(2)}`
-            : `You have $${remainingBudget.toFixed(2)} remaining of your budget`}
+          {remaining < 0
+            ? `You have exceeded your budget by ${Math.abs(remaining).toFixed(2)} $`
+            : `${remaining.toFixed(2)} $ remaining`}
         </p>
       </div>
 
       {/* Budget summary */}
-      <div className="mt-4 space-y-1">
-        <div className="flex justify-between text-sm">
+      <div className="mt-4 space-y-1 text-sm">
+        <div className="flex justify-between">
           <span>Budget</span>
-          <span className="font-medium">${selectedEnvelope.budget.toFixed(2)}</span>
+          <span>{selectedEnvelope.budget.toFixed(2)} $</span>
         </div>
-        <div className="flex justify-between text-sm">
+        <div className="flex justify-between">
           <span>Total spent</span>
-          <span>${totalSpent.toFixed(2)}</span>
+          <span>{totalSpent.toFixed(2)} $</span>
         </div>
-
-        <div className="flex justify-between text-sm font-semibold">
+        <div className="flex justify-between font-semibold">
           <span>Remaining</span>
-          <span className={remainingBudget < 0 ? 'text-red-500' : 'text-green-600'}>
-            ${remainingBudget.toFixed(2)}
+          <span className={remaining < 0 ? 'text-red-500' : 'text-green-600'}>
+            {remaining.toFixed(2)} $
           </span>
         </div>
       </div>
 
-      {/* Expenses actions */}
-      <div className="flex flex-col gap-2 mt-2 border-t border-gray-200 pt-4">
+      {/* Expenses */}
+      <div className="flex flex-col gap-2 mt-4 border-t border-gray-200 pt-4">
         <AddExpenseDialog envelopeId={selectedEnvelope.id} />
-
         <ExpenseList expenses={selectedEnvelope.expenses} envelopeId={selectedEnvelope.id} />
       </div>
     </Card>

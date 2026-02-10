@@ -1,4 +1,6 @@
 import type { Envelope } from '@/types/dashboard';
+import { Progress } from '@/components/ui/progress';
+import { Field, FieldLabel } from '../ui/field';
 
 interface EnvelopeListProps {
   envelopes?: Envelope[];
@@ -15,22 +17,27 @@ export default function EnvelopeList({
     return <p className="text-gray-500 text-center mt-4">No envelopes yet</p>;
 
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto flex flex-col gap-2">
       {envelopes.map((envelope) => {
-        const totalAssigned = envelope.expenses.reduce((acc, e) => acc + e.amount, 0);
+        const spent = envelope.expenses.reduce((acc, e) => acc + e.amount, 0);
+        const remaining = envelope.budget - spent;
+        const percentUsed = envelope.budget > 0 ? (spent / envelope.budget) * 100 : 0;
         const isSelected = selectedEnvelopeId === envelope.id;
 
         return (
-          <div
+          <Field
             key={envelope.id}
-            className={`flex justify-between items-center p-2 cursor-pointer rounded-md transition ${
-              isSelected ? 'bg-orange-50 font-semibold' : 'hover:bg-muted/30'
-            }`}
+            className={`cursor-pointer py-4 px-6 gap-1 text-gray-600 transition ${isSelected ? 'bg-orange-50' : 'hover:bg-gray-100'}`}
             onClick={() => handleSelectEnvelope(envelope.id)}
           >
-            <span>{envelope.name}</span>
-            <span className="text-orange-500">${(envelope.budget - totalAssigned).toFixed(2)}</span>
-          </div>
+            <FieldLabel htmlFor={`progress-${envelope.id}`} className="cursor-pointer">
+              <span>{envelope.name}</span>
+              <span className="ml-auto">
+                {remaining.toFixed(2)} / {envelope.budget.toFixed(2)} $
+              </span>
+            </FieldLabel>
+            <Progress value={percentUsed} className={`h-1`} id={`progress-${envelope.id}`} />
+          </Field>
         );
       })}
     </div>

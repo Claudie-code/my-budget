@@ -35,7 +35,7 @@ export default function CreateEnvelopeForm() {
 
   return (
     <>
-      <div className="flex items-center mb-3">
+      <div className="flex items-center">
         <h2 className="text-lg font-semibold mr-1">Envelopes</h2>
 
         <Popover open={open} onOpenChange={setOpen}>
