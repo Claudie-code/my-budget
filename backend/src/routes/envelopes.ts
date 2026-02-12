@@ -82,14 +82,12 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
         data: { isActive: false },
       });
 
-      return res.status(200).json({
-        message: "Envelope has expenses and has been deactivated instead",
-      });
+      return res.status(200).json({ action: "DEACTIVATED" });
     }
 
     // No expenses → hard delete
     await prisma.envelope.delete({ where: { id: Number(id) } });
-    return res.status(204).send();
+    return res.status(204).json({ action: "DELETED" });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Server error" });

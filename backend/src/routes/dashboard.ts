@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import { prisma } from "../libs/prisma";
 import { authMiddleware } from "../middlewares/auth";
+import { computeDashboardData } from "services/dashboard.service";
+import { getMonthDateRange } from "@utils/date";
 
 const router = Router();
 
@@ -14,55 +16,50 @@ const router = Router();
 router.get("/", authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.userId;
-    const monthQuery = req.query.month as string; // "2026-02"
-    const [year, month] = monthQuery
-      ? monthQuery.split("-").map(Number)
-      : [new Date().getFullYear(), new Date().getMonth() + 1];
 
-    const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+    const { year, month, startDate, endDate } = getMonthDateRange(
+      req.query.month as string,
+    );
 
     const incomes = await prisma.income.findMany({
       where: {
         userId,
-        date: { gte: startDate, lte: endDate },
-      },
-      select: {
-        id: true,
-        description: true,
-        amount: true,
-        date: true,
+        date: {
+          gte: startDate,
+          lte: endDate,
+        },
       },
     });
 
     const envelopes = await prisma.envelope.findMany({
-      where: {
-        userId,
-      },
-      select: {
-        id: true,
-        name: true,
-        budget: true,
+      where: { userId },
+      include: {
         expenses: {
-          where: { date: { gte: startDate, lte: endDate } },
-          select: {
-            id: true,
-            description: true,
-            amount: true,
-            date: true,
+          where: {
+            date: {
+              gte: startDate,
+              lte: endDate,
+            },
           },
         },
       },
     });
 
+    const dashboardData = computeDashboardData(incomes, envelopes);
+
     res.json({
       user: { id: userId },
-      incomes,
-      envelopes,
+      month: `${year}-${String(month).padStart(2, "0")}`,
+      ...dashboardData,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
+
+    if (error instanceof Error && error.message === "Invalid month value") {
+      return res.status(400).json({ error: "Invalid month format" });
+    }
+
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
