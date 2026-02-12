@@ -31,10 +31,16 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu className="pt-10">
           <SidebarMenuItem>
-            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:p-1.5!">
-              <NavLink to="/" className="flex items-center gap-2">
-                <Wallet className="size-5!" />
-                <span className="text-base font-semibold text-foreground">MyBudget.</span>
+            <SidebarMenuButton
+              tooltip="dashboard"
+              asChild
+              className="data-[slot=sidebar-menu-button]:p-1.5! mt-3 mb-2"
+            >
+              <NavLink to="/dashboard" className="gap-2">
+                <div className="text-orange-600">
+                  <Wallet className="size-5!" />
+                </div>
+                <h1 className="text-2xl font-bold tracking-tight text-orange-600">MyBudget</h1>
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -49,12 +55,10 @@ export function AppSidebar() {
                 <SidebarMenuButton tooltip={item.name} asChild>
                   <NavLink to={item.to}>
                     {({ isActive }) => (
-                      <span
-                        className={`flex items-center gap-2 p-2 rounded-md hover:bg-accent/10 ${isActive ? ' bg-accent/20 font-semibold' : ''}`}
-                      >
+                      <>
                         {item.icon}
-                        {item.name}
-                      </span>
+                        <span className={`${isActive ? 'font-semibold' : ''}`}>{item.name}</span>
+                      </>
                     )}
                   </NavLink>
                 </SidebarMenuButton>

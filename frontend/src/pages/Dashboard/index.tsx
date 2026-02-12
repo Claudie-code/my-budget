@@ -41,7 +41,7 @@ export default function Dashboard() {
     );
   }
 
-  if (!isError || !data) {
+  if (isError || !data) {
     return (
       <DashboardLayout>
         <Alert variant="destructive" className="m-6 max-w-xl">

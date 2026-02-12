@@ -66,63 +66,52 @@ export default function LoginForm() {
   };
 
   return (
-    <Card>
-      <CardContent>
-        <form onSubmit={handleSubmit} noValidate>
-          <FieldGroup>
-            <FieldSet>
-              <FieldLegend>Account Information</FieldLegend>
-              <FieldDescription>Enter your credentials to log in</FieldDescription>
+    <form onSubmit={handleSubmit} noValidate>
+      <FieldGroup>
+        <FieldSet>
+          <div>
+            <h1 className="text-2xl font-bold mb-1">Welcome back!</h1>
+            <FieldDescription>Enter your credentials to log in</FieldDescription>
+          </div>
 
-              <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="email">Email</FieldLabel>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    className={errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}
-                  />
-                  <p className="text-sm text-destructive mt-1">{errors.email}</p>
-                </Field>
-
-                <Field>
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="********"
-                    value={form.password}
-                    onChange={handleChange}
-                    required
-                    className={errors.password ? 'border-red-500 focus-visible:ring-red-500' : ''}
-                  />
-                  <FieldDescription>Must be at least 8 characters</FieldDescription>
-                  <p className="text-sm text-destructive mt-1">{errors.password}</p>
-                </Field>
-              </FieldGroup>
-            </FieldSet>
-
-            <FieldSeparator />
-
-            <Field orientation="horizontal">
-              <Button
-                type="submit"
-                className="bg-orange-500 hover:bg-orange-400 text-white w-full"
-                disabled={isPending}
-              >
-                {isPending ? 'Signing in...' : 'Submit'}
-              </Button>
+          <div className="flex flex-col gap-4">
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={handleChange}
+                required
+                className={errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              />
+              <p className="text-sm text-destructive mt-1">{errors.email}</p>
             </Field>
-            <p className="text-sm text-red-500 mt-2">
-              {isError && error instanceof Error && error.message}
-            </p>
-          </FieldGroup>
-        </form>
-      </CardContent>
-    </Card>
+
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <Input
+                id="password"
+                type="password"
+                placeholder="********"
+                value={form.password}
+                onChange={handleChange}
+                required
+                className={errors.password ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              />
+              <FieldDescription>Must be at least 8 characters</FieldDescription>
+              <p className="text-sm text-destructive mt-1">{errors.password}</p>
+            </Field>
+          </div>
+        </FieldSet>
+      </FieldGroup>
+      <Button type="submit" className="w-full mt-7 cursor-pointer" disabled={isPending}>
+        {isPending ? 'Signing in...' : 'Submit'}
+      </Button>
+      <p className="text-sm text-red-500 mt-2 mb-1">
+        {isError && error instanceof Error && error.message}
+      </p>
+    </form>
   );
 }
