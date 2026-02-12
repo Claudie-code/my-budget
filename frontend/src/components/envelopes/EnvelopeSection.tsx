@@ -6,6 +6,7 @@ interface EnvelopeSectionProps {
   envelopes: Envelope[];
   selectedEnvelopeId?: number;
   handleSelectEnvelope: (id: number) => void;
+  totalBudgeted: number;
 }
 
 const TotalBudget = ({ total }: { total: number }) => (
@@ -15,15 +16,14 @@ const TotalBudget = ({ total }: { total: number }) => (
 export const EnvelopeSection = ({
   envelopes,
   selectedEnvelopeId,
+  totalBudgeted,
   handleSelectEnvelope,
 }: EnvelopeSectionProps) => {
-  const totalBudget = envelopes.reduce((sum, e) => sum + e.budget, 0);
-
   return (
     <section className="flex-1 overflow-y-auto border-r max-w-2/4">
       <div className="flex items-center justify-between py-4 px-6">
         <CreateEnvelopeForm />
-        <TotalBudget total={totalBudget} />
+        <TotalBudget total={totalBudgeted} />
       </div>
       <EnvelopeList
         envelopes={envelopes}

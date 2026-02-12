@@ -18,12 +18,20 @@ export interface Envelope {
   budget: number;
   expenses: Expense[];
   isActive: boolean;
+  spent: number;
+  available: number;
+  isOverspent: boolean;
 }
 
 export interface DashboardData {
   user: {
     id: number;
   };
+  totalIncome: number;
+  totalBudgeted: number;
+  totalSpent: number;
+  totalAvailable: number;
+  readyToAssign: number;
   incomes: Income[];
   envelopes: Envelope[];
 }

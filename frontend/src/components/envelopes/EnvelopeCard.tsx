@@ -16,8 +16,8 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
     return <p className="text-gray-500 text-center pt-6">Select an envelope to see details</p>;
   }
 
-  const totalSpent = selectedEnvelope.expenses.reduce((acc, e) => acc + e.amount, 0);
-  const remaining = selectedEnvelope.budget - totalSpent;
+  const totalSpent = selectedEnvelope.spent;
+  const remaining = selectedEnvelope.available;
   const percentUsed =
     selectedEnvelope.budget > 0 ? (totalSpent / selectedEnvelope.budget) * 100 : 0;
 
@@ -62,7 +62,7 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
         </div>
         <div className="flex justify-between font-semibold">
           <span>Remaining</span>
-          <span className={remaining < 0 ? 'text-red-500' : 'text-green-600'}>
+          <span className={selectedEnvelope.isOverspent ? 'text-red-500' : 'text-green-600'}>
             {remaining.toFixed(2)} $
           </span>
         </div>

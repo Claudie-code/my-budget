@@ -7,7 +7,7 @@ interface TopBarProps {
   month: string;
   onChangeMonth: (newMonth: string) => void;
   totalIncome: number;
-  totalBudget: number;
+  readyToAssign: number;
   incomes: Income[];
 }
 
@@ -15,11 +15,9 @@ export const DashboardTopBar = ({
   month,
   onChangeMonth,
   totalIncome,
-  totalBudget,
+  readyToAssign,
   incomes,
 }: TopBarProps) => {
-  const unallocatedCash = totalIncome - totalBudget;
-
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full py-4">
       {/* Left: Month Selector */}
@@ -27,10 +25,10 @@ export const DashboardTopBar = ({
         <MonthSelector month={month} onChange={onChangeMonth} />
       </div>
 
-      {/* Center: Cash Available */}
+      {/* Center: Ready to assigned */}
       <div className="flex-1 flex flex-col items-center text-sm text-gray-500">
-        <span className="font-medium text-2xl">{unallocatedCash.toFixed(2)} $</span>
-        <span className="">Cash Available</span>
+        <span className="font-medium text-2xl">{readyToAssign.toFixed(2)} $</span>
+        <span className="">Ready to assigned</span>
       </div>
 
       {/* Right: Income */}

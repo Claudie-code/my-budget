@@ -16,16 +16,6 @@ export default function Dashboard() {
 
   const { data, isLoading, isError } = useDashboard(month);
 
-  const totalIncome = useMemo(
-    () => data?.incomes.reduce((sum, i) => sum + i.amount, 0) ?? 0,
-    [data?.incomes],
-  );
-
-  const totalBudget = useMemo(
-    () => data?.envelopes.reduce((sum, e) => sum + e.budget, 0) ?? 0,
-    [data?.envelopes],
-  );
-
   const onCloseEnvelope = () => setSelectedEnvelopeId(null);
   const handleSelectEnvelope = (id: number) => setSelectedEnvelopeId(id);
   const handleChangeMonth = (newMonth: string) => {
@@ -56,15 +46,15 @@ export default function Dashboard() {
   const envelopes = data.envelopes ?? [];
   const incomes = data.incomes ?? [];
   const selectedEnvelope = envelopes.find((e) => e.id === selectedEnvelopeId) || null;
-
+  console.log('data', data);
   return (
     <DashboardLayout>
       <section className="flex flex-col lg:flex-row items-center w-full py-4 px-6 border-b">
         <DashboardTopBar
           month={month}
           onChangeMonth={handleChangeMonth}
-          totalIncome={totalIncome}
-          totalBudget={totalBudget}
+          totalIncome={data.totalIncome}
+          readyToAssign={data.readyToAssign}
           incomes={incomes}
         />
       </section>
@@ -72,6 +62,7 @@ export default function Dashboard() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <EnvelopeSection
           envelopes={envelopes}
+          totalBudgeted={data.totalBudgeted}
           selectedEnvelopeId={selectedEnvelope?.id}
           handleSelectEnvelope={handleSelectEnvelope}
         />
