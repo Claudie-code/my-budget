@@ -9,8 +9,8 @@ export interface CreateExpensePayload {
 
 export interface UpdateExpensePayload {
   id: number;
-  description?: string;
-  amount?: number;
+  description: string;
+  amount: number;
 }
 
 /**
@@ -31,7 +31,7 @@ export const updateExpense = async (payload: UpdateExpensePayload): Promise<Expe
 };
 
 /**
- * DELETE (soft delete)
+ * DELETE
  */
 export const deleteExpense = async (id: number): Promise<void> => {
   await api.delete(`/api/expenses/${id}`);

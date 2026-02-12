@@ -11,6 +11,7 @@ export const useCreateExpense = () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success('Expense added');
     },
+    onError: () => toast.error('Failed to add expense'),
   });
 };
 
@@ -23,6 +24,7 @@ export const useEditExpense = () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success('Expense updated');
     },
+    onError: () => toast.error('Failed to update expense'),
   });
 };
 
@@ -35,5 +37,6 @@ export const useDeleteExpense = () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success('Expense deleted');
     },
+    onError: () => toast.error('Failed to delete expense'),
   });
 };

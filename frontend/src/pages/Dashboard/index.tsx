@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { useDashboard } from '@/hooks/use-dashboard';
@@ -46,7 +46,7 @@ export default function Dashboard() {
   const envelopes = data.envelopes ?? [];
   const incomes = data.incomes ?? [];
   const selectedEnvelope = envelopes.find((e) => e.id === selectedEnvelopeId) || null;
-  console.log('data', data);
+
   return (
     <DashboardLayout>
       <section className="flex flex-col lg:flex-row items-center w-full py-4 px-6 border-b">

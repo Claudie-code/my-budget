@@ -1,37 +1,37 @@
-const API_URL = import.meta.env.VITE_API_URL;
+import { api } from '@/lib/api';
+import type { Income } from '@/types/dashboard';
 
-export function authHeaders() {
-  const token = localStorage.getItem('token');
-  return {
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json',
-  };
+export interface CreateIncomePayload {
+  description: string;
+  amount: number;
 }
 
-export const incomesApi = {
-  getAll: async () => {
-    const res = await fetch(`${API_URL}/api/incomes`, {
-      headers: authHeaders(),
-    });
-    if (!res.ok) throw new Error('Failed to fetch incomes');
-    return res.json();
-  },
+export interface UpdateIncomePayload {
+  id: number;
+  description: string;
+  amount: number;
+}
 
-  create: async (data: { description: string; amount: number }) => {
-    const res = await fetch(`${API_URL}/api/incomes`, {
-      method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) throw new Error('Failed to create income');
-    return res.json();
-  },
+/**
+ * CREATE
+ */
+export const createIncome = async (payload: CreateIncomePayload): Promise<Income> => {
+  const { data } = await api.post('/api/incomes', payload);
+  return data;
+};
 
-  delete: async (id: number) => {
-    const res = await fetch(`${API_URL}/api/incomes/${id}`, {
-      method: 'DELETE',
-      headers: authHeaders(),
-    });
-    if (!res.ok) throw new Error('Failed to delete income');
-  },
+/**
+ * UPDATE
+ */
+export const updateIncome = async (payload: UpdateIncomePayload): Promise<Income> => {
+  const { id, ...body } = payload;
+  const { data } = await api.put(`/api/incomes/${id}`, body);
+  return data;
+};
+
+/**
+ * DELETE
+ */
+export const deleteIncome = async (id: number): Promise<void> => {
+  await api.delete(`/api/incomes/${id}`);
 };

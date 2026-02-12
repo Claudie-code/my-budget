@@ -9,7 +9,9 @@ export const useCreateEnvelope = () => {
     mutationFn: createEnvelope,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('Envelope created');
     },
+    onError: () => toast.error('Failed to add envelope'),
   });
 };
 
@@ -28,6 +30,7 @@ export const useDeleteEnvelope = () => {
         toast.success('Envelope deleted');
       }
     },
+    onError: () => toast.error('Failed to delete envelope'),
   });
 };
 

@@ -10,7 +10,7 @@ export const IncomeDrawer = ({ incomes }: { incomes: Income[] }) => {
       <DrawerTrigger asChild>
         <button className="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm hover:bg-muted">
           <Pencil className="h-4 w-4" />
-          Edit
+          Manage
         </button>
       </DrawerTrigger>
 

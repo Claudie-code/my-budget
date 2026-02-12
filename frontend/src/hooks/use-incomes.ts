@@ -1,31 +1,42 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { incomesApi } from '@/api/incomes.api';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createIncome, deleteIncome, updateIncome } from '@/api/incomes.api';
+import { toast } from 'sonner';
 
-export function useIncomes() {
+export const useCreateIncome = () => {
   const queryClient = useQueryClient();
 
-  const incomesQuery = useQuery({
-    queryKey: ['incomes'],
-    queryFn: incomesApi.getAll,
-  });
-
-  const createIncome = useMutation({
-    mutationFn: incomesApi.create,
+  return useMutation({
+    mutationFn: createIncome,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('Income added');
     },
+    onError: () => toast.error('Failed to add income'),
   });
+};
 
-  const deleteIncome = useMutation({
-    mutationFn: incomesApi.delete,
+export const useEditIncome = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateIncome,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('Income updated');
     },
+    onError: () => toast.error('Failed to update income'),
   });
+};
 
-  return {
-    incomesQuery,
-    createIncome,
-    deleteIncome,
-  };
-}
+export const useDeleteIncome = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteIncome,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('Income deleted');
+    },
+    onError: () => toast.error('Failed to delete income'),
+  });
+};
