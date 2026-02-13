@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from '@/components/ui/field';
+import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '../ui/card';
 import { loginSchema } from '@/schemas/auth.schema';
 import { useNavigate } from 'react-router';
 import { useLogin } from '@/hooks/use-login';

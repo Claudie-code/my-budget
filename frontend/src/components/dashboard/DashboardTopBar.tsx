@@ -1,4 +1,3 @@
-import { Wallet } from 'lucide-react';
 import { IncomeDrawer } from '@/components/incomes/IncomeDrawer';
 import { MonthSelector } from '@/components/dashboard/MonthSelector';
 import type { Income } from '@/types/dashboard';

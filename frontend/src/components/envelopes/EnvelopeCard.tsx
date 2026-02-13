@@ -5,6 +5,7 @@ import { ExpenseList } from '../expenses/ExpenseList';
 import { EditEnvelopeButton } from './EditEnvelopeButton';
 import type { Envelope } from '@/types/dashboard';
 import { Progress } from '@/components/ui/progress';
+import { EnvelopeSummary } from './EnvelopeSummary';
 
 interface Props {
   selectedEnvelope: Envelope | null;
@@ -50,23 +51,11 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
         </p>
       </div>
 
-      {/* Budget summary */}
-      <div className="mt-4 space-y-1 text-sm">
-        <div className="flex justify-between">
-          <span>Budget</span>
-          <span>{selectedEnvelope.budget.toFixed(2)} $</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Total spent</span>
-          <span>{totalSpent.toFixed(2)} $</span>
-        </div>
-        <div className="flex justify-between font-semibold">
-          <span>Remaining</span>
-          <span className={selectedEnvelope.isOverspent ? 'text-red-500' : 'text-green-600'}>
-            {remaining.toFixed(2)} $
-          </span>
-        </div>
-      </div>
+      <EnvelopeSummary
+        selectedEnvelope={selectedEnvelope}
+        totalSpent={totalSpent}
+        remaining={remaining}
+      />
 
       {/* Expenses */}
       <div className="flex flex-col gap-2 mt-4 border-t border-gray-200 pt-4">
