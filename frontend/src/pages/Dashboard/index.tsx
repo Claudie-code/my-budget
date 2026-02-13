@@ -8,6 +8,7 @@ import { EnvelopeSection } from '@/components/envelopes/EnvelopeSection';
 import { EnvelopeDetail } from '@/components/envelopes/EnvelopeDetail';
 import { DashboardSkeleton } from '@/components/dashboard/DashboardSkeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { EnvelopesProvider } from '@/providers/EnvelopesProvider';
 
 export default function Dashboard() {
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -49,29 +50,30 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <section className="flex flex-col lg:flex-row items-center w-full py-4 px-6 border-b">
-        <DashboardTopBar
-          month={month}
-          onChangeMonth={handleChangeMonth}
-          totalIncome={data.totalIncome}
-          readyToAssign={data.readyToAssign}
-          incomes={incomes}
-        />
-      </section>
+      <EnvelopesProvider envelopes={envelopes}>
+        <section className="flex flex-col lg:flex-row items-center w-full py-4 px-6 border-b">
+          <DashboardTopBar
+            month={month}
+            onChangeMonth={handleChangeMonth}
+            totalIncome={data.totalIncome}
+            readyToAssign={data.readyToAssign}
+            incomes={incomes}
+          />
+        </section>
 
-      <div className="flex flex-1 min-h-0 overflow-hidden">
-        <EnvelopeSection
-          envelopes={envelopes}
-          totalBudgeted={data.totalBudgeted}
-          selectedEnvelopeId={selectedEnvelope?.id}
-          handleSelectEnvelope={handleSelectEnvelope}
-        />
-        <EnvelopeDetail
-          selectedEnvelope={selectedEnvelope}
-          onCloseEnvelope={onCloseEnvelope}
-          isMobile={isMobile}
-        />
-      </div>
+        <div className="flex flex-1 min-h-0 overflow-hidden">
+          <EnvelopeSection
+            totalBudgeted={data.totalBudgeted}
+            selectedEnvelopeId={selectedEnvelope?.id}
+            handleSelectEnvelope={handleSelectEnvelope}
+          />
+          <EnvelopeDetail
+            selectedEnvelope={selectedEnvelope}
+            onCloseEnvelope={onCloseEnvelope}
+            isMobile={isMobile}
+          />
+        </div>
+      </EnvelopesProvider>
     </DashboardLayout>
   );
 }

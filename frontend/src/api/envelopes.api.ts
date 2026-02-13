@@ -8,8 +8,14 @@ export interface CreateEnvelopePayload {
 
 export interface UpdateEnvelopePayload {
   id: number;
-  name?: string;
-  budget?: number;
+  name: string;
+  budget: number;
+}
+
+interface TransferPayload {
+  fromId: number;
+  toId: number;
+  amount: number;
 }
 
 /**
@@ -42,4 +48,8 @@ export const deleteEnvelope = async (id: number): Promise<{ action?: string }> =
  */
 export const activateEnvelope = async (id: number): Promise<void> => {
   await api.patch(`/api/envelopes/${id}/activate`);
+};
+
+export const transferEnvelope = async (payload: TransferPayload): Promise<void> => {
+  await api.post('/api/envelopes/transfer', payload);
 };

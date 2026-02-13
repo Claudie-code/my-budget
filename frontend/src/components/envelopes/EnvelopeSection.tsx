@@ -1,9 +1,7 @@
 import CreateEnvelopeForm from '@/components/envelopes/CreateEnvelopeForm';
 import EnvelopeList from '@/components/envelopes/EnvelopeList';
-import type { Envelope } from '@/types/dashboard';
 
 interface EnvelopeSectionProps {
-  envelopes: Envelope[];
   selectedEnvelopeId?: number;
   handleSelectEnvelope: (id: number) => void;
   totalBudgeted: number;
@@ -14,7 +12,6 @@ const TotalBudget = ({ total }: { total: number }) => (
 );
 
 export const EnvelopeSection = ({
-  envelopes,
   selectedEnvelopeId,
   totalBudgeted,
   handleSelectEnvelope,
@@ -26,7 +23,6 @@ export const EnvelopeSection = ({
         <TotalBudget total={totalBudgeted} />
       </div>
       <EnvelopeList
-        envelopes={envelopes}
         selectedEnvelopeId={selectedEnvelopeId}
         handleSelectEnvelope={handleSelectEnvelope}
       />

@@ -16,7 +16,11 @@ export function EnvelopeSummary({ selectedEnvelope, totalSpent, remaining }: Env
       <BudgetRow label="Budget" value={selectedEnvelope.budget.toFixed(2) + ' $'} />
       <BudgetRow label="Total spent" value={totalSpent.toFixed(2) + ' $'} isNegative />
       <div className="border-t" />
-      <RemainingRow remaining={remaining} isOverspent={isOverspent} />
+      <RemainingRow
+        remaining={remaining}
+        isOverspent={isOverspent}
+        selectedEnvelopeId={selectedEnvelope.id}
+      />
     </div>
   );
 }

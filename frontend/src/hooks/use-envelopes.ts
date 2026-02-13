@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { activateEnvelope, createEnvelope, deleteEnvelope } from '@/api/envelopes.api';
+import {
+  activateEnvelope,
+  createEnvelope,
+  deleteEnvelope,
+  transferEnvelope,
+} from '@/api/envelopes.api';
 import { toast } from 'sonner';
 
 export const useCreateEnvelope = () => {
@@ -44,5 +49,20 @@ export const useActivateEnvelope = () => {
       toast.success('Envelope reactivated');
     },
     onError: () => toast.error('Failed to reactivate envelope'),
+  });
+};
+
+export const useTransferEnvelope = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: transferEnvelope,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('Transfer successful!');
+    },
+    onError: (err: any) => {
+      toast.error(err?.message || 'Transfer failed');
+    },
   });
 };

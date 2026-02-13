@@ -3,19 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Field, FieldLabel, FieldError } from '@/components/ui/field';
 import { useCreateIncome } from '@/hooks/use-incomes';
-import { z } from 'zod';
+import { incomeSchema } from '@/schemas/incomes.schema';
 
 interface IncomeFormState {
   description: string;
   amount: string;
 }
-
-const incomeSchema = z.object({
-  description: z.string().min(1, 'Description is required'),
-  amount: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: 'Amount must be greater than 0',
-  }),
-});
 
 export function IncomeForm() {
   const [form, setForm] = useState<IncomeFormState>({ description: '', amount: '' });

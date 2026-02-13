@@ -2,18 +2,19 @@ import type { Envelope } from '@/types/dashboard';
 import { Progress } from '@/components/ui/progress';
 import { Field, FieldLabel } from '../ui/field';
 import InactiveEnvelopeItem from './InactiveEnvelopeItem';
+import { useEnvelopes } from '@/providers/EnvelopesProvider';
 
 interface EnvelopeListProps {
-  envelopes?: Envelope[];
   selectedEnvelopeId?: number;
   handleSelectEnvelope: (id: number) => void;
 }
 
 export default function EnvelopeList({
-  envelopes,
   selectedEnvelopeId,
   handleSelectEnvelope,
 }: EnvelopeListProps) {
+  const envelopes = useEnvelopes();
+
   if (!envelopes || !envelopes.length)
     return <p className="text-gray-500 text-center mt-4">No envelopes yet</p>;
 
