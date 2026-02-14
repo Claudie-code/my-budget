@@ -8,45 +8,62 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  incomes   Income[]
-  envelopes Envelope[]
-}
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  password   String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 
-model Income {
-  id        Int      @id @default(autoincrement())
-  amount    Float
-  description String
-  date        DateTime @default(now())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())  
-  updatedAt DateTime @updatedAt
+  envelopes  Envelope[]
+  transactions Transaction[]
 }
 
 model Envelope {
-  id      Int      @id @default(autoincrement())
-  name    String
-  budget  Float
-  userId  Int
-  user    User     @relation(fields: [userId], references: [id])
-  expenses Expense[]
-  isActive Boolean  @default(true) 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         Int        @id @default(autoincrement())
+  name       String
+  budget     Float
+  userId     Int
+  user       User       @relation(fields: [userId], references: [id])
+  isActive   Boolean    @default(true)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  transactions    Transaction[]
+  budgetMovements BudgetMovement[]
 }
 
-model Expense {
-  id         Int      @id @default(autoincrement())
-  description String  @default("")
-  amount     Float
-  date       DateTime @default(now())
-  envelopeId Int
+model Transaction {
+  id          Int       @id @default(autoincrement())
+  type        TransactionType
+  amount      Float
+  description String
+  date        DateTime  @default(now())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  envelopeId  Int?
+  envelope    Envelope? @relation(fields: [envelopeId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+model BudgetMovement {
+  id          Int      @id @default(autoincrement())
+  envelopeId  Int
   envelope    Envelope @relation(fields: [envelopeId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  amount      Float
+  type        BudgetMovementType
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum BudgetMovementType {
+  ALLOCATION   
+  REALLOCATION 
 }

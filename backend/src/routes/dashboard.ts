@@ -50,6 +50,7 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
     res.json({
       user: { id: userId },
       month: `${year}-${String(month).padStart(2, "0")}`,
+      incomes,
       ...dashboardData,
     });
   } catch (error) {
