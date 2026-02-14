@@ -52,9 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Income: 'Income',
   Envelope: 'Envelope',
-  Expense: 'Expense'
+  Transaction: 'Transaction',
+  BudgetMovement: 'BudgetMovement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -84,19 +84,6 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const IncomeScalarFieldEnum = {
-  id: 'id',
-  amount: 'amount',
-  description: 'description',
-  date: 'date',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
-
-
 export const EnvelopeScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -110,17 +97,32 @@ export const EnvelopeScalarFieldEnum = {
 export type EnvelopeScalarFieldEnum = (typeof EnvelopeScalarFieldEnum)[keyof typeof EnvelopeScalarFieldEnum]
 
 
-export const ExpenseScalarFieldEnum = {
+export const TransactionScalarFieldEnum = {
   id: 'id',
-  description: 'description',
+  type: 'type',
   amount: 'amount',
+  description: 'description',
   date: 'date',
+  userId: 'userId',
   envelopeId: 'envelopeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const BudgetMovementScalarFieldEnum = {
+  id: 'id',
+  envelopeId: 'envelopeId',
+  amount: 'amount',
+  type: 'type',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BudgetMovementScalarFieldEnum = (typeof BudgetMovementScalarFieldEnum)[keyof typeof BudgetMovementScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -137,4 +139,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

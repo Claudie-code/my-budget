@@ -10,8 +10,8 @@ const router = Router();
  * GET /dashboard?month=YYYY-MM
  * Return the dashboard data for the authenticated user, including:
  * - User info (id)
- * - Incomes for the specified month
- * - Envelopes with their expenses for the specified month
+ * - Transactions for the specified month
+ * - Envelopes with their transactions and budget movements
  */
 router.get("/", authMiddleware, async (req: Request, res: Response) => {
   try {
@@ -21,7 +21,7 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
       req.query.month as string,
     );
 
-    const incomes = await prisma.income.findMany({
+    const transactions = await prisma.transaction.findMany({
       where: {
         userId,
         date: {
@@ -33,24 +33,15 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
 
     const envelopes = await prisma.envelope.findMany({
       where: { userId },
-      include: {
-        expenses: {
-          where: {
-            date: {
-              gte: startDate,
-              lte: endDate,
-            },
-          },
-        },
-      },
+      include: { budgetMovements: true },
     });
 
-    const dashboardData = computeDashboardData(incomes, envelopes);
+    const dashboardData = computeDashboardData(transactions, envelopes);
 
     res.json({
       user: { id: userId },
       month: `${year}-${String(month).padStart(2, "0")}`,
-      incomes,
+      transactions,
       ...dashboardData,
     });
   } catch (error) {

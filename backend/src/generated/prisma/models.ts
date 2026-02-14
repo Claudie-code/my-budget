@@ -9,7 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
-export type * from './models/Income'
 export type * from './models/Envelope'
-export type * from './models/Expense'
+export type * from './models/Transaction'
+export type * from './models/BudgetMovement'
 export type * from './commonInputTypes'

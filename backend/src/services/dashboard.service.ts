@@ -1,31 +1,59 @@
-import type { Envelope, Expense, Income } from "generated/prisma/client";
+import type {
+  Envelope,
+  BudgetMovement,
+  Transaction,
+} from "generated/prisma/client";
 
-export function computeEnvelope(envelope: Envelope & { expenses: Expense[] }) {
-  const spent = envelope.expenses.reduce(
-    (sum, expense) => sum + expense.amount,
+type EnvelopeWithMovements = Envelope & { budgetMovements: BudgetMovement[] };
+
+export function computeEnvelope(
+  envelope: EnvelopeWithMovements,
+  transactions: Transaction[],
+) {
+  const envelopeTransactions = transactions.filter(
+    (t) => t.envelopeId === envelope.id,
+  );
+
+  const spent = envelopeTransactions
+    .filter((t) => t.type === "EXPENSE")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const incomeFromMovements = envelopeTransactions
+    .filter((t) => t.type === "INCOME")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const budgetMovementSum = envelope.budgetMovements.reduce(
+    (sum, m) => sum + m.amount,
     0,
   );
 
-  const available = envelope.budget - spent;
+  const totalBudget = envelope.budget + budgetMovementSum + incomeFromMovements;
+
+  const available = totalBudget - spent;
 
   return {
     ...envelope,
     spent,
+    totalBudget,
     available,
     isOverspent: available < 0,
   };
 }
 
 export function computeDashboardData(
-  incomes: Income[],
-  envelopes: (Envelope & { expenses: Expense[] })[],
+  transactions: Transaction[],
+  envelopes: EnvelopeWithMovements[],
 ) {
-  const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
+  const totalIncome = transactions
+    .filter((t) => t.type === "INCOME")
+    .reduce((sum, t) => sum + t.amount, 0);
 
-  const computedEnvelopes = envelopes.map(computeEnvelope);
+  const computedEnvelopes = envelopes.map((env) =>
+    computeEnvelope(env, transactions),
+  );
 
   const totalBudgeted = computedEnvelopes.reduce(
-    (sum, env) => sum + env.budget,
+    (sum, env) => sum + env.totalBudget,
     0,
   );
 

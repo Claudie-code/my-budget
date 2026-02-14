@@ -241,7 +241,8 @@ export type EnvelopeWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  expenses?: Prisma.ExpenseListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
+  budgetMovements?: Prisma.BudgetMovementListRelationFilter
 }
 
 export type EnvelopeOrderByWithRelationInput = {
@@ -253,7 +254,8 @@ export type EnvelopeOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  expenses?: Prisma.ExpenseOrderByRelationAggregateInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  budgetMovements?: Prisma.BudgetMovementOrderByRelationAggregateInput
 }
 
 export type EnvelopeWhereUniqueInput = Prisma.AtLeast<{
@@ -268,7 +270,8 @@ export type EnvelopeWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  expenses?: Prisma.ExpenseListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
+  budgetMovements?: Prisma.BudgetMovementListRelationFilter
 }, "id">
 
 export type EnvelopeOrderByWithAggregationInput = {
@@ -306,7 +309,8 @@ export type EnvelopeCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEnvelopesInput
-  expenses?: Prisma.ExpenseCreateNestedManyWithoutEnvelopeInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutEnvelopeInput
+  budgetMovements?: Prisma.BudgetMovementCreateNestedManyWithoutEnvelopeInput
 }
 
 export type EnvelopeUncheckedCreateInput = {
@@ -317,7 +321,8 @@ export type EnvelopeUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutEnvelopeInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutEnvelopeInput
+  budgetMovements?: Prisma.BudgetMovementUncheckedCreateNestedManyWithoutEnvelopeInput
 }
 
 export type EnvelopeUpdateInput = {
@@ -327,7 +332,8 @@ export type EnvelopeUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEnvelopesNestedInput
-  expenses?: Prisma.ExpenseUpdateManyWithoutEnvelopeNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutEnvelopeNestedInput
+  budgetMovements?: Prisma.BudgetMovementUpdateManyWithoutEnvelopeNestedInput
 }
 
 export type EnvelopeUncheckedUpdateInput = {
@@ -338,7 +344,8 @@ export type EnvelopeUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutEnvelopeNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutEnvelopeNestedInput
+  budgetMovements?: Prisma.BudgetMovementUncheckedUpdateManyWithoutEnvelopeNestedInput
 }
 
 export type EnvelopeCreateManyInput = {
@@ -421,6 +428,11 @@ export type EnvelopeSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
 }
 
+export type EnvelopeNullableScalarRelationFilter = {
+  is?: Prisma.EnvelopeWhereInput | null
+  isNot?: Prisma.EnvelopeWhereInput | null
+}
+
 export type EnvelopeScalarRelationFilter = {
   is?: Prisma.EnvelopeWhereInput
   isNot?: Prisma.EnvelopeWhereInput
@@ -468,22 +480,46 @@ export type EnvelopeUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.EnvelopeScalarWhereInput | Prisma.EnvelopeScalarWhereInput[]
 }
 
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type EnvelopeCreateNestedOneWithoutExpensesInput = {
-  create?: Prisma.XOR<Prisma.EnvelopeCreateWithoutExpensesInput, Prisma.EnvelopeUncheckedCreateWithoutExpensesInput>
-  connectOrCreate?: Prisma.EnvelopeCreateOrConnectWithoutExpensesInput
+export type EnvelopeCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.EnvelopeCreateWithoutTransactionsInput, Prisma.EnvelopeUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.EnvelopeCreateOrConnectWithoutTransactionsInput
   connect?: Prisma.EnvelopeWhereUniqueInput
 }
 
-export type EnvelopeUpdateOneRequiredWithoutExpensesNestedInput = {
-  create?: Prisma.XOR<Prisma.EnvelopeCreateWithoutExpensesInput, Prisma.EnvelopeUncheckedCreateWithoutExpensesInput>
-  connectOrCreate?: Prisma.EnvelopeCreateOrConnectWithoutExpensesInput
-  upsert?: Prisma.EnvelopeUpsertWithoutExpensesInput
+export type EnvelopeUpdateOneWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.EnvelopeCreateWithoutTransactionsInput, Prisma.EnvelopeUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.EnvelopeCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.EnvelopeUpsertWithoutTransactionsInput
+  disconnect?: Prisma.EnvelopeWhereInput | boolean
+  delete?: Prisma.EnvelopeWhereInput | boolean
   connect?: Prisma.EnvelopeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.EnvelopeUpdateToOneWithWhereWithoutExpensesInput, Prisma.EnvelopeUpdateWithoutExpensesInput>, Prisma.EnvelopeUncheckedUpdateWithoutExpensesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EnvelopeUpdateToOneWithWhereWithoutTransactionsInput, Prisma.EnvelopeUpdateWithoutTransactionsInput>, Prisma.EnvelopeUncheckedUpdateWithoutTransactionsInput>
+}
+
+export type EnvelopeCreateNestedOneWithoutBudgetMovementsInput = {
+  create?: Prisma.XOR<Prisma.EnvelopeCreateWithoutBudgetMovementsInput, Prisma.EnvelopeUncheckedCreateWithoutBudgetMovementsInput>
+  connectOrCreate?: Prisma.EnvelopeCreateOrConnectWithoutBudgetMovementsInput
+  connect?: Prisma.EnvelopeWhereUniqueInput
+}
+
+export type EnvelopeUpdateOneRequiredWithoutBudgetMovementsNestedInput = {
+  create?: Prisma.XOR<Prisma.EnvelopeCreateWithoutBudgetMovementsInput, Prisma.EnvelopeUncheckedCreateWithoutBudgetMovementsInput>
+  connectOrCreate?: Prisma.EnvelopeCreateOrConnectWithoutBudgetMovementsInput
+  upsert?: Prisma.EnvelopeUpsertWithoutBudgetMovementsInput
+  connect?: Prisma.EnvelopeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EnvelopeUpdateToOneWithWhereWithoutBudgetMovementsInput, Prisma.EnvelopeUpdateWithoutBudgetMovementsInput>, Prisma.EnvelopeUncheckedUpdateWithoutBudgetMovementsInput>
 }
 
 export type EnvelopeCreateWithoutUserInput = {
@@ -492,7 +528,8 @@ export type EnvelopeCreateWithoutUserInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  expenses?: Prisma.ExpenseCreateNestedManyWithoutEnvelopeInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutEnvelopeInput
+  budgetMovements?: Prisma.BudgetMovementCreateNestedManyWithoutEnvelopeInput
 }
 
 export type EnvelopeUncheckedCreateWithoutUserInput = {
@@ -502,7 +539,8 @@ export type EnvelopeUncheckedCreateWithoutUserInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutEnvelopeInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutEnvelopeInput
+  budgetMovements?: Prisma.BudgetMovementUncheckedCreateNestedManyWithoutEnvelopeInput
 }
 
 export type EnvelopeCreateOrConnectWithoutUserInput = {
@@ -544,16 +582,17 @@ export type EnvelopeScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Envelope"> | Date | string
 }
 
-export type EnvelopeCreateWithoutExpensesInput = {
+export type EnvelopeCreateWithoutTransactionsInput = {
   name: string
   budget: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEnvelopesInput
+  budgetMovements?: Prisma.BudgetMovementCreateNestedManyWithoutEnvelopeInput
 }
 
-export type EnvelopeUncheckedCreateWithoutExpensesInput = {
+export type EnvelopeUncheckedCreateWithoutTransactionsInput = {
   id?: number
   name: string
   budget: number
@@ -561,34 +600,36 @@ export type EnvelopeUncheckedCreateWithoutExpensesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  budgetMovements?: Prisma.BudgetMovementUncheckedCreateNestedManyWithoutEnvelopeInput
 }
 
-export type EnvelopeCreateOrConnectWithoutExpensesInput = {
+export type EnvelopeCreateOrConnectWithoutTransactionsInput = {
   where: Prisma.EnvelopeWhereUniqueInput
-  create: Prisma.XOR<Prisma.EnvelopeCreateWithoutExpensesInput, Prisma.EnvelopeUncheckedCreateWithoutExpensesInput>
+  create: Prisma.XOR<Prisma.EnvelopeCreateWithoutTransactionsInput, Prisma.EnvelopeUncheckedCreateWithoutTransactionsInput>
 }
 
-export type EnvelopeUpsertWithoutExpensesInput = {
-  update: Prisma.XOR<Prisma.EnvelopeUpdateWithoutExpensesInput, Prisma.EnvelopeUncheckedUpdateWithoutExpensesInput>
-  create: Prisma.XOR<Prisma.EnvelopeCreateWithoutExpensesInput, Prisma.EnvelopeUncheckedCreateWithoutExpensesInput>
+export type EnvelopeUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.EnvelopeUpdateWithoutTransactionsInput, Prisma.EnvelopeUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.EnvelopeCreateWithoutTransactionsInput, Prisma.EnvelopeUncheckedCreateWithoutTransactionsInput>
   where?: Prisma.EnvelopeWhereInput
 }
 
-export type EnvelopeUpdateToOneWithWhereWithoutExpensesInput = {
+export type EnvelopeUpdateToOneWithWhereWithoutTransactionsInput = {
   where?: Prisma.EnvelopeWhereInput
-  data: Prisma.XOR<Prisma.EnvelopeUpdateWithoutExpensesInput, Prisma.EnvelopeUncheckedUpdateWithoutExpensesInput>
+  data: Prisma.XOR<Prisma.EnvelopeUpdateWithoutTransactionsInput, Prisma.EnvelopeUncheckedUpdateWithoutTransactionsInput>
 }
 
-export type EnvelopeUpdateWithoutExpensesInput = {
+export type EnvelopeUpdateWithoutTransactionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEnvelopesNestedInput
+  budgetMovements?: Prisma.BudgetMovementUpdateManyWithoutEnvelopeNestedInput
 }
 
-export type EnvelopeUncheckedUpdateWithoutExpensesInput = {
+export type EnvelopeUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -596,6 +637,65 @@ export type EnvelopeUncheckedUpdateWithoutExpensesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  budgetMovements?: Prisma.BudgetMovementUncheckedUpdateManyWithoutEnvelopeNestedInput
+}
+
+export type EnvelopeCreateWithoutBudgetMovementsInput = {
+  name: string
+  budget: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutEnvelopesInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutEnvelopeInput
+}
+
+export type EnvelopeUncheckedCreateWithoutBudgetMovementsInput = {
+  id?: number
+  name: string
+  budget: number
+  userId: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutEnvelopeInput
+}
+
+export type EnvelopeCreateOrConnectWithoutBudgetMovementsInput = {
+  where: Prisma.EnvelopeWhereUniqueInput
+  create: Prisma.XOR<Prisma.EnvelopeCreateWithoutBudgetMovementsInput, Prisma.EnvelopeUncheckedCreateWithoutBudgetMovementsInput>
+}
+
+export type EnvelopeUpsertWithoutBudgetMovementsInput = {
+  update: Prisma.XOR<Prisma.EnvelopeUpdateWithoutBudgetMovementsInput, Prisma.EnvelopeUncheckedUpdateWithoutBudgetMovementsInput>
+  create: Prisma.XOR<Prisma.EnvelopeCreateWithoutBudgetMovementsInput, Prisma.EnvelopeUncheckedCreateWithoutBudgetMovementsInput>
+  where?: Prisma.EnvelopeWhereInput
+}
+
+export type EnvelopeUpdateToOneWithWhereWithoutBudgetMovementsInput = {
+  where?: Prisma.EnvelopeWhereInput
+  data: Prisma.XOR<Prisma.EnvelopeUpdateWithoutBudgetMovementsInput, Prisma.EnvelopeUncheckedUpdateWithoutBudgetMovementsInput>
+}
+
+export type EnvelopeUpdateWithoutBudgetMovementsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutEnvelopesNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutEnvelopeNestedInput
+}
+
+export type EnvelopeUncheckedUpdateWithoutBudgetMovementsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  budget?: Prisma.FloatFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutEnvelopeNestedInput
 }
 
 export type EnvelopeCreateManyUserInput = {
@@ -613,7 +713,8 @@ export type EnvelopeUpdateWithoutUserInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  expenses?: Prisma.ExpenseUpdateManyWithoutEnvelopeNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutEnvelopeNestedInput
+  budgetMovements?: Prisma.BudgetMovementUpdateManyWithoutEnvelopeNestedInput
 }
 
 export type EnvelopeUncheckedUpdateWithoutUserInput = {
@@ -623,7 +724,8 @@ export type EnvelopeUncheckedUpdateWithoutUserInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutEnvelopeNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutEnvelopeNestedInput
+  budgetMovements?: Prisma.BudgetMovementUncheckedUpdateManyWithoutEnvelopeNestedInput
 }
 
 export type EnvelopeUncheckedUpdateManyWithoutUserInput = {
@@ -641,11 +743,13 @@ export type EnvelopeUncheckedUpdateManyWithoutUserInput = {
  */
 
 export type EnvelopeCountOutputType = {
-  expenses: number
+  transactions: number
+  budgetMovements: number
 }
 
 export type EnvelopeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  expenses?: boolean | EnvelopeCountOutputTypeCountExpensesArgs
+  transactions?: boolean | EnvelopeCountOutputTypeCountTransactionsArgs
+  budgetMovements?: boolean | EnvelopeCountOutputTypeCountBudgetMovementsArgs
 }
 
 /**
@@ -661,8 +765,15 @@ export type EnvelopeCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * EnvelopeCountOutputType without action
  */
-export type EnvelopeCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ExpenseWhereInput
+export type EnvelopeCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
+}
+
+/**
+ * EnvelopeCountOutputType without action
+ */
+export type EnvelopeCountOutputTypeCountBudgetMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BudgetMovementWhereInput
 }
 
 
@@ -675,7 +786,8 @@ export type EnvelopeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  expenses?: boolean | Prisma.Envelope$expensesArgs<ExtArgs>
+  transactions?: boolean | Prisma.Envelope$transactionsArgs<ExtArgs>
+  budgetMovements?: boolean | Prisma.Envelope$budgetMovementsArgs<ExtArgs>
   _count?: boolean | Prisma.EnvelopeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["envelope"]>
 
@@ -714,7 +826,8 @@ export type EnvelopeSelectScalar = {
 export type EnvelopeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "budget" | "userId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["envelope"]>
 export type EnvelopeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  expenses?: boolean | Prisma.Envelope$expensesArgs<ExtArgs>
+  transactions?: boolean | Prisma.Envelope$transactionsArgs<ExtArgs>
+  budgetMovements?: boolean | Prisma.Envelope$budgetMovementsArgs<ExtArgs>
   _count?: boolean | Prisma.EnvelopeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EnvelopeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -728,7 +841,8 @@ export type $EnvelopePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Envelope"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    expenses: Prisma.$ExpensePayload<ExtArgs>[]
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    budgetMovements: Prisma.$BudgetMovementPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1133,7 +1247,8 @@ readonly fields: EnvelopeFieldRefs;
 export interface Prisma__EnvelopeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  expenses<T extends Prisma.Envelope$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Envelope$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactions<T extends Prisma.Envelope$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Envelope$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  budgetMovements<T extends Prisma.Envelope$budgetMovementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Envelope$budgetMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BudgetMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1566,27 +1681,51 @@ export type EnvelopeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Envelope.expenses
+ * Envelope.transactions
  */
-export type Envelope$expensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Envelope$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Expense
+   * Select specific fields to fetch from the Transaction
    */
-  select?: Prisma.ExpenseSelect<ExtArgs> | null
+  select?: Prisma.TransactionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Expense
+   * Omit specific fields from the Transaction
    */
-  omit?: Prisma.ExpenseOmit<ExtArgs> | null
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ExpenseInclude<ExtArgs> | null
-  where?: Prisma.ExpenseWhereInput
-  orderBy?: Prisma.ExpenseOrderByWithRelationInput | Prisma.ExpenseOrderByWithRelationInput[]
-  cursor?: Prisma.ExpenseWhereUniqueInput
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ExpenseScalarFieldEnum | Prisma.ExpenseScalarFieldEnum[]
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * Envelope.budgetMovements
+ */
+export type Envelope$budgetMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BudgetMovement
+   */
+  select?: Prisma.BudgetMovementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BudgetMovement
+   */
+  omit?: Prisma.BudgetMovementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BudgetMovementInclude<ExtArgs> | null
+  where?: Prisma.BudgetMovementWhereInput
+  orderBy?: Prisma.BudgetMovementOrderByWithRelationInput | Prisma.BudgetMovementOrderByWithRelationInput[]
+  cursor?: Prisma.BudgetMovementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BudgetMovementScalarFieldEnum | Prisma.BudgetMovementScalarFieldEnum[]
 }
 
 /**

@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id        Int        @id @default(autoincrement())\n  email     String     @unique\n  password  String\n  createdAt DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n  incomes   Income[]\n  envelopes Envelope[]\n}\n\nmodel Income {\n  id          Int      @id @default(autoincrement())\n  amount      Float\n  description String\n  date        DateTime @default(now())\n  userId      Int\n  user        User     @relation(fields: [userId], references: [id])\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n\nmodel Envelope {\n  id        Int       @id @default(autoincrement())\n  name      String\n  budget    Float\n  userId    Int\n  user      User      @relation(fields: [userId], references: [id])\n  expenses  Expense[]\n  isActive  Boolean   @default(true)\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel Expense {\n  id          Int      @id @default(autoincrement())\n  description String   @default(\"\")\n  amount      Float\n  date        DateTime @default(now())\n  envelopeId  Int\n  envelope    Envelope @relation(fields: [envelopeId], references: [id])\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  envelopes    Envelope[]\n  transactions Transaction[]\n}\n\nmodel Envelope {\n  id        Int      @id @default(autoincrement())\n  name      String\n  budget    Float\n  userId    Int\n  user      User     @relation(fields: [userId], references: [id])\n  isActive  Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  transactions    Transaction[]\n  budgetMovements BudgetMovement[]\n}\n\nmodel Transaction {\n  id          Int             @id @default(autoincrement())\n  type        TransactionType\n  amount      Float\n  description String\n  date        DateTime        @default(now())\n  userId      Int\n  user        User            @relation(fields: [userId], references: [id])\n  envelopeId  Int?\n  envelope    Envelope?       @relation(fields: [envelopeId], references: [id])\n  createdAt   DateTime        @default(now())\n  updatedAt   DateTime        @updatedAt\n}\n\nenum TransactionType {\n  INCOME\n  EXPENSE\n  TRANSFER\n}\n\nmodel BudgetMovement {\n  id         Int                @id @default(autoincrement())\n  envelopeId Int\n  envelope   Envelope           @relation(fields: [envelopeId], references: [id])\n  amount     Float\n  type       BudgetMovementType\n  date       DateTime           @default(now())\n  createdAt  DateTime           @default(now())\n  updatedAt  DateTime           @updatedAt\n}\n\nenum BudgetMovementType {\n  ALLOCATION\n  REALLOCATION\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"incomes\",\"kind\":\"object\",\"type\":\"Income\",\"relationName\":\"IncomeToUser\"},{\"name\":\"envelopes\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToUser\"}],\"dbName\":null},\"Income\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"IncomeToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Envelope\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EnvelopeToUser\"},{\"name\":\"expenses\",\"kind\":\"object\",\"type\":\"Expense\",\"relationName\":\"EnvelopeToExpense\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Expense\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"envelopeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"envelope\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToExpense\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"envelopes\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToUser\"},{\"name\":\"transactions\",\"kind\":\"object\",\"type\":\"Transaction\",\"relationName\":\"TransactionToUser\"}],\"dbName\":null},\"Envelope\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EnvelopeToUser\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"transactions\",\"kind\":\"object\",\"type\":\"Transaction\",\"relationName\":\"EnvelopeToTransaction\"},{\"name\":\"budgetMovements\",\"kind\":\"object\",\"type\":\"BudgetMovement\",\"relationName\":\"BudgetMovementToEnvelope\"}],\"dbName\":null},\"Transaction\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"TransactionType\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TransactionToUser\"},{\"name\":\"envelopeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"envelope\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"EnvelopeToTransaction\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"BudgetMovement\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"envelopeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"envelope\",\"kind\":\"object\",\"type\":\"Envelope\",\"relationName\":\"BudgetMovementToEnvelope\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"BudgetMovementType\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -185,16 +185,6 @@ export interface PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.income`: Exposes CRUD operations for the **Income** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Incomes
-    * const incomes = await prisma.income.findMany()
-    * ```
-    */
-  get income(): Prisma.IncomeDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
    * `prisma.envelope`: Exposes CRUD operations for the **Envelope** model.
     * Example usage:
     * ```ts
@@ -205,14 +195,24 @@ export interface PrismaClient<
   get envelope(): Prisma.EnvelopeDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.expense`: Exposes CRUD operations for the **Expense** model.
+   * `prisma.transaction`: Exposes CRUD operations for the **Transaction** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Expenses
-    * const expenses = await prisma.expense.findMany()
+    * // Fetch zero or more Transactions
+    * const transactions = await prisma.transaction.findMany()
     * ```
     */
-  get expense(): Prisma.ExpenseDelegate<ExtArgs, { omit: OmitOpts }>;
+  get transaction(): Prisma.TransactionDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.budgetMovement`: Exposes CRUD operations for the **BudgetMovement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BudgetMovements
+    * const budgetMovements = await prisma.budgetMovement.findMany()
+    * ```
+    */
+  get budgetMovement(): Prisma.BudgetMovementDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
