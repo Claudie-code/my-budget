@@ -1,56 +1,35 @@
 import { Router, Request, Response } from "express";
-import { prisma } from "../libs/prisma";
+import dayjs from "dayjs";
 import { authMiddleware } from "../middlewares/auth";
-import { computeDashboardData } from "services/dashboard.service";
-import { getMonthDateRange } from "@utils/date";
+import { getDashboardData } from "../services/dashboard.service";
 
 const router = Router();
 
-/**
- * GET /dashboard?month=YYYY-MM
- * Return the dashboard data for the authenticated user, including:
- * - User info (id)
- * - Transactions for the specified month
- * - Envelopes with their transactions and budget movements
- */
 router.get("/", authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.userId;
+    const monthQuery = (req.query.month as string) || dayjs().format("YYYY-MM");
 
-    const { year, month, startDate, endDate } = getMonthDateRange(
-      req.query.month as string,
-    );
+    const startDate = dayjs(monthQuery + "-01")
+      .startOf("month")
+      .toDate();
+    const endDate = dayjs(monthQuery + "-01")
+      .endOf("month")
+      .toDate();
 
-    const transactions = await prisma.transaction.findMany({
-      where: {
-        userId,
-        date: {
-          gte: startDate,
-          lte: endDate,
-        },
-      },
+    const dashboard = await getDashboardData({
+      userId,
+      startDate,
+      endDate,
     });
-
-    const envelopes = await prisma.envelope.findMany({
-      where: { userId },
-      include: { budgetMovements: true },
-    });
-
-    const dashboardData = computeDashboardData(transactions, envelopes);
 
     res.json({
       user: { id: userId },
-      month: `${year}-${String(month).padStart(2, "0")}`,
-      transactions,
-      ...dashboardData,
+      month: monthQuery,
+      ...dashboard,
     });
   } catch (error) {
     console.error(error);
-
-    if (error instanceof Error && error.message === "Invalid month value") {
-      return res.status(400).json({ error: "Invalid month format" });
-    }
-
     res.status(500).json({ error: "Internal server error" });
   }
 });

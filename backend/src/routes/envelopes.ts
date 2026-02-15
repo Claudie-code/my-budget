@@ -19,8 +19,8 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
 
     const enriched = envelopes.map((env) => {
       const spent = env.transactions
-        .filter((t) => t.type === "EXPENSE")
-        .reduce((sum, t) => sum + t.amount, 0);
+        .filter((t) => t.amount < 0)
+        .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
       const allocated = env.budgetMovements.reduce(
         (sum, b) => sum + b.amount,
@@ -29,7 +29,12 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
 
       const available = env.budget + allocated - spent;
 
-      return { ...env, spent, available, isOverspent: available < 0 };
+      return {
+        ...env,
+        spent,
+        available,
+        isOverspent: available < 0,
+      };
     });
 
     res.json(enriched);
@@ -75,6 +80,7 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
 
     const envelope = await prisma.envelope.findUnique({
       where: { id: Number(id) },
+      include: { transactions: true, budgetMovements: true },
     });
     res.json(envelope);
   } catch (err) {
@@ -101,7 +107,6 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
       envelope.transactions.length > 0 ||
       envelope.budgetMovements.length > 0
     ) {
-      // Soft delete
       await prisma.envelope.update({
         where: { id: Number(id) },
         data: { isActive: false },
@@ -109,7 +114,6 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
       return res.status(200).json({ action: "DEACTIVATED" });
     }
 
-    // Hard delete
     await prisma.envelope.delete({ where: { id: Number(id) } });
     return res.status(204).json({ action: "DELETED" });
   } catch (err) {

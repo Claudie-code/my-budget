@@ -34,22 +34,21 @@ model Envelope {
 
 model Transaction {
   id          Int       @id @default(autoincrement())
-  type        TransactionType
-  amount      Float
+  amount      Float     
   description String
   date        DateTime  @default(now())
+
   userId      Int
   user        User      @relation(fields: [userId], references: [id])
+
   envelopeId  Int?
   envelope    Envelope? @relation(fields: [envelopeId], references: [id])
+
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-}
 
-enum TransactionType {
-  INCOME
-  EXPENSE
-  TRANSFER
+  @@index([userId, date])
+  @@index([envelopeId])
 }
 
 model BudgetMovement {

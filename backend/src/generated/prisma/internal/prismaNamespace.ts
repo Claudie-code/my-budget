@@ -768,7 +768,6 @@ export type EnvelopeScalarFieldEnum = (typeof EnvelopeScalarFieldEnum)[keyof typ
 
 export const TransactionScalarFieldEnum = {
   id: 'id',
-  type: 'type',
   amount: 'amount',
   description: 'description',
   date: 'date',
@@ -884,20 +883,6 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
- * Reference to a field of type 'TransactionType'
- */
-export type EnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType'>
-    
-
-
-/**
- * Reference to a field of type 'TransactionType[]'
- */
-export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
     
 
 

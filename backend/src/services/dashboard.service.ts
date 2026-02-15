@@ -1,64 +1,75 @@
-import type {
-  Envelope,
-  BudgetMovement,
-  Transaction,
-} from "generated/prisma/client";
+import { prisma } from "../libs/prisma";
 
-type EnvelopeWithMovements = Envelope & { budgetMovements: BudgetMovement[] };
+type DashboardParams = {
+  userId: number;
+  startDate: Date;
+  endDate: Date;
+};
 
-export function computeEnvelope(
-  envelope: EnvelopeWithMovements,
-  transactions: Transaction[],
-) {
-  const envelopeTransactions = transactions.filter(
-    (t) => t.envelopeId === envelope.id,
-  );
+export async function getDashboardData({
+  userId,
+  startDate,
+  endDate,
+}: DashboardParams) {
+  const incomes = await prisma.transaction.findMany({
+    where: {
+      userId,
+      envelopeId: null,
+      amount: { gt: 0 },
+      date: { gte: startDate, lte: endDate },
+    },
+    orderBy: { date: "desc" },
+  });
 
-  const spent = envelopeTransactions
-    .filter((t) => t.type === "EXPENSE")
-    .reduce((sum, t) => sum + t.amount, 0);
+  const totalIncomeResult = await prisma.transaction.aggregate({
+    where: {
+      userId,
+      envelopeId: null,
+      amount: { gt: 0 },
+      date: { gte: startDate, lte: endDate },
+    },
+    _sum: { amount: true },
+  });
 
-  const incomeFromMovements = envelopeTransactions
-    .filter((t) => t.type === "INCOME")
-    .reduce((sum, t) => sum + t.amount, 0);
+  const totalIncome = totalIncomeResult._sum.amount ?? 0;
 
-  const budgetMovementSum = envelope.budgetMovements.reduce(
-    (sum, m) => sum + m.amount,
-    0,
-  );
+  const envelopes = await prisma.envelope.findMany({
+    where: { userId },
+    include: {
+      transactions: {
+        where: {
+          envelopeId: { not: null },
+          date: { gte: startDate, lte: endDate },
+        },
+      },
+      budgetMovements: true,
+    },
+  });
 
-  const totalBudget = envelope.budget + budgetMovementSum + incomeFromMovements;
+  const computedEnvelopes = envelopes.map((env) => {
+    const spent = env.transactions.reduce((sum, t) => sum + t.amount, 0);
 
-  const available = totalBudget - spent;
+    const allocated = env.budgetMovements.reduce((sum, b) => sum + b.amount, 0);
 
-  return {
-    ...envelope,
-    spent,
-    totalBudget,
-    available,
-    isOverspent: available < 0,
-  };
-}
+    const available = env.budget + allocated - spent;
 
-export function computeDashboardData(
-  transactions: Transaction[],
-  envelopes: EnvelopeWithMovements[],
-) {
-  const totalIncome = transactions
-    .filter((t) => t.type === "INCOME")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const computedEnvelopes = envelopes.map((env) =>
-    computeEnvelope(env, transactions),
-  );
+    return {
+      id: env.id,
+      name: env.name,
+      budget: env.budget,
+      spent,
+      available,
+      isOverspent: available < 0,
+      isActive: env.isActive,
+      transactions: env.transactions,
+    };
+  });
 
   const totalBudgeted = computedEnvelopes.reduce(
-    (sum, env) => sum + env.totalBudget,
+    (sum, env) => sum + env.budget,
     0,
   );
-
   const totalSpent = computedEnvelopes.reduce((sum, env) => sum + env.spent, 0);
-
   const totalAvailable = computedEnvelopes.reduce(
     (sum, env) => sum + env.available,
     0,
@@ -67,11 +78,12 @@ export function computeDashboardData(
   const readyToAssign = totalIncome - totalBudgeted;
 
   return {
+    incomes,
+    envelopes: computedEnvelopes,
     totalIncome,
     totalBudgeted,
     totalSpent,
     totalAvailable,
     readyToAssign,
-    envelopes: computedEnvelopes,
   };
 }

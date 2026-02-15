@@ -99,7 +99,6 @@ export type EnvelopeScalarFieldEnum = (typeof EnvelopeScalarFieldEnum)[keyof typ
 
 export const TransactionScalarFieldEnum = {
   id: 'id',
-  type: 'type',
   amount: 'amount',
   description: 'description',
   date: 'date',
