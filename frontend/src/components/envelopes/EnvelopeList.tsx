@@ -1,4 +1,3 @@
-import type { Envelope } from '@/types/dashboard';
 import { Progress } from '@/components/ui/progress';
 import { Field, FieldLabel } from '../ui/field';
 import InactiveEnvelopeItem from './InactiveEnvelopeItem';
@@ -22,7 +21,8 @@ export default function EnvelopeList({
     <div className="overflow-y-auto flex flex-col">
       {envelopes.map((envelope) => {
         const spent = envelope.spent;
-        const percentUsed = envelope.budget > 0 ? (spent / envelope.budget) * 100 : 0;
+        const percentUsed =
+          envelope.budget > 0 ? Math.min(100, Math.round((spent / envelope.budget) * 100)) : 0;
         const isSelected = selectedEnvelopeId === envelope.id;
 
         return envelope.isActive ? (
@@ -37,7 +37,12 @@ export default function EnvelopeList({
                 {spent.toFixed(2)} / {envelope.budget.toFixed(2)} $
               </span>
             </FieldLabel>
-            <Progress value={percentUsed} className={`h-1`} id={`progress-${envelope.id}`} />
+            <Progress
+              value={percentUsed}
+              className={`h-1`}
+              id={`progress-${envelope.id}`}
+              key={`${envelope.id}`}
+            />
           </Field>
         ) : (
           <InactiveEnvelopeItem key={envelope.id} envelope={envelope} />

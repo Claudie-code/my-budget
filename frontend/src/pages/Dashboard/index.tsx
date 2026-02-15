@@ -41,7 +41,7 @@ export default function Dashboard() {
         </Alert>
       </DashboardLayout>
     );
-  console.log('data', data);
+
   const envelopes = data.envelopes;
   const selectedEnvelope = envelopes.find((e) => e.id === selectedEnvelopeId) || null;
 

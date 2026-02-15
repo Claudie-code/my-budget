@@ -7,7 +7,6 @@ interface Props {
 }
 
 export function ExpenseList({ expenses }: Props) {
-  console.log('expenses', expenses);
   if (expenses.length === 0) {
     return <div className="text-sm text-muted-foreground">No expenses yet. Add your first one</div>;
   }

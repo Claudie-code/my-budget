@@ -20,8 +20,10 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
   const totalSpent = selectedEnvelope.spent;
   const remaining = selectedEnvelope.available;
   const percentUsed =
-    selectedEnvelope.budget > 0 ? (totalSpent / selectedEnvelope.budget) * 100 : 0;
-  console.log('transaction', selectedEnvelope.transactions);
+    selectedEnvelope.budget > 0
+      ? Math.min(100, Math.round((totalSpent / selectedEnvelope.budget) * 100))
+      : 0;
+
   return (
     <Card className="p-6 w-full shadow-none border-0">
       <CardHeader className="p-0 mb-4">
