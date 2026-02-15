@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Edit, Trash2 } from 'lucide-react';
-import { useEditExpense, useDeleteExpense } from '@/hooks/use-expenses';
-import type { Expense } from '@/types/dashboard';
+import type { Transaction } from '@/types/dashboard';
+import { useDeleteTransaction, useEditTransaction } from '@/hooks/use-transactions';
 
 interface Props {
-  expense: Expense;
+  expense: Transaction;
 }
 
 export const ExpenseItem = ({ expense }: Props) => {
@@ -14,8 +14,8 @@ export const ExpenseItem = ({ expense }: Props) => {
   const [description, setDescription] = useState(expense.description);
   const [amount, setAmount] = useState(expense.amount);
 
-  const editMutation = useEditExpense();
-  const deleteMutation = useDeleteExpense();
+  const editMutation = useEditTransaction();
+  const deleteMutation = useDeleteTransaction();
 
   if (editing) {
     return (

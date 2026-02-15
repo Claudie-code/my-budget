@@ -21,7 +21,7 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
   const remaining = selectedEnvelope.available;
   const percentUsed =
     selectedEnvelope.budget > 0 ? (totalSpent / selectedEnvelope.budget) * 100 : 0;
-
+  console.log('transaction', selectedEnvelope.transactions);
   return (
     <Card className="p-6 w-full shadow-none border-0">
       <CardHeader className="p-0 mb-4">
@@ -60,7 +60,7 @@ export default function EnvelopeCard({ selectedEnvelope, onCloseEnvelope }: Prop
       {/* Expenses */}
       <div className="flex flex-col gap-2 mt-4 border-t border-gray-200 pt-4">
         <AddExpenseDialog envelopeId={selectedEnvelope.id} />
-        <ExpenseList expenses={selectedEnvelope.expenses} envelopeId={selectedEnvelope.id} />
+        <ExpenseList expenses={selectedEnvelope.transactions} envelopeId={selectedEnvelope.id} />
       </div>
     </Card>
   );

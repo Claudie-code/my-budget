@@ -2,19 +2,24 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Field, FieldLabel, FieldError } from '@/components/ui/field';
-import { useCreateIncome } from '@/hooks/use-incomes';
-import { incomeSchema } from '@/schemas/incomes.schema';
+import { useCreateTransaction } from '@/hooks/use-transactions';
+import { transitionSchema } from '@/schemas/transitions.schema';
 
 interface IncomeFormState {
   description: string;
   amount: string;
+  date: string;
 }
 
 export function IncomeForm() {
-  const [form, setForm] = useState<IncomeFormState>({ description: '', amount: '' });
+  const [form, setForm] = useState<IncomeFormState>({
+    description: '',
+    amount: '',
+    date: new Date().toISOString().split('T')[0],
+  });
   const [errors, setErrors] = useState<Partial<IncomeFormState>>({});
 
-  const { mutate, isPending } = useCreateIncome();
+  const { mutate, isPending } = useCreateTransaction();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -25,7 +30,7 @@ export function IncomeForm() {
     e.preventDefault();
     setErrors({});
 
-    const parsed = incomeSchema.safeParse(form);
+    const parsed = transitionSchema.safeParse(form);
 
     if (!parsed.success) {
       const fieldErrors: Partial<IncomeFormState> = {};
@@ -37,10 +42,18 @@ export function IncomeForm() {
     }
 
     mutate(
-      { description: parsed.data.description, amount: Number(parsed.data.amount) },
+      {
+        description: parsed.data.description,
+        amount: Number(parsed.data.amount),
+        date: parsed.data.date,
+      },
       {
         onSuccess: () => {
-          setForm({ description: '', amount: '' });
+          setForm({
+            description: '',
+            amount: '',
+            date: new Date().toISOString().split('T')[0],
+          });
         },
       },
     );
@@ -71,6 +84,12 @@ export function IncomeForm() {
           placeholder="0.00"
         />
         {errors.amount && <FieldError>{errors.amount}</FieldError>}
+      </Field>
+
+      <Field>
+        <FieldLabel htmlFor="date">Date</FieldLabel>
+        <Input id="date" type="date" value={form.date} onChange={handleChange} />
+        {errors.date && <FieldError>{errors.date}</FieldError>}
       </Field>
 
       <Button type="submit" disabled={isPending}>

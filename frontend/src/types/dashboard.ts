@@ -1,22 +1,19 @@
-export interface Income {
+export interface Transaction {
   id: number;
   description: string;
   amount: number;
   date: string;
-}
-
-export interface Expense {
-  id: number;
-  description: string;
-  amount: number;
-  date: string;
+  userId: number;
+  envelopeId?: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Envelope {
   id: number;
   name: string;
   budget: number;
-  expenses: Expense[];
+  transactions: Transaction[];
   isActive: boolean;
   spent: number;
   available: number;
@@ -32,6 +29,6 @@ export interface DashboardData {
   totalSpent: number;
   totalAvailable: number;
   readyToAssign: number;
-  incomes: Income[];
+  incomes: Transaction[];
   envelopes: Envelope[];
 }

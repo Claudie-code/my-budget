@@ -21,7 +21,7 @@ export default function EnvelopeList({
   return (
     <div className="overflow-y-auto flex flex-col">
       {envelopes.map((envelope) => {
-        const spent = envelope.expenses.reduce((acc, e) => acc + e.amount, 0);
+        const spent = envelope.spent;
         const percentUsed = envelope.budget > 0 ? (spent / envelope.budget) * 100 : 0;
         const isSelected = selectedEnvelopeId === envelope.id;
 

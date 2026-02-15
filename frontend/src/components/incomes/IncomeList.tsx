@@ -1,9 +1,9 @@
+import type { Transaction } from '@/types/dashboard';
 import { IncomeCard } from './IncomeCard';
-import type { Income } from '@/types/dashboard';
-import { useDeleteIncome } from '@/hooks/use-incomes';
+import { useDeleteTransaction } from '@/hooks/use-transactions';
 
-export function IncomeList({ incomes }: { incomes: Income[] }) {
-  const { mutate } = useDeleteIncome();
+export function IncomeList({ incomes }: { incomes: Transaction[] }) {
+  const { mutate } = useDeleteTransaction();
 
   if (incomes.length === 0) return <p>No incomes to display</p>;
 

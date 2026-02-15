@@ -24,15 +24,13 @@ export default function Dashboard() {
     setSelectedEnvelopeId(null);
   };
 
-  if (isLoading) {
+  if (isLoading)
     return (
       <DashboardLayout>
         <DashboardSkeleton />
       </DashboardLayout>
     );
-  }
-
-  if (isError || !data) {
+  if (isError || !data)
     return (
       <DashboardLayout>
         <Alert variant="destructive" className="m-6 max-w-xl">
@@ -43,9 +41,8 @@ export default function Dashboard() {
         </Alert>
       </DashboardLayout>
     );
-  }
-  const envelopes = data.envelopes ?? [];
-  const incomes = data.incomes ?? [];
+  console.log('data', data);
+  const envelopes = data.envelopes;
   const selectedEnvelope = envelopes.find((e) => e.id === selectedEnvelopeId) || null;
 
   return (
@@ -57,7 +54,7 @@ export default function Dashboard() {
             onChangeMonth={handleChangeMonth}
             totalIncome={data.totalIncome}
             readyToAssign={data.readyToAssign}
-            incomes={incomes}
+            incomes={data.incomes}
           />
         </section>
 
