@@ -24,12 +24,8 @@ export default function Dashboard() {
     setSelectedEnvelopeId(null);
   };
 
-  if (isLoading)
-    return (
-      <DashboardLayout>
-        <DashboardSkeleton />
-      </DashboardLayout>
-    );
+  if (isLoading) return <DashboardSkeleton />;
+
   if (isError || !data)
     return (
       <DashboardLayout>
