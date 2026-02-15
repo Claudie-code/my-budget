@@ -386,6 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Envelope: 'Envelope',
+  EnvelopeMonth: 'EnvelopeMonth',
+  BudgetMonth: 'BudgetMonth',
   Transaction: 'Transaction',
   BudgetMovement: 'BudgetMovement'
 } as const
@@ -403,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "envelope" | "transaction" | "budgetMovement"
+    modelProps: "user" | "envelope" | "envelopeMonth" | "budgetMonth" | "transaction" | "budgetMovement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -552,6 +554,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.EnvelopeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.EnvelopeCountAggregateOutputType> | number
+        }
+      }
+    }
+    EnvelopeMonth: {
+      payload: Prisma.$EnvelopeMonthPayload<ExtArgs>
+      fields: Prisma.EnvelopeMonthFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EnvelopeMonthFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EnvelopeMonthFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>
+        }
+        findFirst: {
+          args: Prisma.EnvelopeMonthFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EnvelopeMonthFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>
+        }
+        findMany: {
+          args: Prisma.EnvelopeMonthFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>[]
+        }
+        create: {
+          args: Prisma.EnvelopeMonthCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>
+        }
+        createMany: {
+          args: Prisma.EnvelopeMonthCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EnvelopeMonthCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>[]
+        }
+        delete: {
+          args: Prisma.EnvelopeMonthDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>
+        }
+        update: {
+          args: Prisma.EnvelopeMonthUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>
+        }
+        deleteMany: {
+          args: Prisma.EnvelopeMonthDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EnvelopeMonthUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EnvelopeMonthUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>[]
+        }
+        upsert: {
+          args: Prisma.EnvelopeMonthUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnvelopeMonthPayload>
+        }
+        aggregate: {
+          args: Prisma.EnvelopeMonthAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEnvelopeMonth>
+        }
+        groupBy: {
+          args: Prisma.EnvelopeMonthGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnvelopeMonthGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EnvelopeMonthCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnvelopeMonthCountAggregateOutputType> | number
+        }
+      }
+    }
+    BudgetMonth: {
+      payload: Prisma.$BudgetMonthPayload<ExtArgs>
+      fields: Prisma.BudgetMonthFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BudgetMonthFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BudgetMonthFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>
+        }
+        findFirst: {
+          args: Prisma.BudgetMonthFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BudgetMonthFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>
+        }
+        findMany: {
+          args: Prisma.BudgetMonthFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>[]
+        }
+        create: {
+          args: Prisma.BudgetMonthCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>
+        }
+        createMany: {
+          args: Prisma.BudgetMonthCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BudgetMonthCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>[]
+        }
+        delete: {
+          args: Prisma.BudgetMonthDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>
+        }
+        update: {
+          args: Prisma.BudgetMonthUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>
+        }
+        deleteMany: {
+          args: Prisma.BudgetMonthDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BudgetMonthUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BudgetMonthUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>[]
+        }
+        upsert: {
+          args: Prisma.BudgetMonthUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BudgetMonthPayload>
+        }
+        aggregate: {
+          args: Prisma.BudgetMonthAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBudgetMonth>
+        }
+        groupBy: {
+          args: Prisma.BudgetMonthGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BudgetMonthGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BudgetMonthCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BudgetMonthCountAggregateOutputType> | number
         }
       }
     }
@@ -756,14 +906,41 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const EnvelopeScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  budget: 'budget',
   userId: 'userId',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type EnvelopeScalarFieldEnum = (typeof EnvelopeScalarFieldEnum)[keyof typeof EnvelopeScalarFieldEnum]
+
+
+export const EnvelopeMonthScalarFieldEnum = {
+  id: 'id',
+  envelopeId: 'envelopeId',
+  month: 'month',
+  isActive: 'isActive',
+  budgeted: 'budgeted',
+  activity: 'activity',
+  available: 'available',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EnvelopeMonthScalarFieldEnum = (typeof EnvelopeMonthScalarFieldEnum)[keyof typeof EnvelopeMonthScalarFieldEnum]
+
+
+export const BudgetMonthScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  month: 'month',
+  income: 'income',
+  assigned: 'assigned',
+  toAssign: 'toAssign',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BudgetMonthScalarFieldEnum = (typeof BudgetMonthScalarFieldEnum)[keyof typeof BudgetMonthScalarFieldEnum]
 
 
 export const TransactionScalarFieldEnum = {
@@ -866,6 +1043,13 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -876,13 +1060,6 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -996,6 +1173,8 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   envelope?: Prisma.EnvelopeOmit
+  envelopeMonth?: Prisma.EnvelopeMonthOmit
+  budgetMonth?: Prisma.BudgetMonthOmit
   transaction?: Prisma.TransactionOmit
   budgetMovement?: Prisma.BudgetMovementOmit
 }

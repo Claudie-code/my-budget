@@ -218,6 +218,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   envelopes?: Prisma.EnvelopeListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  budgetMonths?: Prisma.BudgetMonthListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -228,6 +229,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   envelopes?: Prisma.EnvelopeOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  budgetMonths?: Prisma.BudgetMonthOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -241,6 +243,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   envelopes?: Prisma.EnvelopeListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  budgetMonths?: Prisma.BudgetMonthListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -274,6 +277,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   envelopes?: Prisma.EnvelopeCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  budgetMonths?: Prisma.BudgetMonthCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -284,6 +288,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   envelopes?: Prisma.EnvelopeUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  budgetMonths?: Prisma.BudgetMonthUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -293,6 +298,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   envelopes?: Prisma.EnvelopeUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  budgetMonths?: Prisma.BudgetMonthUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -303,6 +309,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   envelopes?: Prisma.EnvelopeUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  budgetMonths?: Prisma.BudgetMonthUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -395,6 +402,20 @@ export type UserUpdateOneRequiredWithoutEnvelopesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEnvelopesInput, Prisma.UserUpdateWithoutEnvelopesInput>, Prisma.UserUncheckedUpdateWithoutEnvelopesInput>
 }
 
+export type UserCreateNestedOneWithoutBudgetMonthsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBudgetMonthsInput, Prisma.UserUncheckedCreateWithoutBudgetMonthsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBudgetMonthsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBudgetMonthsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBudgetMonthsInput, Prisma.UserUncheckedCreateWithoutBudgetMonthsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBudgetMonthsInput
+  upsert?: Prisma.UserUpsertWithoutBudgetMonthsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBudgetMonthsInput, Prisma.UserUpdateWithoutBudgetMonthsInput>, Prisma.UserUncheckedUpdateWithoutBudgetMonthsInput>
+}
+
 export type UserCreateNestedOneWithoutTransactionsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
@@ -415,6 +436,7 @@ export type UserCreateWithoutEnvelopesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  budgetMonths?: Prisma.BudgetMonthCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEnvelopesInput = {
@@ -424,6 +446,7 @@ export type UserUncheckedCreateWithoutEnvelopesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  budgetMonths?: Prisma.BudgetMonthUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEnvelopesInput = {
@@ -448,6 +471,7 @@ export type UserUpdateWithoutEnvelopesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  budgetMonths?: Prisma.BudgetMonthUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEnvelopesInput = {
@@ -457,6 +481,61 @@ export type UserUncheckedUpdateWithoutEnvelopesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  budgetMonths?: Prisma.BudgetMonthUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutBudgetMonthsInput = {
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  envelopes?: Prisma.EnvelopeCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBudgetMonthsInput = {
+  id?: number
+  email: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  envelopes?: Prisma.EnvelopeUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutBudgetMonthsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBudgetMonthsInput, Prisma.UserUncheckedCreateWithoutBudgetMonthsInput>
+}
+
+export type UserUpsertWithoutBudgetMonthsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBudgetMonthsInput, Prisma.UserUncheckedUpdateWithoutBudgetMonthsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBudgetMonthsInput, Prisma.UserUncheckedCreateWithoutBudgetMonthsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBudgetMonthsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBudgetMonthsInput, Prisma.UserUncheckedUpdateWithoutBudgetMonthsInput>
+}
+
+export type UserUpdateWithoutBudgetMonthsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  envelopes?: Prisma.EnvelopeUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBudgetMonthsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  envelopes?: Prisma.EnvelopeUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransactionsInput = {
@@ -465,6 +544,7 @@ export type UserCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   envelopes?: Prisma.EnvelopeCreateNestedManyWithoutUserInput
+  budgetMonths?: Prisma.BudgetMonthCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransactionsInput = {
@@ -474,6 +554,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   envelopes?: Prisma.EnvelopeUncheckedCreateNestedManyWithoutUserInput
+  budgetMonths?: Prisma.BudgetMonthUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransactionsInput = {
@@ -498,6 +579,7 @@ export type UserUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   envelopes?: Prisma.EnvelopeUpdateManyWithoutUserNestedInput
+  budgetMonths?: Prisma.BudgetMonthUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransactionsInput = {
@@ -507,6 +589,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   envelopes?: Prisma.EnvelopeUncheckedUpdateManyWithoutUserNestedInput
+  budgetMonths?: Prisma.BudgetMonthUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -517,11 +600,13 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
 export type UserCountOutputType = {
   envelopes: number
   transactions: number
+  budgetMonths: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   envelopes?: boolean | UserCountOutputTypeCountEnvelopesArgs
   transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
+  budgetMonths?: boolean | UserCountOutputTypeCountBudgetMonthsArgs
 }
 
 /**
@@ -548,6 +633,13 @@ export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.TransactionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBudgetMonthsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BudgetMonthWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -557,6 +649,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   envelopes?: boolean | Prisma.User$envelopesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  budgetMonths?: boolean | Prisma.User$budgetMonthsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -588,6 +681,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   envelopes?: boolean | Prisma.User$envelopesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  budgetMonths?: boolean | Prisma.User$budgetMonthsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -598,6 +692,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     envelopes: Prisma.$EnvelopePayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    budgetMonths: Prisma.$BudgetMonthPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1001,6 +1096,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   envelopes<T extends Prisma.User$envelopesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$envelopesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnvelopePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  budgetMonths<T extends Prisma.User$budgetMonthsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$budgetMonthsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BudgetMonthPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1468,6 +1564,30 @@ export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * User.budgetMonths
+ */
+export type User$budgetMonthsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BudgetMonth
+   */
+  select?: Prisma.BudgetMonthSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BudgetMonth
+   */
+  omit?: Prisma.BudgetMonthOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BudgetMonthInclude<ExtArgs> | null
+  where?: Prisma.BudgetMonthWhereInput
+  orderBy?: Prisma.BudgetMonthOrderByWithRelationInput | Prisma.BudgetMonthOrderByWithRelationInput[]
+  cursor?: Prisma.BudgetMonthWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BudgetMonthScalarFieldEnum | Prisma.BudgetMonthScalarFieldEnum[]
 }
 
 /**

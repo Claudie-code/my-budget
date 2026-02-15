@@ -48,6 +48,16 @@ export type User = Prisma.UserModel
  */
 export type Envelope = Prisma.EnvelopeModel
 /**
+ * Model EnvelopeMonth
+ * 
+ */
+export type EnvelopeMonth = Prisma.EnvelopeMonthModel
+/**
+ * Model BudgetMonth
+ * 
+ */
+export type BudgetMonth = Prisma.BudgetMonthModel
+/**
  * Model Transaction
  * 
  */

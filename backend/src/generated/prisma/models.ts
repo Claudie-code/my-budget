@@ -10,6 +10,8 @@
  */
 export type * from './models/User'
 export type * from './models/Envelope'
+export type * from './models/EnvelopeMonth'
+export type * from './models/BudgetMonth'
 export type * from './models/Transaction'
 export type * from './models/BudgetMovement'
 export type * from './commonInputTypes'

@@ -16,20 +16,63 @@ model User {
 
   envelopes  Envelope[]
   transactions Transaction[]
+  budgetMonths  BudgetMonth[] 
 }
 
 model Envelope {
-  id         Int        @id @default(autoincrement())
-  name       String
-  budget     Float
-  userId     Int
-  user       User       @relation(fields: [userId], references: [id])
-  isActive   Boolean    @default(true)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  id              Int              @id @default(autoincrement())
+  name            String
 
-  transactions    Transaction[]
-  budgetMovements BudgetMovement[]
+  userId          Int
+  user            User             @relation(fields: [userId], references: [id])
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  transactions     Transaction[]
+  budgetMovements  BudgetMovement[]
+  envelopeMonths   EnvelopeMonth[]
+
+  @@unique([userId, name])
+}
+
+model EnvelopeMonth {
+  id          Int      @id @default(autoincrement())
+
+  envelopeId  Int
+  envelope    Envelope @relation(fields: [envelopeId], references: [id])
+
+  month       DateTime
+
+  isActive    Boolean  @default(true)
+
+  budgeted    Float    @default(0)
+  activity    Float    @default(0)
+  available   Float    @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([envelopeId, month])
+  @@index([envelopeId, month])
+}
+
+model BudgetMonth {
+  id        Int      @id @default(autoincrement())
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  month     DateTime 
+  income    Float    @default(0)
+  assigned  Float    @default(0)
+  toAssign  Float    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, month])
+  @@index([userId, month])
 }
 
 model Transaction {
